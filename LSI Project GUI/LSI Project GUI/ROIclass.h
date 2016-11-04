@@ -19,4 +19,8 @@ public:
 	void Set_ROI_Region(vector<int>);
 	vector<int> Get_ROI_Location();
 	vector<int> Get_ROI_Region();
+	Mat Set_ROI(Mat Perfusion_Image);
+
+	//Constructor
+	ROI(vector<int> ROI_Location, vector<int> ROI_Region);
 };

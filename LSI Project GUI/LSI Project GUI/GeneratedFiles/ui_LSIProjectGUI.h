@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
@@ -39,7 +40,12 @@ public:
     QPushButton *removeROIButton;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
-    QPlainTextEdit *plainTextEdit;
+    QPlainTextEdit *patientComments;
+    QLabel *commentsLabel;
+    QLineEdit *patientName;
+    QLineEdit *patientAge;
+    QLineEdit *PatientGender;
+    QLabel *nameLabel;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -51,6 +57,7 @@ public:
         LSIProjectGUIClass->resize(928, 557);
         centralWidget = new QWidget(LSIProjectGUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(125, 216, 255);"));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(70, 20, 171, 71));
@@ -64,9 +71,12 @@ public:
         startButton = new QPushButton(centralWidget);
         startButton->setObjectName(QStringLiteral("startButton"));
         startButton->setGeometry(QRect(410, 80, 141, 61));
+        startButton->setStyleSheet(QLatin1String("font: 75 11pt \"Segoe UI Light\";\n"
+"background-color: rgb(150, 223, 111);"));
         stopButton = new QPushButton(centralWidget);
         stopButton->setObjectName(QStringLiteral("stopButton"));
         stopButton->setGeometry(QRect(410, 150, 141, 61));
+        stopButton->setStyleSheet(QStringLiteral("background-color: rgb(255, 117, 19);"));
         createROIButton = new QPushButton(centralWidget);
         createROIButton->setObjectName(QStringLiteral("createROIButton"));
         createROIButton->setGeometry(QRect(410, 220, 141, 61));
@@ -75,15 +85,30 @@ public:
         removeROIButton->setGeometry(QRect(410, 300, 141, 61));
         scrollArea = new QScrollArea(centralWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setGeometry(QRect(620, 90, 171, 161));
+        scrollArea->setGeometry(QRect(620, 200, 191, 161));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 169, 159));
-        plainTextEdit = new QPlainTextEdit(scrollAreaWidgetContents);
-        plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
-        plainTextEdit->setGeometry(QRect(10, 10, 151, 141));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 189, 159));
+        patientComments = new QPlainTextEdit(scrollAreaWidgetContents);
+        patientComments->setObjectName(QStringLiteral("patientComments"));
+        patientComments->setGeometry(QRect(10, 10, 171, 141));
         scrollArea->setWidget(scrollAreaWidgetContents);
+        commentsLabel = new QLabel(centralWidget);
+        commentsLabel->setObjectName(QStringLiteral("commentsLabel"));
+        commentsLabel->setGeometry(QRect(620, 180, 151, 16));
+        patientName = new QLineEdit(centralWidget);
+        patientName->setObjectName(QStringLiteral("patientName"));
+        patientName->setGeometry(QRect(700, 80, 113, 20));
+        patientAge = new QLineEdit(centralWidget);
+        patientAge->setObjectName(QStringLiteral("patientAge"));
+        patientAge->setGeometry(QRect(700, 110, 113, 20));
+        PatientGender = new QLineEdit(centralWidget);
+        PatientGender->setObjectName(QStringLiteral("PatientGender"));
+        PatientGender->setGeometry(QRect(700, 140, 113, 20));
+        nameLabel = new QLabel(centralWidget);
+        nameLabel->setObjectName(QStringLiteral("nameLabel"));
+        nameLabel->setGeometry(QRect(650, 80, 47, 13));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -111,6 +136,8 @@ public:
         stopButton->setText(QApplication::translate("LSIProjectGUIClass", "Stop", 0));
         createROIButton->setText(QApplication::translate("LSIProjectGUIClass", "create ROI", 0));
         removeROIButton->setText(QApplication::translate("LSIProjectGUIClass", "remove ROI", 0));
+        commentsLabel->setText(QApplication::translate("LSIProjectGUIClass", "Write patient comments:", 0));
+        nameLabel->setText(QApplication::translate("LSIProjectGUIClass", "Name:", 0));
     } // retranslateUi
 
 };

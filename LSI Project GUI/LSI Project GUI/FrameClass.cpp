@@ -8,7 +8,7 @@ The Frame class and its functions are written here.
 
 
 using namespace std;
-using namespace cv; // Alexandra: Mat is a data type in openCV, so we need to include cv here
+using namespace cv;
 
 
 // Set functions
