@@ -14,5 +14,5 @@ private:
     Ui::LSIProjectGUIClass ui;
 
 public slots: 
-	void on_push_button_clicked();
+	void on_pushButton_clicked();
 };

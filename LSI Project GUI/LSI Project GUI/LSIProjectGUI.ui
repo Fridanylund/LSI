@@ -28,6 +28,9 @@
     </property>
    </widget>
    <widget class="QLabel" name="im_show">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -37,7 +40,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Suprise!</string>
+     <string>Somthing might happen here!</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -50,7 +53,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
     </property>
    </widget>
   </widget>

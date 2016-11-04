@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
     QByteArrayData data[3];
-    char stringdata0[38];
+    char stringdata0[37];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,11 +30,11 @@ struct qt_meta_stringdata_LSIProjectGUI_t {
 static const qt_meta_stringdata_LSIProjectGUI_t qt_meta_stringdata_LSIProjectGUI = {
     {
 QT_MOC_LITERAL(0, 0, 13), // "LSIProjectGUI"
-QT_MOC_LITERAL(1, 14, 22), // "on_push_button_clicked"
-QT_MOC_LITERAL(2, 37, 0) // ""
+QT_MOC_LITERAL(1, 14, 21), // "on_pushButton_clicked"
+QT_MOC_LITERAL(2, 36, 0) // ""
 
     },
-    "LSIProjectGUI\0on_push_button_clicked\0"
+    "LSIProjectGUI\0on_pushButton_clicked\0"
     ""
 };
 #undef QT_MOC_LITERAL
@@ -67,7 +67,7 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         LSIProjectGUI *_t = static_cast<LSIProjectGUI *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_push_button_clicked(); break;
+        case 0: _t->on_pushButton_clicked(); break;
         default: ;
         }
     }

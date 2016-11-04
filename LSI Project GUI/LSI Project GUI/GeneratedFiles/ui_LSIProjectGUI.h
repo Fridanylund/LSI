@@ -47,6 +47,7 @@ public:
         pushButton->setGeometry(QRect(210, 20, 171, 71));
         im_show = new QLabel(centralWidget);
         im_show->setObjectName(QStringLiteral("im_show"));
+        im_show->setEnabled(true);
         im_show->setGeometry(QRect(70, 130, 191, 171));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
@@ -72,8 +73,8 @@ public:
     {
         LSIProjectGUIClass->setWindowTitle(QApplication::translate("LSIProjectGUIClass", "LSIProjectGUI", 0));
         pushButton->setText(QApplication::translate("LSIProjectGUIClass", "Push Me!!", 0));
-        im_show->setText(QApplication::translate("LSIProjectGUIClass", "Suprise!", 0));
-        label_2->setText(QApplication::translate("LSIProjectGUIClass", "TextLabel", 0));
+        im_show->setText(QApplication::translate("LSIProjectGUIClass", "Somthing might happen here!", 0));
+        label_2->setText(QString());
     } // retranslateUi
 
 };
