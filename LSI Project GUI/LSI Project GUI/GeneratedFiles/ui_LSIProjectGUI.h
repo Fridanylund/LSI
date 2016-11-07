@@ -46,6 +46,8 @@ public:
     QLineEdit *patientAge;
     QLineEdit *PatientGender;
     QLabel *nameLabel;
+    QLabel *label;
+    QLabel *label_3;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -57,7 +59,7 @@ public:
         LSIProjectGUIClass->resize(928, 557);
         centralWidget = new QWidget(LSIProjectGUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(125, 216, 255);"));
+        centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(70, 20, 171, 71));
@@ -76,16 +78,22 @@ public:
         stopButton = new QPushButton(centralWidget);
         stopButton->setObjectName(QStringLiteral("stopButton"));
         stopButton->setGeometry(QRect(410, 150, 141, 61));
-        stopButton->setStyleSheet(QStringLiteral("background-color: rgb(255, 117, 19);"));
+        stopButton->setStyleSheet(QLatin1String("background-color: rgb(255, 137, 58);\n"
+"font: 75 11pt \"Segoe UI Light\";"));
         createROIButton = new QPushButton(centralWidget);
         createROIButton->setObjectName(QStringLiteral("createROIButton"));
         createROIButton->setGeometry(QRect(410, 220, 141, 61));
+        createROIButton->setStyleSheet(QLatin1String("background-color: rgb(170, 85, 127);\n"
+"font: 75 11pt \"Segoe UI Light\";"));
         removeROIButton = new QPushButton(centralWidget);
         removeROIButton->setObjectName(QStringLiteral("removeROIButton"));
         removeROIButton->setGeometry(QRect(410, 300, 141, 61));
+        removeROIButton->setStyleSheet(QLatin1String("background-color: rgb(255, 170, 255);\n"
+"font: 75 11pt \"Segoe UI Light\";"));
         scrollArea = new QScrollArea(centralWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
         scrollArea->setGeometry(QRect(620, 200, 191, 161));
+        scrollArea->setStyleSheet(QStringLiteral("background-color: rgb(255, 255, 255);"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
@@ -93,22 +101,36 @@ public:
         patientComments = new QPlainTextEdit(scrollAreaWidgetContents);
         patientComments->setObjectName(QStringLiteral("patientComments"));
         patientComments->setGeometry(QRect(10, 10, 171, 141));
+        patientComments->setStyleSheet(QStringLiteral("background-color: rgb(170, 255, 255);"));
         scrollArea->setWidget(scrollAreaWidgetContents);
         commentsLabel = new QLabel(centralWidget);
         commentsLabel->setObjectName(QStringLiteral("commentsLabel"));
-        commentsLabel->setGeometry(QRect(620, 180, 151, 16));
+        commentsLabel->setGeometry(QRect(620, 180, 191, 16));
+        commentsLabel->setStyleSheet(QStringLiteral("font: 75 13pt \"Segoe UI Light\";"));
         patientName = new QLineEdit(centralWidget);
         patientName->setObjectName(QStringLiteral("patientName"));
         patientName->setGeometry(QRect(700, 80, 113, 20));
+        patientName->setStyleSheet(QStringLiteral("background-color: rgb(170, 255, 255);"));
         patientAge = new QLineEdit(centralWidget);
         patientAge->setObjectName(QStringLiteral("patientAge"));
         patientAge->setGeometry(QRect(700, 110, 113, 20));
+        patientAge->setStyleSheet(QStringLiteral("background-color: rgb(170, 255, 255);"));
         PatientGender = new QLineEdit(centralWidget);
         PatientGender->setObjectName(QStringLiteral("PatientGender"));
         PatientGender->setGeometry(QRect(700, 140, 113, 20));
+        PatientGender->setStyleSheet(QStringLiteral("background-color: rgb(170, 255, 255);"));
         nameLabel = new QLabel(centralWidget);
         nameLabel->setObjectName(QStringLiteral("nameLabel"));
-        nameLabel->setGeometry(QRect(650, 80, 47, 13));
+        nameLabel->setGeometry(QRect(646, 80, 51, 20));
+        nameLabel->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(660, 110, 31, 21));
+        label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(640, 140, 61, 20));
+        label_3->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -138,6 +160,8 @@ public:
         removeROIButton->setText(QApplication::translate("LSIProjectGUIClass", "remove ROI", 0));
         commentsLabel->setText(QApplication::translate("LSIProjectGUIClass", "Write patient comments:", 0));
         nameLabel->setText(QApplication::translate("LSIProjectGUIClass", "Name:", 0));
+        label->setText(QApplication::translate("LSIProjectGUIClass", "Age:", 0));
+        label_3->setText(QApplication::translate("LSIProjectGUIClass", "Gender:", 0));
     } // retranslateUi
 
 };
