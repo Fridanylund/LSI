@@ -7,26 +7,24 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ui.setupUi(this);
 }
 
-void LSIProjectGUI::on_pushButton_clicked() {
-	QPixmap bild;
-	bild.load("3110_handwithlaser_1.png");
-	ui.im_show->setPixmap(bild);
-	ui.label_2->setText("Hellooo!");
-}
 
 void LSIProjectGUI::on_startButton_clicked() {
-	ui.label_2->setText("START!");
+	ui.button_test->setText("START!");
 	//stilltest();
+	QPixmap bild;
+	bild.load("3110_handwithlaser_1.png");
+	ui.videoLabel->setPixmap(bild);
+
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
-	ui.label_2->setText("STOP!");
+	ui.button_test->setText("STOP!");
 }
 
 void LSIProjectGUI::on_createROIButton_clicked() {
-	ui.label_2->setText("ROI!");
+	ui.button_test->setText("ROI!");
 }
 
 void LSIProjectGUI::on_removeROIButton_clicked() {
-	ui.label_2->setText("DELETED!");
+	ui.button_test->setText("DELETED!");
 }

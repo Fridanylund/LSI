@@ -14,7 +14,6 @@ private:
     Ui::LSIProjectGUIClass ui;
 
 public slots: 
-	void on_pushButton_clicked();
 	void on_startButton_clicked();
 	void on_stopButton_clicked();
 	void on_createROIButton_clicked();
