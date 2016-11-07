@@ -168,13 +168,14 @@ void Frame::Take_Picture(string Type)
 Frame::Frame(string File_Name, int Width, int Height, string Camera, int Lasca_Size)
 {
 	Lasca_Area = Lasca_Size;
-	Averaged_Contrast_Filename = "Averaged_Contrast_" + File_Name;
-	Base_Filename = "Base_Filename_" + File_Name;
+	
 	Filter_Window_Size = 2;
 
-	
+	Set_Filename(File_Name);
+	/*Averaged_Contrast_Filename = "Averaged_Contrast_" + File_Name;
+	Base_Filename = "Base_Filename_" + File_Name;
 	Video_Contrast.open("images\\" + Averaged_Contrast_Filename +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);
-	Video_Base.open("images\\" + Base_Filename +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);
+	Video_Base.open("images\\" + Base_Filename +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);*/
 
 	Which_Camera = Camera;
 
