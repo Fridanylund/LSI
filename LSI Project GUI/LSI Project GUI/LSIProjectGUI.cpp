@@ -9,6 +9,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 
 
 void LSIProjectGUI::on_startButton_clicked() {
+	// Should, when it's ready, contain call to function Real_Time_Main in Free-Functions.
 	ui.button_test->setText("START!");
 	//stilltest();
 	QPixmap bild;
