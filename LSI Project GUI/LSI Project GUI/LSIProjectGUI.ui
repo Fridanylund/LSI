@@ -243,24 +243,14 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QLabel" name="videoLabel">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
+      <x>20</x>
+      <y>30</y>
       <width>441</width>
-      <height>271</height>
+      <height>471</height>
      </rect>
     </property>
     <property name="text">
      <string>The video will soon be displayed...</string>
-    </property>
-   </widget>
-   <widget class="QCustomPlot" name="customPlot" native="true">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>320</y>
-      <width>301</width>
-      <height>171</height>
-     </rect>
     </property>
    </widget>
   </widget>
@@ -285,14 +275,6 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="LSIProjectGUI.qrc"/>
  </resources>

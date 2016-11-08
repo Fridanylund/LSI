@@ -24,7 +24,6 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -48,7 +47,6 @@ public:
     QLabel *ageLabel;
     QLabel *genderLabel;
     QLabel *videoLabel;
-    QCustomPlot *customPlot;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -128,9 +126,6 @@ public:
         videoLabel = new QLabel(centralWidget);
         videoLabel->setObjectName(QStringLiteral("videoLabel"));
         videoLabel->setGeometry(QRect(20, 30, 441, 471));
-        customPlot = new QCustomPlot(centralWidget);
-        customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(180, 290, 271, 201));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
