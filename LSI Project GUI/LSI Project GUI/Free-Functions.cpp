@@ -132,3 +132,10 @@ vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, vector<ROI> The_Li
 	return(ROI_Averages);
 }
 
+/* // Some outlining of the function:
+void Real_Time_Main() {
+	// Take images. Base image and laser images. And put these in the Frame object.
+	// Preform all the calculations on the images.
+	// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
+	// Calculate the ROI averages and update them in the GUI.
+}*/
