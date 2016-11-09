@@ -1,4 +1,6 @@
 #include "LSIProjectGUI.h"
+#include "FrameClass.h"
+
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
@@ -13,3 +15,4 @@ void LSIProjectGUI::on_pushButton_clicked() {
 	ui.im_show->setPixmap(bild);
 	ui.label_2->setText("Hellooo!");
 }
+

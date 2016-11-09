@@ -70,11 +70,10 @@ Mat Frame::Get_Laser_Image() {
 Mat Frame::Get_Contrast_Image() {
 	for (int k = 0; k < Contrast_Images.size(); k++)
 	{
-		cout << k << endl;
 		Temporary_Contrasts.push_back(CalculateContrast2(Contrast_Images[k], Lasca_Area));
 	}
 
-	Contrast_Image = TemporalFiltering(Temporary_Contrasts);
+	Contrast_Image = Temporary_Contrasts[0]; //TemporalFiltering(Temporary_Contrasts);
 	Temporary_Contrasts.clear();
 	return Contrast_Image;
 }
