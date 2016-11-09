@@ -36,3 +36,4 @@ cv::Mat TemporalFiltering(vector<cv::Mat> input);
 class Frame;
 std::vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, std::vector<ROI> The_List_Of_ROIs);
 
+// void Real_Time_Main();
