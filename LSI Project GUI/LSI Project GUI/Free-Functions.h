@@ -19,7 +19,7 @@ This document contains declarations of all functions not bound to a specific cla
 #include "Test-Function.h"
 //#include "FrameClass.h"
 #include "ROIclass.h"
-
+//#include "LSIProjectGUI.h" // Gives cycle.
 
 //using namespace std;
 //using namespace FlyCapture2;
@@ -33,7 +33,8 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize);
 
 cv::Mat TemporalFiltering(vector<cv::Mat> input);
 
-class Frame;
+class Frame; // Forward declaration, part of getting rid of cycle includes.
 std::vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, std::vector<ROI> The_List_Of_ROIs);
 
-// void Real_Time_Main();
+/*class LSIProjectGUI;
+void Real_Time_Main(LSIProjectGUI* The_GUI);*/
