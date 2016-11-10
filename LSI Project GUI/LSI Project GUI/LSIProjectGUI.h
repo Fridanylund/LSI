@@ -9,9 +9,11 @@ class LSIProjectGUI : public QMainWindow
 
 public:
     LSIProjectGUI(QWidget *parent = Q_NULLPTR);
+	// bool Get_Run_Real_Time();
 
 private:
     Ui::LSIProjectGUIClass ui;
+	// bool Run_Real_Time;
 
 public slots: 
 	void on_startButton_clicked();
