@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
-    QByteArrayData data[9];
-    char stringdata0[146];
+    QByteArrayData data[10];
+    char stringdata0[172];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,15 +35,17 @@ QT_MOC_LITERAL(2, 37, 0), // ""
 QT_MOC_LITERAL(3, 38, 21), // "on_stopButton_clicked"
 QT_MOC_LITERAL(4, 60, 26), // "on_createROIButton_clicked"
 QT_MOC_LITERAL(5, 87, 26), // "on_removeROIButton_clicked"
-QT_MOC_LITERAL(6, 114, 15), // "mousePressEvent"
-QT_MOC_LITERAL(7, 130, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(8, 143, 2) // "ev"
+QT_MOC_LITERAL(6, 114, 25), // "on_settingsButton_clicked"
+QT_MOC_LITERAL(7, 140, 15), // "mousePressEvent"
+QT_MOC_LITERAL(8, 156, 12), // "QMouseEvent*"
+QT_MOC_LITERAL(9, 169, 2) // "ev"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
     "\0on_stopButton_clicked\0"
     "on_createROIButton_clicked\0"
-    "on_removeROIButton_clicked\0mousePressEvent\0"
+    "on_removeROIButton_clicked\0"
+    "on_settingsButton_clicked\0mousePressEvent\0"
     "QMouseEvent*\0ev"
 };
 #undef QT_MOC_LITERAL
@@ -54,7 +56,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -62,18 +64,20 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   39,    2, 0x0a /* Public */,
-       3,    0,   40,    2, 0x0a /* Public */,
-       4,    0,   41,    2, 0x0a /* Public */,
-       5,    0,   42,    2, 0x0a /* Public */,
-       6,    1,   43,    2, 0x0a /* Public */,
+       1,    0,   44,    2, 0x0a /* Public */,
+       3,    0,   45,    2, 0x0a /* Public */,
+       4,    0,   46,    2, 0x0a /* Public */,
+       5,    0,   47,    2, 0x0a /* Public */,
+       6,    0,   48,    2, 0x0a /* Public */,
+       7,    1,   49,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 8,    9,
 
        0        // eod
 };
@@ -88,7 +92,8 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 1: _t->on_stopButton_clicked(); break;
         case 2: _t->on_createROIButton_clicked(); break;
         case 3: _t->on_removeROIButton_clicked(); break;
-        case 4: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 4: _t->on_settingsButton_clicked(); break;
+        case 5: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -119,13 +124,13 @@ int LSIProjectGUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 6)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

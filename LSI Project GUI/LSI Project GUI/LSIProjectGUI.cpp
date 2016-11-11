@@ -37,6 +37,10 @@ void LSIProjectGUI::on_removeROIButton_clicked() {
 	ui.button_test->setText("DELETED!");
 }
 
+void LSIProjectGUI::on_settingsButton_clicked() {
+	ui.button_test->setText("Settings!");
+}
+
 void LSIProjectGUI::mousePressEvent(QMouseEvent *ev) {
 	QString x = QString::number(ev->x());
 	QString y = QString::number(ev->y());

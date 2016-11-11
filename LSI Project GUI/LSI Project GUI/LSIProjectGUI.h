@@ -20,6 +20,7 @@ public slots:
 	void on_stopButton_clicked();
 	void on_createROIButton_clicked();
 	void on_removeROIButton_clicked();
+	void on_settingsButton_clicked();
 
 	void mousePressEvent(QMouseEvent *ev);
 };

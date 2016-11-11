@@ -47,6 +47,7 @@ public:
     QLabel *ageLabel;
     QLabel *genderLabel;
     QLabel *videoLabel;
+    QPushButton *settingsButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -126,6 +127,32 @@ public:
         videoLabel = new QLabel(centralWidget);
         videoLabel->setObjectName(QStringLiteral("videoLabel"));
         videoLabel->setGeometry(QRect(20, 30, 441, 471));
+        settingsButton = new QPushButton(centralWidget);
+        settingsButton->setObjectName(QStringLiteral("settingsButton"));
+        settingsButton->setGeometry(QRect(640, 440, 131, 61));
+        QPalette palette;
+        QBrush brush(QColor(63, 63, 63, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Button, brush);
+        QBrush brush1(QColor(255, 255, 255, 255));
+        brush1.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::ButtonText, brush1);
+        palette.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette.setBrush(QPalette::Active, QPalette::Window, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::ButtonText, brush1);
+        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Window, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        QBrush brush2(QColor(120, 120, 120, 255));
+        brush2.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Disabled, QPalette::ButtonText, brush2);
+        palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Window, brush);
+        settingsButton->setPalette(palette);
+        settingsButton->setAutoFillBackground(false);
+        settingsButton->setStyleSheet(QLatin1String("font: 75 11pt \"Segoe UI Light\";\n"
+"background-color: rgb(63, 63, 63);"));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -156,6 +183,7 @@ public:
         ageLabel->setText(QApplication::translate("LSIProjectGUIClass", "Age:", 0));
         genderLabel->setText(QApplication::translate("LSIProjectGUIClass", "Gender:", 0));
         videoLabel->setText(QApplication::translate("LSIProjectGUIClass", "The video will soon be displayed...", 0));
+        settingsButton->setText(QApplication::translate("LSIProjectGUIClass", "Settings", 0));
     } // retranslateUi
 
 };
