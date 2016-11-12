@@ -41,6 +41,15 @@ void LSIProjectGUI::on_settingsButton_clicked() {
 	ui.button_test->setText("Settings!");
 }
 
+void LSIProjectGUI::on_LASCAarea_valueChanged() {
+	int LASCA = ui.LASCAarea->value();
+	//int imSize = .....size();
+	if (LASCA > 3) 
+	{
+		ui.error_LASCA_label->setText("Please select a value that the image is dividable by!");
+	}
+}
+
 void LSIProjectGUI::mousePressEvent(QMouseEvent *ev) {
 	QString x = QString::number(ev->x());
 	QString y = QString::number(ev->y());

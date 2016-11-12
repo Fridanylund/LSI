@@ -22,5 +22,7 @@ public slots:
 	void on_removeROIButton_clicked();
 	void on_settingsButton_clicked();
 
+	void on_LASCAarea_valueChanged();
+
 	void mousePressEvent(QMouseEvent *ev);
 };
