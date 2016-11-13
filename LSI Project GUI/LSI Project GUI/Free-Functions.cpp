@@ -41,7 +41,7 @@ cv::Mat CalculateContrast(cv::Mat input, int lascaSize) //There is some(read alo
 	int H = input.rows/lascaSize; //Needs a way to make sure size is divisible by lascaSize
 	int W = input.cols/lascaSize; //As of now these are a bit misleading
 
-	cv::Mat perfusionimage = cv::Mat::ones(H, W, CV_8U);
+	cv::Mat perfusionimage = cv::Mat::ones(H, W, CV_8U); //CV_8U is imagetype, and in this case is black and white.
 
 	cv::Scalar mean;
 	cv::Scalar std;
@@ -55,7 +55,7 @@ cv::Mat CalculateContrast(cv::Mat input, int lascaSize) //There is some(read alo
 
 			cv::Mat tempLascaArea(input, cv::Range(lascaSize*height_it, lascaSize*(1 + height_it)), cv::Range(lascaSize*width_it, lascaSize*(1 + width_it)));
 			cv::meanStdDev(tempLascaArea, mean, std);
-			contrast = std.val[0] / mean.val[0] *255;
+			contrast = std.val[0] / mean.val[0] * 255;
 			perfusionimage.at<uchar>(height_it, width_it) = contrast;
 		}
 
@@ -66,31 +66,39 @@ cv::Mat CalculateContrast(cv::Mat input, int lascaSize) //There is some(read alo
 
 cv::Mat CalculateContrast2(cv::Mat input, int lascaSize) //There is some(read alot) problems with the iteration 
 {
-
-	int H = input.rows / lascaSize; //Needs a way to make sure size is divisible by lascaSize
-	int W = input.cols / lascaSize; //As of now these are a bit misleading
+	cv::cvtColor(input, input, CV_BGR2GRAY);
+	int H = input.rows / lascaSize; 
+	int W = input.cols / lascaSize; 
 
 	cv::Mat perfusionimage = cv::Mat::ones(H, W, CV_8U);
-	cv::Mat perfusionimage2 = cv::Mat::ones(H, W, CV_8U);
-	cv::Scalar mean;
-	cv::Scalar std;
 	double contrast;
-	vector<double> temp;
-
 	uchar* p;
-	uchar* p2 = perfusionimage.ptr();
-	for (int width_it = 0; width_it < H -1 ; width_it++)
+	uchar* p3 = input.ptr();
+	double mean_value; 
+	double mean_value_squared;
+	double temp_value;
+	int height_it, width_it,lasca_width_it, lasca_height_it;
+	for (width_it = 0; width_it < H; width_it++)
 	{
 		p = perfusionimage.ptr<uchar>(width_it);
-
-		for (int height_it = 0; height_it <= W - 1; height_it++)
+		for (height_it = 0; height_it < W ; height_it++)
 		{
-			//cv::Mat tempLascaArea(input, cv::Range(lascaSize*width_it, lascaSize*(1 + width_it)), cv::Range(lascaSize*height_it, lascaSize*(1 + height_it)));			
-			cv::meanStdDev(input(cv::Range(lascaSize*width_it, lascaSize*(1 + width_it)), cv::Range(lascaSize*height_it, lascaSize*(1 + height_it))), mean, std);
-			contrast = std.val[0] / mean.val[0] * 255;
-			p[height_it] = contrast;
+			for (lasca_width_it = 0; lasca_width_it < lascaSize; lasca_width_it++)
+			{ 
+				for (lasca_height_it = 0; lasca_height_it < lascaSize; lasca_height_it++)
+				{
+					temp_value = p3[lascaSize* input.cols*width_it + lasca_width_it*input.cols + lasca_height_it + height_it*lascaSize];
+					mean_value += temp_value;
+					mean_value_squared += temp_value*temp_value;
+				}			
+			}
+			mean_value = mean_value / (lascaSize*lascaSize);
+			mean_value_squared = mean_value_squared / (lascaSize*lascaSize); 
+			p[height_it] = (sqrt(mean_value_squared - mean_value*mean_value) / mean_value) * 255;
+			mean_value = 0;
+			mean_value_squared = 0;
+			
 		}
-
 	}
 	resize(perfusionimage, perfusionimage, cv::Size(input.cols, input.rows), 0, 0, cv::INTER_CUBIC);
 	return perfusionimage;
@@ -104,13 +112,10 @@ cv::Mat TemporalFiltering(vector<cv::Mat> input)
 	Mat result;
 	result = input[0]/ input.size();
 	
-
 	for (unsigned int k = 1; k <= input.size() -1 ; k++)
 	{
 		result = result + input[k]/ input.size();
 	}
-
-
 	return result;
 }
 
@@ -132,10 +137,19 @@ vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, vector<ROI> The_Li
 	return(ROI_Averages);
 }
 
-/* // Some outlining of the function:
-void Real_Time_Main() {
-	// Take images. Base image and laser images. And put these in the Frame object.
-	// Preform all the calculations on the images.
-	// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
-	// Calculate the ROI averages and update them in the GUI.
-}*/
+/*
+void Real_Time_Main(LSIProjectGUI* The_GUI) {
+	Frame Working_Frame("LSI_Measurements", 640, 480, "Webcam", 5);
+	
+	while (The_GUI->Get_Run_Real_Time()) { // "Pointer to incomplete class type is not allowed."?
+		cout << The_GUI->Get_Run_Real_Time() << endl;
+
+		// Take images. Base image and laser images. And put these in the Frame object.
+		// Preform all the calculations on the images.
+		// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
+		// Calculate the ROI averages and update them in the GUI.
+	}
+	// Check if the user wants to save the measurement files.
+	// Remove frame and, if the user didn't want to save, remove the files.
+} // I can't get it to work with the dependencies. The .h files include in a cycle.
+*/
