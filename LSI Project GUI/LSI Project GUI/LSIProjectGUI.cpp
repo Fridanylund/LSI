@@ -1,7 +1,5 @@
 #include "LSIProjectGUI.h"
 
-//#include "ROIclass.h"
-
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
@@ -20,6 +18,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 
 void LSIProjectGUI::update()
 {
+	
 	// For BW camera
 	//camera.Connect(0);
 	//camera.StartCapture();
@@ -37,10 +36,13 @@ void LSIProjectGUI::update()
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
 
-	QPainter painter(&Main_Image);
-	painter.setPen(pen); //sets pen settings from above to painter
-	painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
-	ui.videoLabel->setPixmap(Main_Image);
+	if (Is_ROI_Button_Is_Pressed)
+	{
+		QPainter painter(&Main_Image);
+		painter.setPen(pen); //sets pen settings from above to painter
+		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+		ui.videoLabel->setPixmap(Main_Image);
+	}
 
 }
 
@@ -76,6 +78,9 @@ void LSIProjectGUI::mousePressEvent(QMouseEvent *event)
 {
 	if (Is_ROI_Button_Is_Pressed)
 	{
+		ROI_Width = 0; //so if a new ROI is drawn, the old one doesn't appear right next to it while drawing the new one
+		ROI_Height = 0;
+
 		Start_Click_Coordinates = event->pos(); // in whole GUI, not in videoLabel
 		x_Start_Click_Coordinate = Start_Click_Coordinates.x();
 		y_Start_Click_Coordinate = Start_Click_Coordinates.y();
@@ -84,14 +89,22 @@ void LSIProjectGUI::mousePressEvent(QMouseEvent *event)
 		x_videoLabel_Coordinate = videoLabel_Coordinates.x();
 		y_videoLabel_Coordinate = videoLabel_Coordinates.y();
 
+		x_Start_ROI_Coordinate = x_Start_Click_Coordinate - x_videoLabel_Coordinate;
+		y_Start_ROI_Coordinate = y_Start_Click_Coordinate - y_videoLabel_Coordinate;
+		Start_ROI_Coordinates = QPoint(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate);
+
 		QString x_videoLabel_string = QString::number(x_videoLabel_Coordinate);
 		QString y_videoLabel_string = QString::number(y_videoLabel_Coordinate);
 		ui.button_test->setText(x_videoLabel_string + "<x  y>" + y_videoLabel_string); // just to see videoLabel coordinates
 
-		x_Start_ROI_Coordinate = x_Start_Click_Coordinate - x_videoLabel_Coordinate;
-		y_Start_ROI_Coordinate = y_Start_Click_Coordinate - y_videoLabel_Coordinate;
-		Start_ROI_Coordinates = QPoint(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate);
-		
+		QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
+		QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
+		ui.button_test->setText(x_Start_Click_Coordinates_string + "<x  y>" + y_Start_Click_Coordinates_string); // just to see GUI window coordinates
+
+		QString x_Start_ROI_Coordinate_string = QString::number(x_Start_ROI_Coordinate);
+		QString y_Start_ROI_Coordinate_string = QString::number(y_Start_ROI_Coordinate);
+		ui.button_test->setText(x_Start_ROI_Coordinate_string + "<x  y>" + y_Start_ROI_Coordinate_string); // just to see ROI coordinates
+
 	}
 }
 
@@ -111,10 +124,6 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 
 		painter.drawRect(QRect(Start_ROI_Coordinates, event->pos()-videoLabel_Coordinates));
 		ui.videoLabel->setPixmap(temp_Main_Image);
-
-		QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
-		QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
-		ui.button_test->setText(x_Start_Click_Coordinates_string + "<x  y>" + y_Start_Click_Coordinates_string); // just to see GUI window coordinates
 
 	}
 }
@@ -163,13 +172,14 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 			ROIlocation.push_back(y_End_ROI_Coordinate);
 		}
 
-		ROI ROI1(ROIlocation, ROIregion);
-		List_Of_ROI.push_back(ROI1);
+		ROI ROI(ROIlocation, ROIregion);
+		List_Of_ROI.push_back(ROI);
 	}
-	//Is_ROI_Button_Is_Pressed = false;
+	//Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
 }
 
-void LSIProjectGUI::on_listROI_itemClicked(QListWidgetItem * item) {
+void LSIProjectGUI::on_listROI_selectedItems(QListWidgetItem * item) {
 	
 	item->setBackground(Qt::darkRed);
+
 }
