@@ -33,6 +33,7 @@ public:
 	Image rgbImage;
 	Image rawImage;
 	Camera camera;
+	VideoCapture webcam;
 	
 private:
     Ui::LSIProjectGUIClass ui;
