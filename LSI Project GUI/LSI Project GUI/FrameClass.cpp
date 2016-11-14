@@ -99,7 +99,7 @@ void Frame::Set_Filename(string File_Name)
 void Frame::Save_Frame()
 {
 	Video_Base.write(Base_Image);
-	Video_Contrast.write(Contrast_Image);
+//	Video_Contrast.write(Contrast_Image);
 }
 
 void Frame::Take_Picture(string Type)
@@ -111,8 +111,7 @@ void Frame::Take_Picture(string Type)
 		Web_Cam >> Temp_Matrix;
 		if (Type == "BaseImage")
 		{
-			Web_Cam >> Base_Image;
-			Web_Cam >> Base_Image;
+			Base_Image = Temp_Matrix;
 		}
 		else if (Type == "LaserImage")
 		{
@@ -123,7 +122,8 @@ void Frame::Take_Picture(string Type)
 	}
 	else if (Which_Camera == "Fly") //This is untested. It alsod needs some renaming.
 	{
-
+		BW_Cam.StartCapture();
+		//Image rawImage;
 		BW_Cam.RetrieveBuffer(&rawImage);
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
@@ -161,20 +161,23 @@ void Frame::Take_Picture(string Type)
 		}
 	}
 }
-
+void Frame::open()
+{
+	Web_Cam.open(0);
+}
 
 //Constructos
+Frame::Frame()
+{}
 Frame::Frame(string File_Name, int Width, int Height, string Camera, int Lasca_Size)
 {
 	Lasca_Area = Lasca_Size;
 	
 	Filter_Window_Size = 2;
-
-	Set_Filename(File_Name);
-	/*Averaged_Contrast_Filename = "Averaged_Contrast_" + File_Name;
+	Averaged_Contrast_Filename = "Averaged_Contrast_" + File_Name;
 	Base_Filename = "Base_Filename_" + File_Name;
 	Video_Contrast.open("images\\" + Averaged_Contrast_Filename +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);
-	Video_Base.open("images\\" + Base_Filename +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);*/
+	Video_Base.open("images\\" + Base_Filename +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);
 
 	Which_Camera = Camera;
 
@@ -193,4 +196,36 @@ Frame::Frame(string File_Name, int Width, int Height, string Camera, int Lasca_S
 		VideoCapture temp(Camera + ".avi");
 		Web_Cam = temp;
 	}
+}
+
+
+void Frame::operator=(Frame &arg)
+{
+	Lasca_Area = arg.Lasca_Area;
+
+	Filter_Window_Size = 2;
+
+	Averaged_Contrast_Filename = arg.Averaged_Contrast_Filename;
+	Base_Filename = arg.Base_Filename;
+	Video_Contrast.open("images\\" + Averaged_Contrast_Filename + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);
+	Video_Base.open("images\\" + Base_Filename + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(Width, Height), true);
+
+	Which_Camera = arg.Which_Camera;
+
+	if (Which_Camera == "Webcam")
+	{
+		VideoCapture temp(0);
+		Web_Cam = temp;
+	}
+	else if (Which_Camera == "Fly") //Untested
+	{
+		BW_Cam.Connect(0);
+		BW_Cam.StartCapture();
+	}
+	else
+	{
+		VideoCapture temp(Which_Camera + ".avi");
+		Web_Cam = temp;
+	}
+
 }
