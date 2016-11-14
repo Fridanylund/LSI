@@ -28,7 +28,7 @@ void LSIProjectGUI::update()
 
 	webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;
-
+	cout << "test";
 
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
