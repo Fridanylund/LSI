@@ -24,12 +24,12 @@ void LSIProjectGUI::update()
 	//camera.StartCapture();
 	//camera.RetrieveBuffer(&rawImage);
 
-	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
-	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
+	//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	//unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
+	//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
 
-	//webcam >> Main_Image_CV;
-	//webcam >> Main_Image_CV;
+	webcam >> Main_Image_CV;
+	webcam >> Main_Image_CV;
 
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
@@ -66,6 +66,9 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 	QPainter painter(&Main_Image);
 	painter.eraseRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
 	ui.videoLabel->setPixmap(Main_Image);
+
+	int selectedROI = ui.listROI->currentRow();
+	ui.button_test->setText(QString::number(selectedROI));
 
 	// immediately after erasing, a new image should be loaded
 
@@ -145,7 +148,8 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		QString Height_string = QString::number(ROI_Height);
 		ui.button_test->setText(Width_string + "<Width   Hight>" + Height_string); // just to check width and height of ROI
 
-		ui.listROI->addItem("ROI");
+		i++;
+		ui.listROI->addItem("ROI" + QString::number(i));
 
 		vector<int> ROIlocation;
 		vector<int> ROIregion;

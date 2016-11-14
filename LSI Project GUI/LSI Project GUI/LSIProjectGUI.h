@@ -55,7 +55,7 @@ private:
 	int ROI_Height;
 	QPen pen;
 	QTimer *timer;
-
+	int i = 0;
 	//
 
 public slots: 
