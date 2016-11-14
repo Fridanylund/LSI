@@ -17,6 +17,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
@@ -59,6 +60,9 @@ public:
     QDoubleSpinBox *doubleSpinBox;
     QLabel *error_LASCA_label;
     QWidget *widget;
+    QScrollArea *scrollArea_2;
+    QWidget *scrollAreaWidgetContents_2;
+    QListWidget *listROI;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -67,7 +71,7 @@ public:
     {
         if (LSIProjectGUIClass->objectName().isEmpty())
             LSIProjectGUIClass->setObjectName(QStringLiteral("LSIProjectGUIClass"));
-        LSIProjectGUIClass->resize(923, 680);
+        LSIProjectGUIClass->resize(921, 680);
         centralWidget = new QWidget(LSIProjectGUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
@@ -197,10 +201,21 @@ public:
         widget = new QWidget(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
         widget->setGeometry(QRect(40, 440, 431, 161));
+        scrollArea_2 = new QScrollArea(centralWidget);
+        scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
+        scrollArea_2->setGeometry(QRect(490, 390, 141, 121));
+        scrollArea_2->setWidgetResizable(true);
+        scrollAreaWidgetContents_2 = new QWidget();
+        scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 139, 119));
+        listROI = new QListWidget(scrollAreaWidgetContents_2);
+        listROI->setObjectName(QStringLiteral("listROI"));
+        listROI->setGeometry(QRect(10, 10, 121, 101));
+        scrollArea_2->setWidget(scrollAreaWidgetContents_2);
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 923, 21));
+        menuBar->setGeometry(QRect(0, 0, 921, 21));
         LSIProjectGUIClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(LSIProjectGUIClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));

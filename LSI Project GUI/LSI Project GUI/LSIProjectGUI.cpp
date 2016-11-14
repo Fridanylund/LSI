@@ -40,9 +40,9 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 	ui.videoLabel->setPixmap(bild);
 
 	// immediately after erasing, a new image should be loaded
+
+
 }
-
-
 
 
 void LSIProjectGUI::mousePressEvent(QMouseEvent *event) 
@@ -120,5 +120,13 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
 		ui.videoLabel->setPixmap(bild);
 
+		ui.listROI->addItem("ROI");
+	
+		//spara vå ROI i vector och stoppa mouse event här?
+
 	}
+}
+
+void LSIProjectGUI::itemClicked(QListWidgetItem * item) {
+
 }
