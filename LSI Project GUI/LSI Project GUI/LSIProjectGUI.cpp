@@ -42,6 +42,17 @@ void LSIProjectGUI::update()
 		ui.videoLabel->setPixmap(Main_Image);
 	}
 
+	for (int f = 0; f < List_Of_ROI.size(); f++) {
+		QPainter painter(&Main_Image);
+		pen.setBrush(Qt::darkBlue);
+		painter.setPen(pen); //sets pen settings from above to painter
+		int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
+		int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
+		int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
+		int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
+		painter.drawRect(x, y, ROI_w, ROI_h);
+		ui.videoLabel->setPixmap(Main_Image);
+	}
 }
 
 
@@ -61,12 +72,6 @@ void LSIProjectGUI::on_createROIButton_clicked()
 
 void LSIProjectGUI::on_removeROIButton_clicked() 
 {
-	Is_ROI_Button_Is_Pressed = false; // to stop mouseEvent functions
-
-	QPainter painter(&Main_Image);
-	painter.eraseRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
-	ui.videoLabel->setPixmap(Main_Image);
-
 	int selectedROI = ui.listROI->currentRow();
 	ui.button_test->setText(QString::number(selectedROI));
 
@@ -150,9 +155,11 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		QString Height_string = QString::number(ROI_Height);
 		ui.button_test->setText(Width_string + "<Width   Hight>" + Height_string); // just to check width and height of ROI
 
+		// Lägger in Nya ROI i listan i GUIt
 		i++;
 		ui.listROI->addItem("ROI" + QString::number(i));
 
+		// skapar vektorer för att skapa nytt ROI object
 		vector<int> ROIlocation;
 		vector<int> ROIregion;
 		//
@@ -179,16 +186,20 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		ROI ROI(ROIlocation, ROIregion);
 		List_Of_ROI.push_back(ROI);
 	}
-	//Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
+	Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
 }
 
+// Tittar om bilden är delbar med vald LASCA area
 void LSIProjectGUI::on_LASCAarea_valueChanged() {
+	//Tömmer error labeln
 	ui.error_LASCA_label->setText("");
 	int LASCA = ui.LASCAarea->value();
 	if(LASCA > 0 ){
+		// Tar ut storleken på bilden
 		QSize im_size = Main_Image.size();
 		int h = im_size.height();
 		int w = im_size.width();
+		// Sätter ett error om någon av höjd/bredd inte är delbar med LASCA arean
 		if (h % LASCA != 0 && w % LASCA != 0) {
 			ui.error_LASCA_label->setText("Change to a value that the image is divadible by!");
 		}
