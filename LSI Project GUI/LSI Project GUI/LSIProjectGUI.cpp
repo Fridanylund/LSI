@@ -18,17 +18,16 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 
 void LSIProjectGUI::update()
 {
-	//camera.Connect(0);
-	//camera.StartCapture();
-	//camera.RetrieveBuffer(&rawImage);
+	camera.Connect(0);
+	camera.StartCapture();
+	camera.RetrieveBuffer(&rawImage);
 
-	//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	//unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 
-	webcam >> Main_Image_CV;
-	webcam >> Main_Image_CV;
-	cout << "test";
+	//webcam >> Main_Image_CV;
+	//webcam >> Main_Image_CV;
 
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
