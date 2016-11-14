@@ -64,13 +64,12 @@ public slots:
 	void on_createROIButton_clicked();
 	void on_removeROIButton_clicked();
 	//
-	void on_listROI_selectedItems(QListWidgetItem * item);
-	//
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
 	void update();
 	//
+	void on_LASCAarea_valueChanged();
 	//Real time hanterarn
 	
 };

@@ -420,6 +420,9 @@ border-color: rgb(56, 56, 56);</string>
       <height>121</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(71, 71, 71);</string>
+    </property>
     <property name="widgetResizable">
      <bool>true</bool>
     </property>
@@ -447,27 +450,36 @@ border-color: rgb(56, 56, 56);</string>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>189</red>
+            <green>189</green>
+            <blue>189</blue>
            </color>
           </brush>
          </colorrole>
@@ -476,27 +488,36 @@ border-color: rgb(56, 56, 56);</string>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>189</red>
+            <green>189</green>
+            <blue>189</blue>
            </color>
           </brush>
          </colorrole>
@@ -505,32 +526,44 @@ border-color: rgb(56, 56, 56);</string>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>51</red>
+            <green>153</green>
             <blue>255</blue>
            </color>
           </brush>
          </colorrole>
         </disabled>
        </palette>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 197, 197);</string>
       </property>
       <property name="editTriggers">
        <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>

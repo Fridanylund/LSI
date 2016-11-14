@@ -70,6 +70,8 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 	int selectedROI = ui.listROI->currentRow();
 	ui.button_test->setText(QString::number(selectedROI));
 
+	List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI);
+	delete ui.listROI->takeItem(selectedROI);
 	// immediately after erasing, a new image should be loaded
 
 }
@@ -180,8 +182,19 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 	//Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
 }
 
-void LSIProjectGUI::on_listROI_selectedItems(QListWidgetItem * item) {
-	
-	item->setBackground(Qt::darkRed);
-
+void LSIProjectGUI::on_LASCAarea_valueChanged() {
+	ui.error_LASCA_label->setText("");
+	int LASCA = ui.LASCAarea->value();
+	if(LASCA > 0 ){
+		QSize im_size = Main_Image.size();
+		int h = im_size.height();
+		int w = im_size.width();
+		if (h % LASCA != 0 && w % LASCA != 0) {
+			ui.error_LASCA_label->setText("Change to a value that the image is divadible by!");
+		}
+	}
+	else
+	{
+		ui.error_LASCA_label->setText("Choose a non-zero value!");
+	}
 }
