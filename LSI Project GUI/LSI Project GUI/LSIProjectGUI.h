@@ -29,6 +29,7 @@ public:
     LSIProjectGUI(QWidget *parent = Q_NULLPTR);
 	Frame Frame_Object;
 	QPixmap Main_Image;
+	QPixmap temp_Main_Image;
 	Mat Main_Image_CV;
 	Image rgbImage;
 	Image rawImage;
