@@ -23,8 +23,8 @@ void LSIProjectGUI::update()
 	camera.RetrieveBuffer(&rawImage);
 
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
 
 	//webcam >> Main_Image_CV;
 	//webcam >> Main_Image_CV;
