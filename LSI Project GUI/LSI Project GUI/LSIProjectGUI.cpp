@@ -1,5 +1,7 @@
 #include "LSIProjectGUI.h"
 
+//#include "ROIclass.h"
+
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
@@ -32,6 +34,11 @@ void LSIProjectGUI::update()
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
 
+	QPainter painter(&Main_Image);
+	painter.setPen(pen); //sets pen settings from above to painter
+	painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+	ui.videoLabel->setPixmap(Main_Image);
+
 }
 
 
@@ -53,15 +60,11 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 {
 	Is_ROI_Button_Is_Pressed = false; // to stop mouseEvent functions
 
-	QPixmap bild; // should not have to load bild again here
-	bild.load("3110_handwithlaser_1.png");
-
-	QPainter painter(&bild);
+	QPainter painter(&Main_Image);
 	painter.eraseRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
-	ui.videoLabel->setPixmap(bild);
+	ui.videoLabel->setPixmap(Main_Image);
 
 	// immediately after erasing, a new image should be loaded
-
 
 }
 
@@ -94,10 +97,9 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 {
 	if (Is_ROI_Button_Is_Pressed)
 	{
-		QPixmap bild; // should not have to load bild again here
-		bild.load("3110_handwithlaser_1.png");
+		temp_Main_Image = Main_Image;
 
-		QPainter painter(&bild);
+		QPainter painter(&temp_Main_Image);
 		pen;  // creates a default pen
 		//pen.setStyle(Qt::DashDotLine); // other line style
 		pen.setWidth(4);
@@ -105,7 +107,7 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 		painter.setPen(pen); //sets pen settings to painter
 
 		painter.drawRect(QRect(Start_ROI_Coordinates, event->pos()-videoLabel_Coordinates));
-		ui.videoLabel->setPixmap(bild);
+		ui.videoLabel->setPixmap(temp_Main_Image);
 
 		QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
 		QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
@@ -133,21 +135,38 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		QString Height_string = QString::number(ROI_Height);
 		ui.button_test->setText(Width_string + "<Width   Hight>" + Height_string); // just to check width and height of ROI
 
-		QPixmap bild; // should not have to load bild again here
-		bild.load("3110_handwithlaser_1.png");
-
-		QPainter painter(&bild);
-		painter.setPen(pen); //sets pen settings from above to painter
-		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
-		ui.videoLabel->setPixmap(bild);
-
 		ui.listROI->addItem("ROI");
-	
-		//spara vå ROI i vector och stoppa mouse event här?
 
+		vector<int> ROIlocation;
+		vector<int> ROIregion;
+		//
+		ROIregion.push_back(abs(ROI_Width));
+		ROIregion.push_back(abs(ROI_Height));
+		//
+		if (ROI_Height<0 && ROI_Width<0) {
+			ROIlocation.push_back(x_End_ROI_Coordinate);
+			ROIlocation.push_back(y_End_ROI_Coordinate);
+		}
+		else if (ROI_Height>0 && ROI_Width>0) {
+			ROIlocation.push_back(x_Start_ROI_Coordinate);
+			ROIlocation.push_back(y_Start_ROI_Coordinate);
+		}
+		else if (ROI_Height>0 && ROI_Width<0) {
+			ROIlocation.push_back(x_End_ROI_Coordinate);
+			ROIlocation.push_back(y_Start_ROI_Coordinate);
+		}
+		else if (ROI_Height<0 && ROI_Width>0) {
+			ROIlocation.push_back(x_Start_ROI_Coordinate);
+			ROIlocation.push_back(y_End_ROI_Coordinate);
+		}
+
+		ROI ROI1(ROIlocation, ROIregion);
+		List_Of_ROI.push_back(ROI1);
 	}
+	//Is_ROI_Button_Is_Pressed = false;
 }
 
-void LSIProjectGUI::itemClicked(QListWidgetItem * item) {
-
+void LSIProjectGUI::on_listROI_itemClicked(QListWidgetItem * item) {
+	
+	item->setBackground(Qt::darkRed);
 }

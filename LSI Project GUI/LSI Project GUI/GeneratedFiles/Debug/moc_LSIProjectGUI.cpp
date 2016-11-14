@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
     QByteArrayData data[15];
-    char stringdata0[223];
+    char stringdata0[234];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,24 +35,25 @@ QT_MOC_LITERAL(2, 37, 0), // ""
 QT_MOC_LITERAL(3, 38, 21), // "on_stopButton_clicked"
 QT_MOC_LITERAL(4, 60, 26), // "on_createROIButton_clicked"
 QT_MOC_LITERAL(5, 87, 26), // "on_removeROIButton_clicked"
-QT_MOC_LITERAL(6, 114, 11), // "itemClicked"
-QT_MOC_LITERAL(7, 126, 16), // "QListWidgetItem*"
-QT_MOC_LITERAL(8, 143, 4), // "item"
-QT_MOC_LITERAL(9, 148, 15), // "mousePressEvent"
-QT_MOC_LITERAL(10, 164, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(11, 177, 5), // "event"
-QT_MOC_LITERAL(12, 183, 14), // "mouseMoveEvent"
-QT_MOC_LITERAL(13, 198, 17), // "mouseReleaseEvent"
-QT_MOC_LITERAL(14, 216, 6) // "update"
+QT_MOC_LITERAL(6, 114, 22), // "on_listROI_itemClicked"
+QT_MOC_LITERAL(7, 137, 16), // "QListWidgetItem*"
+QT_MOC_LITERAL(8, 154, 4), // "item"
+QT_MOC_LITERAL(9, 159, 15), // "mousePressEvent"
+QT_MOC_LITERAL(10, 175, 12), // "QMouseEvent*"
+QT_MOC_LITERAL(11, 188, 5), // "event"
+QT_MOC_LITERAL(12, 194, 14), // "mouseMoveEvent"
+QT_MOC_LITERAL(13, 209, 17), // "mouseReleaseEvent"
+QT_MOC_LITERAL(14, 227, 6) // "update"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
     "\0on_stopButton_clicked\0"
     "on_createROIButton_clicked\0"
-    "on_removeROIButton_clicked\0itemClicked\0"
-    "QListWidgetItem*\0item\0mousePressEvent\0"
-    "QMouseEvent*\0event\0mouseMoveEvent\0"
-    "mouseReleaseEvent\0update"
+    "on_removeROIButton_clicked\0"
+    "on_listROI_itemClicked\0QListWidgetItem*\0"
+    "item\0mousePressEvent\0QMouseEvent*\0"
+    "event\0mouseMoveEvent\0mouseReleaseEvent\0"
+    "update"
 };
 #undef QT_MOC_LITERAL
 
@@ -104,7 +105,7 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 1: _t->on_stopButton_clicked(); break;
         case 2: _t->on_createROIButton_clicked(); break;
         case 3: _t->on_removeROIButton_clicked(); break;
-        case 4: _t->itemClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 4: _t->on_listROI_itemClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         case 5: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 6: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 7: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;

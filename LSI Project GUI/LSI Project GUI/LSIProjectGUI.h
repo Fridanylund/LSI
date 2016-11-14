@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
 #include "FrameClass.h"
+#include "ROIclass.h"
 //
 #include <QRubberBand>
 #include <QWidget>
@@ -18,7 +19,6 @@
 using namespace std;
 using namespace FlyCapture2;
 using namespace cv;
-//
 
 
 class LSIProjectGUI : public QMainWindow
@@ -29,6 +29,7 @@ public:
     LSIProjectGUI(QWidget *parent = Q_NULLPTR);
 	Frame Frame_Object;
 	QPixmap Main_Image;
+	QPixmap temp_Main_Image;
 	Mat Main_Image_CV;
 	Image rgbImage;
 	Image rawImage;
@@ -37,7 +38,7 @@ public:
 	
 private:
     Ui::LSIProjectGUIClass ui;
-	//
+	vector<ROI> List_Of_ROI;
 	bool Is_ROI_Button_Is_Pressed;
 	QPoint Start_Click_Coordinates;
 	int x_Start_Click_Coordinate;
@@ -50,14 +51,10 @@ private:
 	QPoint Start_ROI_Coordinates;
 	int x_End_ROI_Coordinate;
 	int y_End_ROI_Coordinate;
-	//QRubberBand *rubberBand{ rubberBand = NULL };
 	int ROI_Width;
 	int ROI_Height;
 	QPen pen;
 	QTimer *timer;
-	
-
-
 
 	//
 
@@ -67,7 +64,7 @@ public slots:
 	void on_createROIButton_clicked();
 	void on_removeROIButton_clicked();
 	//
-	void itemClicked(QListWidgetItem * item);
+	void on_listROI_itemClicked(QListWidgetItem * item);
 	//
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);

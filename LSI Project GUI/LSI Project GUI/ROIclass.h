@@ -5,6 +5,7 @@ This is the declarations of the ROI class and its public functions.
 #include <iostream>
 #include <vector>
 #include <opencv/cv.h>
+
 using namespace std;
 using namespace cv;
 

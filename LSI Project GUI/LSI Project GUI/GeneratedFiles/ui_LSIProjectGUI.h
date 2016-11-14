@@ -26,7 +26,6 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -64,7 +63,6 @@ public:
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
     QMenuBar *menuBar;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *LSIProjectGUIClass)
@@ -211,15 +209,29 @@ public:
         listROI = new QListWidget(scrollAreaWidgetContents_2);
         listROI->setObjectName(QStringLiteral("listROI"));
         listROI->setGeometry(QRect(10, 10, 121, 101));
+        QPalette palette;
+        QBrush brush(QColor(17, 132, 255, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette.setBrush(QPalette::Active, QPalette::Window, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Window, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Window, brush);
+        listROI->setPalette(palette);
+        listROI->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
+        listROI->setAlternatingRowColors(true);
+        listROI->setSelectionRectVisible(true);
+        listROI->setSortingEnabled(false);
         scrollArea_2->setWidget(scrollAreaWidgetContents_2);
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 921, 21));
         LSIProjectGUIClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(LSIProjectGUIClass);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        LSIProjectGUIClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(LSIProjectGUIClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         LSIProjectGUIClass->setStatusBar(statusBar);
@@ -227,6 +239,7 @@ public:
         retranslateUi(LSIProjectGUIClass);
 
         settings_patientInfo->setCurrentIndex(1);
+        listROI->setCurrentRow(-1);
 
 
         QMetaObject::connectSlotsByName(LSIProjectGUIClass);
