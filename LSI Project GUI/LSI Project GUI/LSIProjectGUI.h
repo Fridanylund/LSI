@@ -2,7 +2,10 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
+#include "FrameClass.h"
+#include "ROIclass.h"
 //
+#include <QRubberBand>
 #include <QWidget>
 #include <QMouseEvent>
 #include <QImage>
@@ -11,8 +14,11 @@
 #include <QPen>
 #include <opencv/cv.h>
 #include <iostream>
+#include <QTimer>
+#include <FlyCapture2.h>
 using namespace std;
-//
+using namespace FlyCapture2;
+using namespace cv;
 
 
 class LSIProjectGUI : public QMainWindow
@@ -31,7 +37,7 @@ public:
 	
 private:
     Ui::LSIProjectGUIClass ui;
-	//vector<ROI> List_Of_ROI;
+	vector<ROI> List_Of_ROI;
 	bool Is_ROI_Button_Is_Pressed;
 	QPoint Start_Click_Coordinates;
 	int x_Start_Click_Coordinate;
@@ -48,9 +54,6 @@ private:
 	int ROI_Height;
 	QPen pen;
 	QTimer *timer;
-	
-
-
 
 	//
 
