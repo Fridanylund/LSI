@@ -137,10 +137,19 @@ vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, vector<ROI> The_Li
 	return(ROI_Averages);
 }
 
-/* // Some outlining of the function:
-void Real_Time_Main() {
-	// Take images. Base image and laser images. And put these in the Frame object.
-	// Preform all the calculations on the images.
-	// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
-	// Calculate the ROI averages and update them in the GUI.
-}*/
+/*
+void Real_Time_Main(LSIProjectGUI* The_GUI) {
+	Frame Working_Frame("LSI_Measurements", 640, 480, "Webcam", 5);
+	
+	while (The_GUI->Get_Run_Real_Time()) { // "Pointer to incomplete class type is not allowed."?
+		cout << The_GUI->Get_Run_Real_Time() << endl;
+
+		// Take images. Base image and laser images. And put these in the Frame object.
+		// Preform all the calculations on the images.
+		// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
+		// Calculate the ROI averages and update them in the GUI.
+	}
+	// Check if the user wants to save the measurement files.
+	// Remove frame and, if the user didn't want to save, remove the files.
+} // I can't get it to work with the dependencies. The .h files include in a cycle.
+*/

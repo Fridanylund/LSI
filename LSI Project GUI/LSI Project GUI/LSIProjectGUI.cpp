@@ -1,91 +1,132 @@
 #include "LSIProjectGUI.h"
 #include "Test-function.h"
-#include <opencv/cv.h>
-#include <QTimer>
+
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
-
 	ui.setupUi(this);
-	//Frame temp("test", 640, 480, "Webcam", 3);
-	//temp.Take_Picture("BaseImage");
-	//Mat img_CV = temp.Get_Base_Image();
-	//imwrite("images//test11102.png", img_CV);
-	//frame_object = temp;
-	//frame_object.Take_Picture("BaseImage");
-	//Mat img_CV2 = frame_object.Get_Base_Image();
-	//imwrite("images//test111022.png", img_CV2);
-	Frame temp("test", 640, 480, "Fly", 3);
-	frame_object = temp;
-	BW_Cam.Connect(0);
-	timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-
 }
 
-void LSIProjectGUI::timertest() {
-
-
-	timer->start(100);
-}
-
-void LSIProjectGUI::update() {
-	BW_Cam.StartCapture();
-	BW_Cam.RetrieveBuffer(&rawImage);
-	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	cv::Mat image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
-
-	cv::Mat smallimage; //To resize the image, until we figure out how to take smaller pictures 
-	cv::resize(image, smallimage, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-
-	QPixmap img_QT = QPixmap::fromImage(QImage((unsigned char*)image.data, image.cols, image.rows, QImage::Format_RGB888));
-	ui.videoLabel->setPixmap(img_QT);
-}
 
 void LSIProjectGUI::on_startButton_clicked() {
 	// Should, when it's ready, contain call to function Real_Time_Main in Free-Functions.
-	//ui.button_test->setText("START!");
-	////stilltest();
-	//cv::Mat cv_bild;
-	//cv_bild = cv::imread("3110_handwithlaser_1.png");
-	// 
-	////QPixmap bild;
-	//QPixmap img = QPixmap::fromImage(QImage((unsigned char*)cv_bild.data, cv_bild.cols, cv_bild.rows, QImage::Format_RGB888));
-	////bild.load("3110_handwithlaser_1.png");
-	//ui.videoLabel->setPixmap(img);
-	timertest();
-	
+	ui.button_test->setText("START!");
+	//stilltest();
+	QPixmap bild;
+	bild.load("3110_handwithlaser_1.png");
+	ui.videoLabel->setPixmap(bild);
 
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
 	ui.button_test->setText("STOP!");
-	timer->stop();
 }
 
-void LSIProjectGUI::on_createROIButton_clicked() {
-	ui.button_test->setText("ROI!");
-}
-
-void LSIProjectGUI::on_removeROIButton_clicked() {
-	BW_Cam.Disconnect();
-	timer->stop();
-	ui.button_test->setText("DELETED!");
-}
-
-
-void LSIProjectGUI::test_loop()
+void LSIProjectGUI::on_createROIButton_clicked() 
 {
-	Frame frame_object("test", 640, 480, "Webcam", 3);
-	cv::Mat img_CV;
-	QPixmap img_QT;
-	//while (run)
-	//{
-		frame_object.Take_Picture("BaseImage");
-		img_CV = frame_object.Get_Base_Image();
-		img_QT = QPixmap::fromImage(QImage((unsigned char*)img_CV.data, img_CV.cols, img_CV.rows, QImage::Format_RGB888));
-		ui.videoLabel->setPixmap(img_QT);
-//
+	Is_ROI_Button_Is_Pressed = true; // to start mouseEvent functions
+}
+
+void LSIProjectGUI::on_removeROIButton_clicked() 
+{
+	Is_ROI_Button_Is_Pressed = false; // to stop mouseEvent functions
+
+	QPixmap bild; // should not have to load bild again here
+	bild.load("3110_handwithlaser_1.png");
+
+	QPainter painter(&bild);
+	painter.eraseRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+	ui.videoLabel->setPixmap(bild);
+
+	// immediately after erasing, a new image should be loaded
+
+
+}
+
+
+void LSIProjectGUI::mousePressEvent(QMouseEvent *event) 
+{
+	if (Is_ROI_Button_Is_Pressed)
+	{
+		Start_Click_Coordinates = event->pos(); // in whole GUI, not in videoLabel
+		x_Start_Click_Coordinate = Start_Click_Coordinates.x();
+		y_Start_Click_Coordinate = Start_Click_Coordinates.y();
+
+		videoLabel_Coordinates = ui.videoLabel->pos();
+		x_videoLabel_Coordinate = videoLabel_Coordinates.x();
+		y_videoLabel_Coordinate = videoLabel_Coordinates.y();
+
+		QString x_videoLabel_string = QString::number(x_videoLabel_Coordinate);
+		QString y_videoLabel_string = QString::number(y_videoLabel_Coordinate);
+		ui.button_test->setText(x_videoLabel_string + "<x  y>" + y_videoLabel_string); // just to see videoLabel coordinates
+
+		x_Start_ROI_Coordinate = x_Start_Click_Coordinate - x_videoLabel_Coordinate;
+		y_Start_ROI_Coordinate = y_Start_Click_Coordinate - y_videoLabel_Coordinate;
+		Start_ROI_Coordinates = QPoint(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate);
+		
+	}
+}
+
+
+void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event) 
+{
+	if (Is_ROI_Button_Is_Pressed)
+	{
+		QPixmap bild; // should not have to load bild again here
+		bild.load("3110_handwithlaser_1.png");
+
+		QPainter painter(&bild);
+		pen;  // creates a default pen
+		//pen.setStyle(Qt::DashDotLine); // other line style
+		pen.setWidth(4);
+		pen.setBrush(Qt::red);
+		painter.setPen(pen); //sets pen settings to painter
+
+		painter.drawRect(QRect(Start_ROI_Coordinates, event->pos()-videoLabel_Coordinates));
+		ui.videoLabel->setPixmap(bild);
+
+		QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
+		QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
+		ui.button_test->setText(x_Start_Click_Coordinates_string + "<x  y>" + y_Start_Click_Coordinates_string); // just to see GUI window coordinates
+
+	}
+}
+
+
+void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event) 
+{
+	if (Is_ROI_Button_Is_Pressed)
+	{
+		QPoint End_Click_Coordinates = event->pos();
+		int x_End_Click_Coordinate = End_Click_Coordinates.x();
+		int y_End_Click_Coordinate = End_Click_Coordinates.y();
+
+		x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
+		y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
+
+		ROI_Width = x_End_ROI_Coordinate - x_Start_ROI_Coordinate;
+		ROI_Height = y_End_ROI_Coordinate - y_Start_ROI_Coordinate;
+		
+		QString Width_string = QString::number(ROI_Width);
+		QString Height_string = QString::number(ROI_Height);
+		ui.button_test->setText(Width_string + "<Width   Hight>" + Height_string); // just to check width and height of ROI
+
+		QPixmap bild; // should not have to load bild again here
+		bild.load("3110_handwithlaser_1.png");
+
+		QPainter painter(&bild);
+		painter.setPen(pen); //sets pen settings from above to painter
+		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+		ui.videoLabel->setPixmap(bild);
+
+		ui.listROI->addItem("ROI");
+	
+		//spara vå ROI i vector och stoppa mouse event här?
+
+	}
+}
+
+void LSIProjectGUI::itemClicked(QListWidgetItem * item) {
+
 }

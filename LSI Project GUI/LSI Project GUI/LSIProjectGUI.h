@@ -2,10 +2,19 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
-#include <FrameClass.h>
-
-
+//
+#include <QRubberBand>
+#include <QWidget>
+#include <QMouseEvent>
+#include <QImage>
+#include <QString>
+#include <QPainter>
+#include <QPen>
+#include <opencv/cv.h>
+#include <iostream>
 using namespace std;
+//
+
 
 class LSIProjectGUI : public QMainWindow
 {
@@ -16,20 +25,35 @@ public:
 
 private:
     Ui::LSIProjectGUIClass ui;
-	bool run = true;
-	Frame frame_object;
-	Image rgbImage;
-	Image rawImage;
-	Camera BW_Cam;
-	QTimer *timer;
-
+	//
+	bool Is_ROI_Button_Is_Pressed;
+	QPoint Start_Click_Coordinates;
+	int x_Start_Click_Coordinate;
+	int y_Start_Click_Coordinate;
+	QPoint videoLabel_Coordinates;
+	int x_videoLabel_Coordinate;
+	int y_videoLabel_Coordinate;
+	int x_Start_ROI_Coordinate;
+	int y_Start_ROI_Coordinate;
+	QPoint Start_ROI_Coordinates;
+	int x_End_ROI_Coordinate;
+	int y_End_ROI_Coordinate;
+	//QRubberBand *rubberBand{ rubberBand = NULL };
+	int ROI_Width;
+	int ROI_Height;
+	QPen pen;
+	//
 
 public slots: 
 	void on_startButton_clicked();
 	void on_stopButton_clicked();
 	void on_createROIButton_clicked();
 	void on_removeROIButton_clicked();
-	void test_loop();
-	void timertest();
-	void update();
+	//
+	void itemClicked(QListWidgetItem * item);
+	//
+	void mousePressEvent(QMouseEvent *event);
+	void mouseMoveEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
+	//
 };
