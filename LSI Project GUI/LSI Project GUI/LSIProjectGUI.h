@@ -2,8 +2,6 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
-//#include "ROIclass.h"
-#include "Test-function.h"
 //
 #include <QWidget>
 #include <QMouseEvent>
@@ -13,9 +11,7 @@
 #include <QPen>
 #include <opencv/cv.h>
 #include <iostream>
-#include <QVector>
 using namespace std;
-
 //
 
 
@@ -25,7 +21,14 @@ class LSIProjectGUI : public QMainWindow
 
 public:
     LSIProjectGUI(QWidget *parent = Q_NULLPTR);
-
+	Frame Frame_Object;
+	QPixmap Main_Image;
+	Mat Main_Image_CV;
+	Image rgbImage;
+	Image rawImage;
+	Camera camera;
+	VideoCapture webcam;
+	
 private:
     Ui::LSIProjectGUIClass ui;
 	//vector<ROI> List_Of_ROI;
@@ -44,6 +47,11 @@ private:
 	int ROI_Width;
 	int ROI_Height;
 	QPen pen;
+	QTimer *timer;
+	
+
+
+
 	//
 
 public slots: 
@@ -57,5 +65,8 @@ public slots:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
+	void update();
 	//
+	//Real time hanterarn
+	
 };

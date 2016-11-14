@@ -16,6 +16,7 @@
 
 #include"Test-Function.h"
 #include"Free-Functions.h"
+#include "FrameClass.h"
 
 using namespace std;
 using namespace FlyCapture2; //This one will give errors unless camera thingy is fixed
@@ -35,5 +36,6 @@ int main(int argc, char *argv[])
 	//testcapture();
 	//stilltest2();
 	//TestContrast();
-    return a.exec();
+	//w.timertest();
+	return a.exec();
 }

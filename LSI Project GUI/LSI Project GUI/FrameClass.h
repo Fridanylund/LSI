@@ -56,11 +56,13 @@ public:
 	void Set_Filter_Window_Size(int value);
 	void Set_Filename(string File_Name);
 	void Take_Picture(string Type);
+	void open();
 
 
 	//Constructor
 	Frame(string File_Name, int Width, int Height, string Camera, int Lasca_Size);
+	Frame();
 
-
+	void operator=(Frame &arg);
 };
 
