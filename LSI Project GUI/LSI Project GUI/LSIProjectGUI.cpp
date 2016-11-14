@@ -53,6 +53,9 @@ void LSIProjectGUI::update()
 		painter.drawRect(x, y, ROI_w, ROI_h);
 		ui.videoLabel->setPixmap(Main_Image);
 	}
+	//Fel att ta in frame objekt nu...
+
+	//vector<double> averageROI = Calc_ROI_Average(Main_Image, List_Of_ROI);
 }
 
 
