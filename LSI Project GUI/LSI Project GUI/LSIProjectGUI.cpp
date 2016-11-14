@@ -1,5 +1,6 @@
 #include "LSIProjectGUI.h"
-#include "Test-function.h"
+
+//#include "ROIclass.h"
 
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
@@ -121,12 +122,37 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		ui.videoLabel->setPixmap(bild);
 
 		ui.listROI->addItem("ROI");
-	
-		//spara vå ROI i vector och stoppa mouse event här?
 
+		//vector<int> ROIlocation;
+		//vector<int> ROIregion;
+		////
+		//ROIregion.push_back(abs(ROI_Width));
+		//ROIregion.push_back(abs(ROI_Height));
+		////
+		//if (ROI_Height<0 && ROI_Width<0) {
+		//	ROIlocation.push_back(x_End_ROI_Coordinate);
+		//	ROIlocation.push_back(y_End_ROI_Coordinate);
+		//}
+		//else if (ROI_Height>0 && ROI_Width>0) {
+		//	ROIlocation.push_back(x_Start_ROI_Coordinate);
+		//	ROIlocation.push_back(y_Start_ROI_Coordinate);
+		//}
+		//else if (ROI_Height>0 && ROI_Width<0) {
+		//	ROIlocation.push_back(x_End_ROI_Coordinate);
+		//	ROIlocation.push_back(y_Start_ROI_Coordinate);
+		//}
+		//else if (ROI_Height<0 && ROI_Width>0) {
+		//	ROIlocation.push_back(x_Start_ROI_Coordinate);
+		//	ROIlocation.push_back(y_End_ROI_Coordinate);
+		//}
+
+		//ROI ROI1(ROIlocation, ROIregion);
+		//List_Of_ROI.push_back(ROI1);
 	}
+	//Is_ROI_Button_Is_Pressed = false;
 }
 
-void LSIProjectGUI::itemClicked(QListWidgetItem * item) {
-
+void LSIProjectGUI::on_listROI_itemClicked(QListWidgetItem * item) {
+	
+	item->setBackground(Qt::darkRed);
 }

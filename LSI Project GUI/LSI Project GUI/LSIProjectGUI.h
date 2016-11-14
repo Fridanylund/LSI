@@ -2,8 +2,9 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
+//#include "ROIclass.h"
+#include "Test-function.h"
 //
-#include <QRubberBand>
 #include <QWidget>
 #include <QMouseEvent>
 #include <QImage>
@@ -12,7 +13,9 @@
 #include <QPen>
 #include <opencv/cv.h>
 #include <iostream>
+#include <QVector>
 using namespace std;
+
 //
 
 
@@ -25,7 +28,7 @@ public:
 
 private:
     Ui::LSIProjectGUIClass ui;
-	//
+	//vector<ROI> List_Of_ROI;
 	bool Is_ROI_Button_Is_Pressed;
 	QPoint Start_Click_Coordinates;
 	int x_Start_Click_Coordinate;
@@ -38,7 +41,6 @@ private:
 	QPoint Start_ROI_Coordinates;
 	int x_End_ROI_Coordinate;
 	int y_End_ROI_Coordinate;
-	//QRubberBand *rubberBand{ rubberBand = NULL };
 	int ROI_Width;
 	int ROI_Height;
 	QPen pen;
@@ -50,7 +52,7 @@ public slots:
 	void on_createROIButton_clicked();
 	void on_removeROIButton_clicked();
 	//
-	void itemClicked(QListWidgetItem * item);
+	void on_listROI_itemClicked(QListWidgetItem * item);
 	//
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
