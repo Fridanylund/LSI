@@ -6,21 +6,37 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+	camera.Connect(0);
+	camera.StartCapture();
+	//timer->start(200);
+}
+
+void LSIProjectGUI::update()
+{
+	//camera.Connect(0);
+	//camera.StartCapture();
+	camera.RetrieveBuffer(&rawImage);
+
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+
+	imwrite("images//test.png",Main_Image_CV);
+	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
+	ui.videoLabel->setPixmap(Main_Image);
+
 }
 
 
 void LSIProjectGUI::on_startButton_clicked() {
-	// Should, when it's ready, contain call to function Real_Time_Main in Free-Functions.
-	ui.button_test->setText("START!");
-	//stilltest();
-	QPixmap bild;
-	bild.load("3110_handwithlaser_1.png");
-	ui.videoLabel->setPixmap(bild);
-
+	timer->start(200);
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
 	ui.button_test->setText("STOP!");
+	timer->stop();
 }
 
 void LSIProjectGUI::on_createROIButton_clicked() 

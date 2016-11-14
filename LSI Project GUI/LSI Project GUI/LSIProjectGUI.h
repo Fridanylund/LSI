@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
+#include "FrameClass.h"
 //
 #include <QRubberBand>
 #include <QWidget>
@@ -12,7 +13,11 @@
 #include <QPen>
 #include <opencv/cv.h>
 #include <iostream>
+#include <QTimer>
+#include <FlyCapture2.h>
 using namespace std;
+using namespace FlyCapture2;
+using namespace cv;
 //
 
 
@@ -22,7 +27,13 @@ class LSIProjectGUI : public QMainWindow
 
 public:
     LSIProjectGUI(QWidget *parent = Q_NULLPTR);
-
+	Frame Frame_Object;
+	QPixmap Main_Image;
+	Mat Main_Image_CV;
+	Image rgbImage;
+	Image rawImage;
+	Camera camera;
+	
 private:
     Ui::LSIProjectGUIClass ui;
 	//
@@ -42,6 +53,11 @@ private:
 	int ROI_Width;
 	int ROI_Height;
 	QPen pen;
+	QTimer *timer;
+	
+
+
+
 	//
 
 public slots: 
@@ -55,5 +71,8 @@ public slots:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
+	void update();
 	//
+	//Real time hanterarn
+	
 };
