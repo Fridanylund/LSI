@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
-    QByteArrayData data[15];
-    char stringdata0[236];
+    QByteArrayData data[13];
+    char stringdata0[215];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,25 +35,22 @@ QT_MOC_LITERAL(2, 37, 0), // ""
 QT_MOC_LITERAL(3, 38, 21), // "on_stopButton_clicked"
 QT_MOC_LITERAL(4, 60, 26), // "on_createROIButton_clicked"
 QT_MOC_LITERAL(5, 87, 26), // "on_removeROIButton_clicked"
-QT_MOC_LITERAL(6, 114, 24), // "on_listROI_selectedItems"
-QT_MOC_LITERAL(7, 139, 16), // "QListWidgetItem*"
-QT_MOC_LITERAL(8, 156, 4), // "item"
-QT_MOC_LITERAL(9, 161, 15), // "mousePressEvent"
-QT_MOC_LITERAL(10, 177, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(11, 190, 5), // "event"
-QT_MOC_LITERAL(12, 196, 14), // "mouseMoveEvent"
-QT_MOC_LITERAL(13, 211, 17), // "mouseReleaseEvent"
-QT_MOC_LITERAL(14, 229, 6) // "update"
+QT_MOC_LITERAL(6, 114, 15), // "mousePressEvent"
+QT_MOC_LITERAL(7, 130, 12), // "QMouseEvent*"
+QT_MOC_LITERAL(8, 143, 5), // "event"
+QT_MOC_LITERAL(9, 149, 14), // "mouseMoveEvent"
+QT_MOC_LITERAL(10, 164, 17), // "mouseReleaseEvent"
+QT_MOC_LITERAL(11, 182, 6), // "update"
+QT_MOC_LITERAL(12, 189, 25) // "on_LASCAarea_valueChanged"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
     "\0on_stopButton_clicked\0"
     "on_createROIButton_clicked\0"
-    "on_removeROIButton_clicked\0"
-    "on_listROI_selectedItems\0QListWidgetItem*\0"
-    "item\0mousePressEvent\0QMouseEvent*\0"
-    "event\0mouseMoveEvent\0mouseReleaseEvent\0"
-    "update"
+    "on_removeROIButton_clicked\0mousePressEvent\0"
+    "QMouseEvent*\0event\0mouseMoveEvent\0"
+    "mouseReleaseEvent\0update\0"
+    "on_LASCAarea_valueChanged"
 };
 #undef QT_MOC_LITERAL
 
@@ -77,9 +74,9 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        5,    0,   62,    2, 0x0a /* Public */,
        6,    1,   63,    2, 0x0a /* Public */,
        9,    1,   66,    2, 0x0a /* Public */,
-      12,    1,   69,    2, 0x0a /* Public */,
-      13,    1,   72,    2, 0x0a /* Public */,
-      14,    0,   75,    2, 0x0a /* Public */,
+      10,    1,   69,    2, 0x0a /* Public */,
+      11,    0,   72,    2, 0x0a /* Public */,
+      12,    0,   73,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -87,9 +84,9 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 7,    8,
-    QMetaType::Void, 0x80000000 | 10,   11,
-    QMetaType::Void, 0x80000000 | 10,   11,
-    QMetaType::Void, 0x80000000 | 10,   11,
+    QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -105,11 +102,11 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 1: _t->on_stopButton_clicked(); break;
         case 2: _t->on_createROIButton_clicked(); break;
         case 3: _t->on_removeROIButton_clicked(); break;
-        case 4: _t->on_listROI_selectedItems((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
-        case 5: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 6: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 7: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 8: _t->update(); break;
+        case 4: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 5: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 6: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 7: _t->update(); break;
+        case 8: _t->on_LASCAarea_valueChanged(); break;
         default: ;
         }
     }
