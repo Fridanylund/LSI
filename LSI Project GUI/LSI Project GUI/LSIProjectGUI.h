@@ -36,6 +36,8 @@ public:
 	Camera camera;
 	VideoCapture webcam;
 	
+	void set_exposure(int time);
+	
 private:
     Ui::LSIProjectGUIClass ui;
 	vector<ROI> List_Of_ROI;
@@ -56,6 +58,8 @@ private:
 	QPen pen;
 	QTimer *timer;
 	int i = 0;
+	int refresh_rate; //How often the update function will be called in mS
+	int exposure_time; //Exposure time in mS
 	//
 
 public slots: 

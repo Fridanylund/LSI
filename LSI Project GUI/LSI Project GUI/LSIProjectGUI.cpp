@@ -10,26 +10,61 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	camera.Connect(0);
 	camera.StartCapture();
 	
+	refresh_rate = 200;
+	exposure_time = 20;
 	//For webcam
 	VideoCapture temp(0);
 	webcam = temp;
 
+	//Declare a Property struct.
+	Property prop;
+	//Define the property to adjust.
+	prop.type = GAIN;
+	//Ensure auto-adjust mode is off.
+	prop.autoManualMode = false;
+	//Ensure the property is set up to use absolute value control.
+	//prop.absControl = true;
+	//Set the absolute value of gain to 10.5 dB.
+	//prop.absValue = 10.5;
+	//Set the property.
+	camera.SetProperty(&prop);
+
+
 }
+
+void LSIProjectGUI::set_exposure(int time)
+{
+	//Declare a Property struct.
+	Property prop;
+	//Define the property to adjust.
+	prop.type = SHUTTER;
+	//Ensure the property is on.
+	prop.onOff = true;
+	//Ensure auto-adjust mode is off.
+	prop.autoManualMode = false;
+	//Ensure the property is set up to use absolute value control.
+	prop.absControl = true;
+	//Set the absolute value of shutter to X ms.
+	prop.absValue = time;
+	//Set the property.
+	camera.SetProperty(&prop);
+}
+
 
 void LSIProjectGUI::update()
 {
 	
 	// For BW camera
-	//camera.Connect(0);
-	//camera.StartCapture();
-	//camera.RetrieveBuffer(&rawImage);
+	camera.Connect(0);
+	camera.StartCapture();
+	camera.RetrieveBuffer(&rawImage);
 
-	//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	//unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
-	//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
 
-	webcam >> Main_Image_CV;
-	webcam >> Main_Image_CV;
+	//webcam >> Main_Image_CV;
+	//webcam >> Main_Image_CV;
 
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
@@ -46,7 +81,7 @@ void LSIProjectGUI::update()
 
 
 void LSIProjectGUI::on_startButton_clicked() {
-	timer->start(200);
+	timer->start(refresh_rate);
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
