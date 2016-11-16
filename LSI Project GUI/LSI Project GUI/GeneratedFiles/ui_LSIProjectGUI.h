@@ -56,7 +56,7 @@ public:
     QSpinBox *LASCAarea;
     QLabel *LASCA_label;
     QLabel *exposure_label;
-    QDoubleSpinBox *doubleSpinBox;
+    QDoubleSpinBox *exposuretime;
     QLabel *error_LASCA_label;
     QWidget *widget;
     QScrollArea *scrollArea_2;
@@ -185,11 +185,11 @@ public:
         exposure_label->setObjectName(QStringLiteral("exposure_label"));
         exposure_label->setGeometry(QRect(20, 190, 111, 21));
         exposure_label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
-        doubleSpinBox = new QDoubleSpinBox(settings);
-        doubleSpinBox->setObjectName(QStringLiteral("doubleSpinBox"));
-        doubleSpinBox->setGeometry(QRect(140, 180, 71, 51));
-        doubleSpinBox->setFont(font2);
-        doubleSpinBox->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
+        exposuretime = new QDoubleSpinBox(settings);
+        exposuretime->setObjectName(QStringLiteral("exposuretime"));
+        exposuretime->setGeometry(QRect(140, 180, 71, 51));
+        exposuretime->setFont(font2);
+        exposuretime->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
 "border-color: rgb(56, 56, 56);"));
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));

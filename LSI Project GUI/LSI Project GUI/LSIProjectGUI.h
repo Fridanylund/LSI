@@ -24,10 +24,10 @@ using namespace cv;
 
 class LSIProjectGUI : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    LSIProjectGUI(QWidget *parent = Q_NULLPTR);
+	LSIProjectGUI(QWidget *parent = Q_NULLPTR);
 	Frame Frame_Object;
 	QPixmap Main_Image;
 	QPixmap temp_Main_Image;
@@ -36,11 +36,11 @@ public:
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
-	
+
 	void set_exposure(int time);
-	
+
 private:
-    Ui::LSIProjectGUIClass ui;
+	Ui::LSIProjectGUIClass ui;
 	vector<ROI> List_Of_ROI;
 	bool Is_ROI_Button_Is_Pressed;
 	QPoint Start_Click_Coordinates;
@@ -61,9 +61,11 @@ private:
 	int i = 0;
 	int refresh_rate; //How often the update function will be called in mS
 	int exposure_time; //Exposure time in mS
+	int lasca_area;
+	bool should_i_run;
 	//
 
-public slots: 
+	public slots:
 	void on_startButton_clicked();
 	void on_stopButton_clicked();
 	void on_createROIButton_clicked();
@@ -75,6 +77,7 @@ public slots:
 	void update();
 	//
 	void on_LASCAarea_valueChanged();
+	void on_exposuretime_valueChanged();
 	//Real time hanterarn
-	
+
 };
