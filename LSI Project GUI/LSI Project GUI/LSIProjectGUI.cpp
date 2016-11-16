@@ -71,27 +71,23 @@ void LSIProjectGUI::update()
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
-		if (Is_ROI_Button_Is_Pressed)
-		{
-			QPainter painter(&Main_Image);
-			painter.setPen(pen); //sets pen settings from above to painter
-			painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
-			ui.videoLabel->setPixmap(Main_Image);
-		}
-
-		for (int f = 0; f < List_Of_ROI.size(); f++) {
-			QPainter painter(&Main_Image);
-			pen.setBrush(Qt::darkBlue);
-			painter.setPen(pen); //sets pen settings from above to painter
-			int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
-			int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
-			int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
-			int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
-			painter.drawRect(x, y, ROI_w, ROI_h);
-			ui.videoLabel->setPixmap(Main_Image);
-		}
-		//Fel att ta in frame objekt nu...
+	// vector for ROI colours
+	QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen")};
+	
+	for (int f = 0; f < List_Of_ROI.size(); f++) 
+	{
+		QPainter painter(&Main_Image);
+		pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
+		painter.setPen(pen); //sets pen settings from above to painter
+		int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
+		int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
+		int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
+		int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
+		painter.drawRect(x, y, ROI_w, ROI_h);
+		ui.videoLabel->setPixmap(Main_Image);
 	}
+	//Fel att ta in frame objekt nu...
+
 	//vector<double> averageROI = Calc_ROI_Average(Main_Image, List_Of_ROI);
 }
 
@@ -112,8 +108,10 @@ void LSIProjectGUI::on_createROIButton_clicked()
 
 void LSIProjectGUI::on_removeROIButton_clicked()
 {
-	int selectedROI = ui.listROI->currentRow();
-	ui.button_test->setText(QString::number(selectedROI));
+	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
+	{
+		int selectedROI = ui.listROI->currentRow();
+		ui.button_test->setText(QString::number(selectedROI));
 
 	List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI);
 	delete ui.listROI->takeItem(selectedROI);
@@ -133,6 +131,9 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 	//Set the property.
 	camera.SetProperty(&prop);
 
+		// program crashes if we remove ROI when nothing is selected
+		//ui.listROI->item(0)->setSelected(true); // sets first row to selected row by default (doesn't work)
+	}
 }
 
 
@@ -166,7 +167,6 @@ void LSIProjectGUI::mousePressEvent(QMouseEvent *event)
 		QString x_Start_ROI_Coordinate_string = QString::number(x_Start_ROI_Coordinate);
 		QString y_Start_ROI_Coordinate_string = QString::number(y_Start_ROI_Coordinate);
 		ui.button_test->setText(x_Start_ROI_Coordinate_string + "<x  y>" + y_Start_ROI_Coordinate_string); // just to see ROI coordinates
-
 	}
 }
 
@@ -177,16 +177,33 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 	{
 		temp_Main_Image = Main_Image;
 
-		QPainter painter(&temp_Main_Image);
-		pen;  // creates a default pen
-			  //pen.setStyle(Qt::DashDotLine); // other line style
-		pen.setWidth(4);
-		pen.setBrush(Qt::red);
-		painter.setPen(pen); //sets pen settings to painter
+		// same color vector as in update function
+		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+		
+		// needs this manually for the first rectangle, otherwise it cannot be seen while it's drawn
+		if (List_Of_ROI.size() == 0)
+		{
+			QPainter painter(&temp_Main_Image);
+			pen;
+			pen.setWidth(4);
+			pen.setBrush(Qt::red);
+			painter.setPen(pen);
+			painter.drawRect(QRect(Start_ROI_Coordinates, event->pos() - videoLabel_Coordinates));
+			ui.videoLabel->setPixmap(temp_Main_Image);
+		}
 
-		painter.drawRect(QRect(Start_ROI_Coordinates, event->pos() - videoLabel_Coordinates));
-		ui.videoLabel->setPixmap(temp_Main_Image);
+		// then loop for all other rectangles
+		for (int f = 1; f < List_Of_ROI.size() + 1; f++) // also has to be f+1 compared to update function because List_Of_ROI is still empty
+		{
+			QPainter painter(&temp_Main_Image);
+			pen;  // creates a default pen
+			pen.setWidth(4);
+			pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
+			painter.setPen(pen); //sets pen settings to painter
 
+			painter.drawRect(QRect(Start_ROI_Coordinates, event->pos() - videoLabel_Coordinates));
+			ui.videoLabel->setPixmap(temp_Main_Image);
+		}
 	}
 }
 

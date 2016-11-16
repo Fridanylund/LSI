@@ -6,16 +6,16 @@
 #include "ROIclass.h"
 #include "Free-Functions.h"
 //
-#include <QRubberBand>
+#include <QColor>
 #include <QWidget>
+#include <QListWidget>
 #include <QMouseEvent>
-#include <QImage>
 #include <QString>
 #include <QPainter>
 #include <QPen>
+#include <QTimer>
 #include <opencv/cv.h>
 #include <iostream>
-#include <QTimer>
 #include <FlyCapture2.h>
 using namespace std;
 using namespace FlyCapture2;
