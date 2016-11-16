@@ -61,8 +61,6 @@ private:
 	int i = 0;
 	int refresh_rate; //How often the update function will be called in mS
 	int exposure_time; //Exposure time in mS
-	int lasca_area;
-	bool should_i_run;
 	//
 
 public slots: 
@@ -77,7 +75,6 @@ public slots:
 	void update();
 	//
 	void on_LASCAarea_valueChanged();
-	void on_exposuretime_valueChanged();
 	//Real time hanterarn
 	
 };

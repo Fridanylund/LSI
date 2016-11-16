@@ -1,3 +1,18 @@
-﻿  LSIProjectGUI.cpp
-  LSI Project GUI.vcxproj -> C:\Users\Victor\Documents\Visual Studio 2015\Projects\LSI\LSI Project GUI\x64\Debug\LSI Project GUI.exe
-  LSI Project GUI.vcxproj -> C:\Users\Victor\Documents\Visual Studio 2015\Projects\LSI\LSI Project GUI\x64\Debug\LSI Project GUI.pdb (Full PDB)
+﻿  Moc'ing LSIProjectGUI.h...
+  Uic'ing LSIProjectGUI.ui...
+  Rcc'ing LSIProjectGUI.qrc...
+RCC : warning : No resources in 'C:\Users\Frida\Source\Repos\LSI\LSI Project GUI\LSI Project GUI\LSIProjectGUI.qrc'.
+  
+  ButtonClass.cpp
+  FrameClass.cpp
+  Free-Functions.cpp
+  moc_LSIProjectGUI.cpp
+  GUIclass.cpp
+  LSIProjectGUI.cpp
+  main.cpp
+  ROIclass.cpp
+  Test-Function.cpp
+  Generating Code...
+  qrc_LSIProjectGUI.cpp
+  LSI Project GUI.vcxproj -> C:\Users\Frida\Source\Repos\LSI\LSI Project GUI\x64\Debug\LSI Project GUI.exe
+  LSI Project GUI.vcxproj -> C:\Users\Frida\Source\Repos\LSI\LSI Project GUI\x64\Debug\LSI Project GUI.pdb (Full PDB)
