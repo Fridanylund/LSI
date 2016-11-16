@@ -12,9 +12,11 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	
 	refresh_rate = 200;
 	exposure_time = 20;
+	lasca_area = 5;
 	//For webcam
 	VideoCapture temp(0);
 	webcam = temp;
+	should_i_run = true;
 
 	//Declare a Property struct.
 	Property prop;
@@ -28,7 +30,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	//prop.absValue = 10.5;
 	//Set the property.
 	camera.SetProperty(&prop);
-
+	set_exposure(exposure_time);
 
 }
 
@@ -53,43 +55,43 @@ void LSIProjectGUI::set_exposure(int time)
 
 void LSIProjectGUI::update()
 {
-	
-	// For BW camera
-	camera.Connect(0);
-	camera.StartCapture();
-	camera.RetrieveBuffer(&rawImage);
+	if (should_i_run) {
+		// For BW camera
+		camera.Connect(0);
+		camera.StartCapture();
+		camera.RetrieveBuffer(&rawImage);
 
-	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
-	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
+		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
+		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
 
-	//webcam >> Main_Image_CV;
-	//webcam >> Main_Image_CV;
+		//webcam >> Main_Image_CV;
+		//webcam >> Main_Image_CV;
 
-	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
-	ui.videoLabel->setPixmap(Main_Image);
-
-	if (Is_ROI_Button_Is_Pressed)
-	{
-		QPainter painter(&Main_Image);
-		painter.setPen(pen); //sets pen settings from above to painter
-		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
-	}
 
-	for (int f = 0; f < List_Of_ROI.size(); f++) {
-		QPainter painter(&Main_Image);
-		pen.setBrush(Qt::darkBlue);
-		painter.setPen(pen); //sets pen settings from above to painter
-		int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
-		int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
-		int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
-		int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
-		painter.drawRect(x, y, ROI_w, ROI_h);
-		ui.videoLabel->setPixmap(Main_Image);
-	}
-	//Fel att ta in frame objekt nu...
+		if (Is_ROI_Button_Is_Pressed)
+		{
+			QPainter painter(&Main_Image);
+			painter.setPen(pen); //sets pen settings from above to painter
+			painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+			ui.videoLabel->setPixmap(Main_Image);
+		}
 
+		for (int f = 0; f < List_Of_ROI.size(); f++) {
+			QPainter painter(&Main_Image);
+			pen.setBrush(Qt::darkBlue);
+			painter.setPen(pen); //sets pen settings from above to painter
+			int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
+			int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
+			int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
+			int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
+			painter.drawRect(x, y, ROI_w, ROI_h);
+			ui.videoLabel->setPixmap(Main_Image);
+		}
+		//Fel att ta in frame objekt nu...
+	}
 	//vector<double> averageROI = Calc_ROI_Average(Main_Image, List_Of_ROI);
 }
 
@@ -116,6 +118,20 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 	List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI);
 	delete ui.listROI->takeItem(selectedROI);
 	// immediately after erasing, a new image should be loaded
+	//Declare a Property struct.
+	Property prop;
+	//Define the property to adjust.
+	prop.type = SHUTTER;
+	//Ensure the property is on.
+	prop.onOff = true;
+	//Ensure auto-adjust mode is off.
+	prop.autoManualMode = false;
+	//Ensure the property is set up to use absolute value control.
+	prop.absControl = true;
+	//Set the absolute value of shutter to X ms.
+	prop.absValue = 20;
+	//Set the property.
+	camera.SetProperty(&prop);
 
 }
 
@@ -230,6 +246,7 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 // Tittar om bilden är delbar med vald LASCA area
 void LSIProjectGUI::on_LASCAarea_valueChanged() {
 	//Tömmer error labeln
+	should_i_run = false;
 	ui.error_LASCA_label->setText("");
 	int LASCA = ui.LASCAarea->value();
 	if(LASCA > 0 ){
@@ -241,9 +258,18 @@ void LSIProjectGUI::on_LASCAarea_valueChanged() {
 		if (h % LASCA != 0 && w % LASCA != 0) {
 			ui.error_LASCA_label->setText("Change to a value that the image is divadible by!");
 		}
+		else { lasca_area = LASCA; should_i_run = true; }
 	}
 	else
 	{
 		ui.error_LASCA_label->setText("Choose a non-zero value!");
 	}
+}
+
+
+void LSIProjectGUI::on_exposuretime_valueChanged()
+{
+	int t = ui.exposuretime->value();
+	ui.error_LASCA_label->setText(Width_string);
+	set_exposure(t);
 }

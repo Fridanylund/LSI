@@ -328,6 +328,9 @@ border-color: rgb(34, 34, 34);</string>
        <string notr="true">background-color: rgb(17, 132, 255);
 border-color: rgb(56, 56, 56);</string>
       </property>
+      <property name="value">
+       <number>5</number>
+      </property>
      </widget>
      <widget class="QLabel" name="LASCA_label">
       <property name="geometry">
@@ -361,7 +364,7 @@ border-color: rgb(56, 56, 56);</string>
        <string>Exposure time:</string>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="exposuretime">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -381,6 +384,15 @@ border-color: rgb(56, 56, 56);</string>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(17, 132, 255);
 border-color: rgb(56, 56, 56);</string>
+      </property>
+      <property name="decimals">
+       <number>0</number>
+      </property>
+      <property name="minimum">
+       <double>1.000000000000000</double>
+      </property>
+      <property name="value">
+       <double>20.000000000000000</double>
       </property>
      </widget>
      <widget class="QLabel" name="error_LASCA_label">
