@@ -84,7 +84,10 @@ void LSIProjectGUI::update()
 		ui.videoLabel->setPixmap(Main_Image);
 
 		// vector for ROI colours
-		QVector<QColor> ROI_Colors{ QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+
+		//QString color_index_string = QString::number(color_index);
+		//ui.button_test->setText(color_index_string); // just to see color_index
 
 		for (int f = 0; f < List_Of_ROI.size(); f++)
 		{
@@ -126,23 +129,25 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 		int selectedROI = ui.listROI->currentRow();
 		ui.button_test->setText(QString::number(selectedROI));
 
-	List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI);
-	delete ui.listROI->takeItem(selectedROI);
-	// immediately after erasing, a new image should be loaded
-	//Declare a Property struct.
-	Property prop;
-	//Define the property to adjust.
-	prop.type = SHUTTER;
-	//Ensure the property is on.
-	prop.onOff = true;
-	//Ensure auto-adjust mode is off.
-	prop.autoManualMode = false;
-	//Ensure the property is set up to use absolute value control.
-	prop.absControl = true;
-	//Set the absolute value of shutter to X ms.
-	prop.absValue = 20;
-	//Set the property.
-	camera.SetProperty(&prop);
+		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); // maybe instead of deleting ROI, set Width and Height to 0 but obs: list.ROI and List_Of_ROI are not the same size any more
+		//List_Of_ROI(List_Of_ROI.begin() + selectedROI).Set_ROI_Region(vector<int>(0, 0));
+		delete ui.listROI->takeItem(selectedROI); 
+
+		
+		////Declare a Property struct.
+		//Property prop;
+		////Define the property to adjust.
+		//prop.type = SHUTTER;
+		////Ensure the property is on.
+		//prop.onOff = true;
+		////Ensure auto-adjust mode is off.
+		//prop.autoManualMode = false;
+		////Ensure the property is set up to use absolute value control.
+		//prop.absControl = true;
+		////Set the absolute value of shutter to X ms.
+		//prop.absValue = 20;
+		////Set the property.
+		//camera.SetProperty(&prop);
 
 		// program crashes if we remove ROI when nothing is selected
 		//ui.listROI->item(0)->setSelected(true); // sets first row to selected row by default (doesn't work)
@@ -193,6 +198,9 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 		// same color vector as in update function
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
 		
+		// color_index from 1 to ROI_Colors.size -> loops through ROI_Colours
+		//color_index = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor() = round down
+
 		// needs this manually for the first rectangle, otherwise it cannot be seen while it's drawn
 		if (List_Of_ROI.size() == 0)
 		{
@@ -206,7 +214,7 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 		}
 
 		// then loop for all other rectangles
-		for (int f = 1; f < List_Of_ROI.size() + 1; f++) // also has to be f+1 compared to update function because List_Of_ROI is still empty
+		for (int f = 1; f < List_Of_ROI.size() + 1; f++)
 		{
 			QPainter painter(&temp_Main_Image);
 			pen;  // creates a default pen
@@ -239,7 +247,7 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		QString Height_string = QString::number(ROI_Height);
 		ui.button_test->setText(Width_string + "<Width   Hight>" + Height_string); // just to check width and height of ROI
 
-																				   // Lägger in Nya ROI i listan i GUIt
+		// Lägger in Nya ROI i listan i GUIt
 		i++;
 		ui.listROI->addItem("ROI" + QString::number(i));
 

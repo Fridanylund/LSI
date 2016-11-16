@@ -59,6 +59,7 @@ private:
 	QPen pen;
 	QTimer *timer;
 	int i = 0;
+	int color_index;
 	int refresh_rate; //How often the update function will be called in mS
 	int exposure_time; //Exposure time in mS
 	int lasca_area;
