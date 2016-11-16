@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
-    QByteArrayData data[18];
-    char stringdata0[262];
+    QByteArrayData data[16];
+    char stringdata0[268];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,18 +36,6 @@ QT_MOC_LITERAL(2, 37, 0), // ""
 QT_MOC_LITERAL(3, 38, 21), // "on_stopButton_clicked"
 QT_MOC_LITERAL(4, 60, 26), // "on_createROIButton_clicked"
 QT_MOC_LITERAL(5, 87, 26), // "on_removeROIButton_clicked"
-QT_MOC_LITERAL(6, 114, 24), // "on_listROI_selectedItems"
-QT_MOC_LITERAL(7, 139, 16), // "QListWidgetItem*"
-QT_MOC_LITERAL(8, 156, 4), // "item"
-QT_MOC_LITERAL(9, 161, 15), // "mousePressEvent"
-QT_MOC_LITERAL(10, 177, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(11, 190, 5), // "event"
-QT_MOC_LITERAL(12, 196, 14), // "mouseMoveEvent"
-QT_MOC_LITERAL(13, 211, 17), // "mouseReleaseEvent"
-QT_MOC_LITERAL(14, 229, 6), // "update"
-QT_MOC_LITERAL(15, 236, 8), // "makePlot"
-QT_MOC_LITERAL(16, 245, 14), // "QVector<qreal>"
-QT_MOC_LITERAL(17, 260, 1) // "a"
 QT_MOC_LITERAL(6, 114, 15), // "mousePressEvent"
 QT_MOC_LITERAL(7, 130, 12), // "QMouseEvent*"
 QT_MOC_LITERAL(8, 143, 5), // "event"
@@ -55,22 +43,20 @@ QT_MOC_LITERAL(9, 149, 14), // "mouseMoveEvent"
 QT_MOC_LITERAL(10, 164, 17), // "mouseReleaseEvent"
 QT_MOC_LITERAL(11, 182, 6), // "update"
 QT_MOC_LITERAL(12, 189, 25), // "on_LASCAarea_valueChanged"
-QT_MOC_LITERAL(13, 215, 28) // "on_exposuretime_valueChanged"
+QT_MOC_LITERAL(13, 215, 28), // "on_exposuretime_valueChanged"
+QT_MOC_LITERAL(14, 244, 8), // "makePlot"
+QT_MOC_LITERAL(15, 253, 14) // "QVector<qreal>"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
     "\0on_stopButton_clicked\0"
     "on_createROIButton_clicked\0"
-    "on_removeROIButton_clicked\0"
-    "on_listROI_selectedItems\0QListWidgetItem*\0"
-    "item\0mousePressEvent\0QMouseEvent*\0"
-    "event\0mouseMoveEvent\0mouseReleaseEvent\0"
-    "update\0makePlot\0QVector<qreal>\0a"
     "on_removeROIButton_clicked\0mousePressEvent\0"
     "QMouseEvent*\0event\0mouseMoveEvent\0"
     "mouseReleaseEvent\0update\0"
     "on_LASCAarea_valueChanged\0"
-    "on_exposuretime_valueChanged"
+    "on_exposuretime_valueChanged\0makePlot\0"
+    "QVector<qreal>"
 };
 #undef QT_MOC_LITERAL
 
@@ -80,7 +66,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -88,26 +74,17 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x0a /* Public */,
-       3,    0,   65,    2, 0x0a /* Public */,
-       4,    0,   66,    2, 0x0a /* Public */,
-       5,    0,   67,    2, 0x0a /* Public */,
-       6,    1,   68,    2, 0x0a /* Public */,
-       9,    1,   71,    2, 0x0a /* Public */,
-      10,    1,   74,    2, 0x0a /* Public */,
-      11,    0,   77,    2, 0x0a /* Public */,
-      12,    0,   78,    2, 0x0a /* Public */,
-      13,    0,   79,    2, 0x0a /* Public */,
-       1,    0,   64,    2, 0x0a /* Public */,
-       3,    0,   65,    2, 0x0a /* Public */,
-       4,    0,   66,    2, 0x0a /* Public */,
-       5,    0,   67,    2, 0x0a /* Public */,
-       6,    1,   68,    2, 0x0a /* Public */,
-       9,    1,   71,    2, 0x0a /* Public */,
-      12,    1,   74,    2, 0x0a /* Public */,
-      13,    1,   77,    2, 0x0a /* Public */,
-      14,    0,   80,    2, 0x0a /* Public */,
-      15,    1,   81,    2, 0x0a /* Public */,
+       1,    0,   69,    2, 0x0a /* Public */,
+       3,    0,   70,    2, 0x0a /* Public */,
+       4,    0,   71,    2, 0x0a /* Public */,
+       5,    0,   72,    2, 0x0a /* Public */,
+       6,    1,   73,    2, 0x0a /* Public */,
+       9,    1,   76,    2, 0x0a /* Public */,
+      10,    1,   79,    2, 0x0a /* Public */,
+      11,    0,   82,    2, 0x0a /* Public */,
+      12,    0,   83,    2, 0x0a /* Public */,
+      13,    0,   84,    2, 0x0a /* Public */,
+      14,    1,   85,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -120,7 +97,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 16,   17,
+    QMetaType::Void, 0x80000000 | 15,    2,
 
        0        // eod
 };
@@ -141,18 +118,13 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 7: _t->update(); break;
         case 8: _t->on_LASCAarea_valueChanged(); break;
         case 9: _t->on_exposuretime_valueChanged(); break;
-        case 4: _t->on_listROI_selectedItems((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
-        case 5: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 6: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 7: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 8: _t->update(); break;
-        case 9: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
+        case 10: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 9:
+        case 10:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -188,16 +160,13 @@ int LSIProjectGUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

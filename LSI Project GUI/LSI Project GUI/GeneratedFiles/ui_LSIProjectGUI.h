@@ -201,9 +201,9 @@ public:
         error_LASCA_label->setGeometry(QRect(20, 120, 261, 51));
         error_LASCA_label->setStyleSheet(QStringLiteral("color: rgb(186, 1, 35);"));
         settings_patientInfo->addTab(settings, QString());
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(40, 440, 431, 161));
+        customPlot = new QCustomPlot(centralWidget);
+        customPlot->setObjectName(QStringLiteral("customPlot"));
+        customPlot->setGeometry(QRect(130, 490, 431, 161));
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
         scrollArea_2->setGeometry(QRect(830, 450, 141, 121));
