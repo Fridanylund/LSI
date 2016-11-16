@@ -9,6 +9,7 @@
 #include "../../LSIProjectGUI.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/QVector>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'LSIProjectGUI.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
@@ -19,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
-    QByteArrayData data[15];
-    char stringdata0[236];
+    QByteArrayData data[18];
+    char stringdata0[262];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,7 +44,10 @@ QT_MOC_LITERAL(10, 177, 12), // "QMouseEvent*"
 QT_MOC_LITERAL(11, 190, 5), // "event"
 QT_MOC_LITERAL(12, 196, 14), // "mouseMoveEvent"
 QT_MOC_LITERAL(13, 211, 17), // "mouseReleaseEvent"
-QT_MOC_LITERAL(14, 229, 6) // "update"
+QT_MOC_LITERAL(14, 229, 6), // "update"
+QT_MOC_LITERAL(15, 236, 8), // "makePlot"
+QT_MOC_LITERAL(16, 245, 14), // "QVector<qreal>"
+QT_MOC_LITERAL(17, 260, 1) // "a"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
@@ -53,7 +57,7 @@ QT_MOC_LITERAL(14, 229, 6) // "update"
     "on_listROI_selectedItems\0QListWidgetItem*\0"
     "item\0mousePressEvent\0QMouseEvent*\0"
     "event\0mouseMoveEvent\0mouseReleaseEvent\0"
-    "update"
+    "update\0makePlot\0QVector<qreal>\0a"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,7 +67,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,15 +75,16 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x0a /* Public */,
-       3,    0,   60,    2, 0x0a /* Public */,
-       4,    0,   61,    2, 0x0a /* Public */,
-       5,    0,   62,    2, 0x0a /* Public */,
-       6,    1,   63,    2, 0x0a /* Public */,
-       9,    1,   66,    2, 0x0a /* Public */,
-      12,    1,   69,    2, 0x0a /* Public */,
-      13,    1,   72,    2, 0x0a /* Public */,
-      14,    0,   75,    2, 0x0a /* Public */,
+       1,    0,   64,    2, 0x0a /* Public */,
+       3,    0,   65,    2, 0x0a /* Public */,
+       4,    0,   66,    2, 0x0a /* Public */,
+       5,    0,   67,    2, 0x0a /* Public */,
+       6,    1,   68,    2, 0x0a /* Public */,
+       9,    1,   71,    2, 0x0a /* Public */,
+      12,    1,   74,    2, 0x0a /* Public */,
+      13,    1,   77,    2, 0x0a /* Public */,
+      14,    0,   80,    2, 0x0a /* Public */,
+      15,    1,   81,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -91,6 +96,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
     QMetaType::Void, 0x80000000 | 10,   11,
     QMetaType::Void, 0x80000000 | 10,   11,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 16,   17,
 
        0        // eod
 };
@@ -110,7 +116,19 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 6: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 7: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 8: _t->update(); break;
+        case 9: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 9:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QVector<qreal> >(); break;
+            }
+            break;
         }
     }
 }
@@ -140,13 +158,13 @@ int LSIProjectGUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        if (_id < 10)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 10;
     }
     return _id;
 }

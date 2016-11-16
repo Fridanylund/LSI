@@ -4,6 +4,7 @@
 #include "ui_LSIProjectGUI.h"
 #include "FrameClass.h"
 #include "ROIclass.h"
+//#undef max
 //
 #include <QRubberBand>
 #include <QWidget>
@@ -16,6 +17,7 @@
 #include <iostream>
 #include <QTimer>
 #include <FlyCapture2.h>
+#include <QVector>
 using namespace std;
 using namespace FlyCapture2;
 using namespace cv;
@@ -35,6 +37,10 @@ public:
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
+	QVector<qreal> b;
+	int graph_update;
+	int x_min;
+	int x_max;
 	
 private:
     Ui::LSIProjectGUIClass ui;
@@ -72,5 +78,7 @@ public slots:
 	void update();
 	//
 	//Real time hanterarn
+public slots:
+	void makePlot(QVector<qreal> a);
 	
 };

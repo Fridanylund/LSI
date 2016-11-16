@@ -1,4 +1,7 @@
 #include "LSIProjectGUI.h"
+#include "qcustomplot.h"
+#include "LSIProjectGUI.h"
+
 
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
@@ -13,6 +16,16 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	//For webcam
 	VideoCapture temp(0);
 	webcam = temp;
+	//LSIProjectGUI::makePlot();
+	graph_update=0;
+	x_min = -1;
+	x_max = 5;
+	
+	// give the axes some labels:
+	ui.customPlot->xAxis->setLabel("Time");
+	ui.customPlot->yAxis->setLabel("Mean Contrast");
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+	ui.customPlot->yAxis->setRange(0, 20);
 
 }
 
@@ -41,6 +54,13 @@ void LSIProjectGUI::update()
 		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
 		ui.videoLabel->setPixmap(Main_Image);
 	}
+	graph_update++;
+	if (graph_update == 5) {
+		b.append(b.count());
+		makePlot(b);
+		graph_update = 0;
+	}
+	
 
 }
 
@@ -179,5 +199,27 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 void LSIProjectGUI::on_listROI_selectedItems(QListWidgetItem * item) {
 	
 	item->setBackground(Qt::darkRed);
+
+}
+
+void LSIProjectGUI::makePlot(QVector<qreal> a)
+{
+	// generate some data:
+	QVector<qreal> x(a.count()); 
+	for (int i = 0; i<a.count(); ++i)
+	{
+		x[i] = i; 
+	}
+	ui.customPlot->addGraph();
+	//ui.customPlot->graph(0)->addData(0, 10);
+	ui.customPlot->graph(0)->setData(x, a);
+	ui.customPlot->replot();
+	
+	/*if (a.count() <= 5 ) {
+		x_min++;
+		x_max++;
+	}*/
+		
+	ui.customPlot->xAxis->setRange(x_min, x_max);
 
 }
