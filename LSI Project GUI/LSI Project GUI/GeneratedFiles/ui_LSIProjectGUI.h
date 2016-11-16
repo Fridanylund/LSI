@@ -177,6 +177,7 @@ public:
         LASCAarea->setFont(font2);
         LASCAarea->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
 "border-color: rgb(56, 56, 56);"));
+        LASCAarea->setValue(5);
         LASCA_label = new QLabel(settings);
         LASCA_label->setObjectName(QStringLiteral("LASCA_label"));
         LASCA_label->setGeometry(QRect(30, 70, 91, 21));
@@ -191,6 +192,9 @@ public:
         exposuretime->setFont(font2);
         exposuretime->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
 "border-color: rgb(56, 56, 56);"));
+        exposuretime->setDecimals(0);
+        exposuretime->setMinimum(1);
+        exposuretime->setValue(20);
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
         error_LASCA_label->setGeometry(QRect(20, 120, 261, 51));
