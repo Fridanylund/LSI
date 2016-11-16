@@ -4,7 +4,6 @@
 #include "ui_LSIProjectGUI.h"
 #include "FrameClass.h"
 #include "ROIclass.h"
-#include "Free-Functions.h"
 //
 #include <QColor>
 #include <QWidget>
@@ -17,6 +16,7 @@
 #include <opencv/cv.h>
 #include <iostream>
 #include <FlyCapture2.h>
+#include <QVector>
 using namespace std;
 using namespace FlyCapture2;
 using namespace cv;
@@ -36,9 +36,7 @@ public:
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
-
-	void set_exposure(int time);
-
+	
 private:
 	Ui::LSIProjectGUIClass ui;
 	vector<ROI> List_Of_ROI;
@@ -64,6 +62,11 @@ private:
 	int exposure_time; //Exposure time in mS
 	int lasca_area;
 	bool should_i_run;
+	int x_max;
+	int x_min;
+	int graph_update;
+	void set_exposure(int);
+	QVector<qreal> b;
 	//
 
 	public slots:
@@ -80,5 +83,6 @@ private:
 	void on_LASCAarea_valueChanged();
 	void on_exposuretime_valueChanged();
 	//Real time hanterarn
-
+	private slots:
+		void makePlot(QVector<qreal>);
 };

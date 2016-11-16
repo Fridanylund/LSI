@@ -1,4 +1,7 @@
 #include "LSIProjectGUI.h"
+#include "qcustomplot.h"
+#include "LSIProjectGUI.h"
+
 
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
@@ -17,6 +20,17 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	VideoCapture temp(0);
 	webcam = temp;
 	should_i_run = true;
+
+	//LSIProjectGUI::makePlot();
+	graph_update=0;
+	x_min = -1;
+	x_max = 5;
+	
+	// give the axes some labels:
+	ui.customPlot->xAxis->setLabel("Time");
+	ui.customPlot->yAxis->setLabel("Mean Contrast");
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+	ui.customPlot->yAxis->setRange(0, 20);
 
 	//Declare a Property struct.
 	Property prop;
@@ -107,6 +121,21 @@ void LSIProjectGUI::update()
 	//Fel att ta in frame objekt nu...
 
 	//vector<double> averageROI = Calc_ROI_Average(Main_Image, List_Of_ROI);
+	if (Is_ROI_Button_Is_Pressed)
+	{
+		QPainter painter(&Main_Image);
+		painter.setPen(pen); //sets pen settings from above to painter
+		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+		ui.videoLabel->setPixmap(Main_Image);
+	}
+	graph_update++;
+	if (graph_update == 5) {
+		b.append(b.count());
+		makePlot(b);
+		graph_update = 0;
+	}
+	
+
 }
 
 
@@ -312,4 +341,26 @@ void LSIProjectGUI::on_exposuretime_valueChanged()
 	int t = ui.exposuretime->value();
 	//ui.error_LASCA_label->setText(Width_string);
 	set_exposure(t);
+}
+
+void LSIProjectGUI::makePlot(QVector<qreal> a)
+{
+	// generate some data:
+	QVector<qreal> x(a.count()); 
+	for (int i = 0; i<a.count(); ++i)
+	{
+		x[i] = i; 
+	}
+	ui.customPlot->addGraph();
+	//ui.customPlot->graph(0)->addData(0, 10);
+	ui.customPlot->graph(0)->setData(x, a);
+	ui.customPlot->replot();
+	
+	/*if (a.count() <= 5 ) {
+		x_min++;
+		x_max++;
+	}*/
+		
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+
 }
