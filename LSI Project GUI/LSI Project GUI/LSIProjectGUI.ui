@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>921</width>
-    <height>680</height>
+    <width>1252</width>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,8 +33,8 @@
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>90</y>
+      <x>830</x>
+      <y>110</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -59,8 +59,8 @@ background-color: rgb(150, 223, 111);</string>
    <widget class="QPushButton" name="stopButton">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>160</y>
+      <x>830</x>
+      <y>190</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -76,8 +76,8 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QPushButton" name="createROIButton">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>230</y>
+      <x>830</x>
+      <y>260</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -93,8 +93,8 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QPushButton" name="removeROIButton">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>310</y>
+      <x>830</x>
+      <y>340</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -110,10 +110,10 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QLabel" name="videoLabel">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>451</width>
-      <height>381</height>
+      <x>10</x>
+      <y>0</y>
+      <width>640</width>
+      <height>480</height>
      </rect>
     </property>
     <property name="text">
@@ -123,9 +123,9 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QTabWidget" name="settings_patientInfo">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>10</y>
-      <width>291</width>
+      <x>1010</x>
+      <y>30</y>
+      <width>231</width>
       <height>631</height>
      </rect>
     </property>
@@ -328,6 +328,9 @@ border-color: rgb(34, 34, 34);</string>
        <string notr="true">background-color: rgb(17, 132, 255);
 border-color: rgb(56, 56, 56);</string>
       </property>
+      <property name="value">
+       <number>5</number>
+      </property>
      </widget>
      <widget class="QLabel" name="LASCA_label">
       <property name="geometry">
@@ -361,7 +364,7 @@ border-color: rgb(56, 56, 56);</string>
        <string>Exposure time:</string>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="exposuretime">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -381,6 +384,15 @@ border-color: rgb(56, 56, 56);</string>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(17, 132, 255);
 border-color: rgb(56, 56, 56);</string>
+      </property>
+      <property name="decimals">
+       <number>0</number>
+      </property>
+      <property name="minimum">
+       <double>1.000000000000000</double>
+      </property>
+      <property name="value">
+       <double>20.000000000000000</double>
       </property>
      </widget>
      <widget class="QLabel" name="error_LASCA_label">
@@ -404,8 +416,8 @@ border-color: rgb(56, 56, 56);</string>
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>440</y>
+      <x>130</x>
+      <y>490</y>
       <width>431</width>
       <height>161</height>
      </rect>
@@ -414,11 +426,14 @@ border-color: rgb(56, 56, 56);</string>
    <widget class="QScrollArea" name="scrollArea_2">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>390</y>
+      <x>830</x>
+      <y>450</y>
       <width>141</width>
       <height>121</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(71, 71, 71);</string>
     </property>
     <property name="widgetResizable">
      <bool>true</bool>
@@ -447,27 +462,36 @@ border-color: rgb(56, 56, 56);</string>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>189</red>
+            <green>189</green>
+            <blue>189</blue>
            </color>
           </brush>
          </colorrole>
@@ -476,27 +500,36 @@ border-color: rgb(56, 56, 56);</string>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>189</red>
+            <green>189</green>
+            <blue>189</blue>
            </color>
           </brush>
          </colorrole>
@@ -505,32 +538,44 @@ border-color: rgb(56, 56, 56);</string>
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
-            <blue>255</blue>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>17</red>
-            <green>132</green>
+            <red>197</red>
+            <green>197</green>
+            <blue>197</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Highlight">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>51</red>
+            <green>153</green>
             <blue>255</blue>
            </color>
           </brush>
          </colorrole>
         </disabled>
        </palette>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 197, 197);</string>
       </property>
       <property name="editTriggers">
        <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
@@ -556,7 +601,7 @@ border-color: rgb(56, 56, 56);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>921</width>
+     <width>1252</width>
      <height>21</height>
     </rect>
    </property>

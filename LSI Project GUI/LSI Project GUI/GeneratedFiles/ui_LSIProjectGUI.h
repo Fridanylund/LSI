@@ -27,7 +27,6 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
-#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -57,9 +56,9 @@ public:
     QSpinBox *LASCAarea;
     QLabel *LASCA_label;
     QLabel *exposure_label;
-    QDoubleSpinBox *doubleSpinBox;
+    QDoubleSpinBox *exposuretime;
     QLabel *error_LASCA_label;
-    QCustomPlot *customPlot;
+    QWidget *widget;
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
@@ -70,7 +69,7 @@ public:
     {
         if (LSIProjectGUIClass->objectName().isEmpty())
             LSIProjectGUIClass->setObjectName(QStringLiteral("LSIProjectGUIClass"));
-        LSIProjectGUIClass->resize(921, 680);
+        LSIProjectGUIClass->resize(1252, 704);
         centralWidget = new QWidget(LSIProjectGUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
@@ -79,7 +78,7 @@ public:
         button_test->setGeometry(QRect(490, 30, 121, 41));
         startButton = new QPushButton(centralWidget);
         startButton->setObjectName(QStringLiteral("startButton"));
-        startButton->setGeometry(QRect(490, 90, 141, 61));
+        startButton->setGeometry(QRect(830, 110, 141, 61));
         QFont font;
         font.setFamily(QStringLiteral("Segoe UI Light"));
         font.setPointSize(11);
@@ -91,25 +90,25 @@ public:
 "background-color: rgb(150, 223, 111);"));
         stopButton = new QPushButton(centralWidget);
         stopButton->setObjectName(QStringLiteral("stopButton"));
-        stopButton->setGeometry(QRect(490, 160, 141, 61));
+        stopButton->setGeometry(QRect(830, 190, 141, 61));
         stopButton->setStyleSheet(QLatin1String("background-color: rgb(255, 137, 58);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         createROIButton = new QPushButton(centralWidget);
         createROIButton->setObjectName(QStringLiteral("createROIButton"));
-        createROIButton->setGeometry(QRect(490, 230, 141, 61));
+        createROIButton->setGeometry(QRect(830, 260, 141, 61));
         createROIButton->setStyleSheet(QLatin1String("background-color: rgb(170, 85, 127);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         removeROIButton = new QPushButton(centralWidget);
         removeROIButton->setObjectName(QStringLiteral("removeROIButton"));
-        removeROIButton->setGeometry(QRect(490, 310, 141, 61));
+        removeROIButton->setGeometry(QRect(830, 340, 141, 61));
         removeROIButton->setStyleSheet(QLatin1String("background-color: rgb(255, 170, 255);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         videoLabel = new QLabel(centralWidget);
         videoLabel->setObjectName(QStringLiteral("videoLabel"));
-        videoLabel->setGeometry(QRect(30, 20, 451, 381));
+        videoLabel->setGeometry(QRect(10, 0, 640, 480));
         settings_patientInfo = new QTabWidget(centralWidget);
         settings_patientInfo->setObjectName(QStringLiteral("settings_patientInfo"));
-        settings_patientInfo->setGeometry(QRect(640, 10, 291, 631));
+        settings_patientInfo->setGeometry(QRect(1010, 30, 231, 631));
         QFont font1;
         font1.setFamily(QStringLiteral("Segoe UI Light"));
         font1.setPointSize(14);
@@ -178,6 +177,7 @@ public:
         LASCAarea->setFont(font2);
         LASCAarea->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
 "border-color: rgb(56, 56, 56);"));
+        LASCAarea->setValue(5);
         LASCA_label = new QLabel(settings);
         LASCA_label->setObjectName(QStringLiteral("LASCA_label"));
         LASCA_label->setGeometry(QRect(30, 70, 91, 21));
@@ -186,23 +186,27 @@ public:
         exposure_label->setObjectName(QStringLiteral("exposure_label"));
         exposure_label->setGeometry(QRect(20, 190, 111, 21));
         exposure_label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
-        doubleSpinBox = new QDoubleSpinBox(settings);
-        doubleSpinBox->setObjectName(QStringLiteral("doubleSpinBox"));
-        doubleSpinBox->setGeometry(QRect(140, 180, 71, 51));
-        doubleSpinBox->setFont(font2);
-        doubleSpinBox->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
+        exposuretime = new QDoubleSpinBox(settings);
+        exposuretime->setObjectName(QStringLiteral("exposuretime"));
+        exposuretime->setGeometry(QRect(140, 180, 71, 51));
+        exposuretime->setFont(font2);
+        exposuretime->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
 "border-color: rgb(56, 56, 56);"));
+        exposuretime->setDecimals(0);
+        exposuretime->setMinimum(1);
+        exposuretime->setValue(20);
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
         error_LASCA_label->setGeometry(QRect(20, 120, 261, 51));
         error_LASCA_label->setStyleSheet(QStringLiteral("color: rgb(186, 1, 35);"));
         settings_patientInfo->addTab(settings, QString());
-        customPlot = new QCustomPlot(centralWidget);
-        customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(40, 440, 431, 161));
+        widget = new QWidget(centralWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(130, 490, 431, 161));
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
-        scrollArea_2->setGeometry(QRect(490, 390, 141, 121));
+        scrollArea_2->setGeometry(QRect(830, 450, 141, 121));
+        scrollArea_2->setStyleSheet(QStringLiteral("background-color: rgb(71, 71, 71);"));
         scrollArea_2->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
@@ -211,18 +215,26 @@ public:
         listROI->setObjectName(QStringLiteral("listROI"));
         listROI->setGeometry(QRect(10, 10, 121, 101));
         QPalette palette;
-        QBrush brush(QColor(17, 132, 255, 255));
+        QBrush brush(QColor(197, 197, 197, 255));
         brush.setStyle(Qt::SolidPattern);
         palette.setBrush(QPalette::Active, QPalette::Button, brush);
         palette.setBrush(QPalette::Active, QPalette::Base, brush);
         palette.setBrush(QPalette::Active, QPalette::Window, brush);
+        QBrush brush1(QColor(189, 189, 189, 255));
+        brush1.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Highlight, brush1);
         palette.setBrush(QPalette::Inactive, QPalette::Button, brush);
         palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
         palette.setBrush(QPalette::Inactive, QPalette::Window, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Highlight, brush1);
         palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
         palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush);
+        QBrush brush2(QColor(51, 153, 255, 255));
+        brush2.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         listROI->setPalette(palette);
+        listROI->setStyleSheet(QStringLiteral("background-color: rgb(197, 197, 197);"));
         listROI->setEditTriggers(QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked);
         listROI->setAlternatingRowColors(true);
         listROI->setSelectionRectVisible(true);
@@ -231,7 +243,7 @@ public:
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 921, 21));
+        menuBar->setGeometry(QRect(0, 0, 1252, 21));
         LSIProjectGUIClass->setMenuBar(menuBar);
         statusBar = new QStatusBar(LSIProjectGUIClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
