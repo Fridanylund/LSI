@@ -68,23 +68,36 @@ void LSIProjectGUI::update()
 		webcam >> Main_Image_CV;
 		webcam >> Main_Image_CV;
 
+		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
+		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
+
+		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
+
+		//Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
+
+		//Main_Image_CV = one_minus_kontrast(Main_Image_CV);
+
+		//Main_Image_CV = kontrast_squared(Main_Image_CV);
+
+
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
-	// vector for ROI colours
-	QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen")};
-	
-	for (int f = 0; f < List_Of_ROI.size(); f++) 
-	{
-		QPainter painter(&Main_Image);
-		pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
-		painter.setPen(pen); //sets pen settings from above to painter
-		int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
-		int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
-		int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
-		int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
-		painter.drawRect(x, y, ROI_w, ROI_h);
-		ui.videoLabel->setPixmap(Main_Image);
+		// vector for ROI colours
+		QVector<QColor> ROI_Colors{ QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+
+		for (int f = 0; f < List_Of_ROI.size(); f++)
+		{
+			QPainter painter(&Main_Image);
+			pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
+			painter.setPen(pen); //sets pen settings from above to painter
+			int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
+			int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
+			int ROI_w = List_Of_ROI.at(f).Get_ROI_Region().at(0);
+			int ROI_h = List_Of_ROI.at(f).Get_ROI_Region().at(1);
+			painter.drawRect(x, y, ROI_w, ROI_h);
+			ui.videoLabel->setPixmap(Main_Image);
+		}
 	}
 	//Fel att ta in frame objekt nu...
 
