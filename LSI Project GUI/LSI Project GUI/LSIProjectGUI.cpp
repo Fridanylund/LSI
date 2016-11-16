@@ -71,6 +71,8 @@ void LSIProjectGUI::update()
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
 
+		Main_Image_CV = Main_Image_CV / 255;
+
 		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
 
 		//Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
