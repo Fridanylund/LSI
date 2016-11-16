@@ -27,6 +27,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -58,7 +59,7 @@ public:
     QLabel *exposure_label;
     QDoubleSpinBox *exposuretime;
     QLabel *error_LASCA_label;
-    QWidget *widget;
+    QCustomPlot *customPlot;
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
@@ -202,7 +203,7 @@ public:
         settings_patientInfo->addTab(settings, QString());
         widget = new QWidget(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(130, 490, 431, 161));
+        widget->setGeometry(QRect(40, 440, 431, 161));
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
         scrollArea_2->setGeometry(QRect(830, 450, 141, 121));
