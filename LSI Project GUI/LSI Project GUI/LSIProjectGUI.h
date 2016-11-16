@@ -60,6 +60,7 @@ private:
 	QTimer *timer;
 	int i = 0;
 	int color_index;
+	//QVector<QColor> ROI_Colors; // would like to have it here but doesn't work
 	int refresh_rate; //How often the update function will be called in mS
 	int exposure_time; //Exposure time in mS
 	int lasca_area;

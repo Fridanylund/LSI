@@ -74,13 +74,11 @@ void LSIProjectGUI::update()
 		// vector for ROI colours
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
 
-		//QString color_index_string = QString::number(color_index);
-		//ui.button_test->setText(color_index_string); // just to see color_index
-
 		for (int f = 0; f < List_Of_ROI.size(); f++)
 		{
 			QPainter painter(&Main_Image);
-			pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
+			color_index = List_Of_ROI.at(f).ROI_Colour - 1;
+			pen.setBrush(ROI_Colors.at(color_index)); // sets new color for each ROI
 			painter.setPen(pen); //sets pen settings from above to painter
 			int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
 			int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
@@ -117,8 +115,7 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 		int selectedROI = ui.listROI->currentRow();
 		ui.button_test->setText(QString::number(selectedROI));
 
-		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); // maybe instead of deleting ROI, set Width and Height to 0 but obs: list.ROI and List_Of_ROI are not the same size any more
-		//List_Of_ROI(List_Of_ROI.begin() + selectedROI).Set_ROI_Region(vector<int>(0, 0));
+		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); 
 		delete ui.listROI->takeItem(selectedROI); 
 
 		
@@ -185,9 +182,6 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 
 		// same color vector as in update function
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
-		
-		// color_index from 1 to ROI_Colors.size -> loops through ROI_Colours
-		//color_index = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor() = round down
 
 		// needs this manually for the first rectangle, otherwise it cannot be seen while it's drawn
 		if (List_Of_ROI.size() == 0)
@@ -207,7 +201,8 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 			QPainter painter(&temp_Main_Image);
 			pen;  // creates a default pen
 			pen.setWidth(4);
-			pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
+			color_index = List_Of_ROI.at(f-1).ROI_Colour;
+			pen.setBrush(ROI_Colors.at(color_index)); // sets new color for each ROI
 			painter.setPen(pen); //sets pen settings to painter
 
 			painter.drawRect(QRect(Start_ROI_Coordinates, event->pos() - videoLabel_Coordinates));
@@ -242,6 +237,13 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		// skapar vektorer för att skapa nytt ROI object
 		vector<int> ROIlocation;
 		vector<int> ROIregion;
+		int ROIcolor;
+
+		// same color vector as in update function
+		QVector<QColor> ROI_Colors{ QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+		
+		// should give 1 to ROI_Colors.size() so we can loop through ROI_Colors vector but doesn't really work; crashes after last color
+		ROIcolor = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor = round down
 		//
 		ROIregion.push_back(abs(ROI_Width));
 		ROIregion.push_back(abs(ROI_Height));
@@ -263,7 +265,7 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 			ROIlocation.push_back(y_End_ROI_Coordinate);
 		}
 
-		ROI ROI(ROIlocation, ROIregion);
+		ROI ROI(ROIlocation, ROIregion, ROIcolor);
 		List_Of_ROI.push_back(ROI);
 	}
 	Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
