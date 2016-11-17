@@ -96,7 +96,7 @@ void LSIProjectGUI::update()
 		//Main_Image_CV = kontrast_squared(Main_Image_CV);
 
 		//imshow("ewa", Main_Image_CV);
-		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
+		//cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
