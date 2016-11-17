@@ -71,21 +71,29 @@ void LSIProjectGUI::update()
 {
 	if (should_i_run) {
 		// For BW camera
-		camera.Connect(0);
+		/*camera.Connect(0);
 		camera.StartCapture();
 		camera.RetrieveBuffer(&rawImage);
 
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
-		//CV_8UC3
-		//webcam >> Main_Image_CV;
-		//webcam >> Main_Image_CV;
+		*///CV_8UC3
+		webcam >> Main_Image_CV;
+		webcam >> Main_Image_CV;
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 
-		Main_Image_CV = Main_Image_CV;
+		Contrast_Images.push_back(Main_Image_CV);
+
+		if (Contrast_Images.size() >= 5)
+		{
+			Main_Image_CV = TemporalFiltering(Contrast_Images);
+			Contrast_Images.erase(Contrast_Images.begin());
+		}
+
+		//Main_Image_CV = Main_Image_CV;
 
 		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
 
