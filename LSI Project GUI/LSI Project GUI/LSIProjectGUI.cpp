@@ -4,6 +4,8 @@
 
 
 
+
+
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
