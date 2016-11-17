@@ -30,13 +30,15 @@ public:
 	LSIProjectGUI(QWidget *parent = Q_NULLPTR);
 	Frame Frame_Object;
 	QPixmap Main_Image;
+	Mat Raw_im;
+	Mat Raw_temp;
+	Mat Black_im;
 	QPixmap temp_Main_Image;
 	Mat Main_Image_CV;
 	Image rgbImage;
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
-	vector<cv::Mat> Contrast_Images;
 	
 private:
 	Ui::LSIProjectGUIClass ui;
@@ -59,7 +61,6 @@ private:
 	QTimer *timer;
 	int i = 0;
 	int color_index;
-	//QVector<QColor> ROI_Colors; // would like to have it here but doesn't work
 	int refresh_rate; //How often the update function will be called in mS
 	int exposure_time; //Exposure time in mS
 	int lasca_area;
@@ -76,6 +77,9 @@ private:
 	void on_stopButton_clicked();
 	void on_createROIButton_clicked();
 	void on_removeROIButton_clicked();
+	void on_Dark_Button_clicked();
+	void on_AmbL_Button_clicked();
+	void on_laserButton_clicked();
 	//
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);

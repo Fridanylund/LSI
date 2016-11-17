@@ -18,12 +18,10 @@ private:
 public:
 	void Set_ROI_Location(vector<int>);
 	void Set_ROI_Region(vector<int>);
-	int ROI_Colour;
 	vector<int> Get_ROI_Location();
 	vector<int> Get_ROI_Region();
 	Mat Set_ROI(Mat Perfusion_Image);
 
 	//Constructor
 	ROI(vector<int> ROI_Location, vector<int> ROI_Region);
-	ROI(vector<int> Location, vector<int> Region, int ROI_Colour);
 };

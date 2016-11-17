@@ -78,22 +78,23 @@ void LSIProjectGUI::update()
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+		
+		Raw_temp = Main_Image_CV; // Sparar en temporär orginalbild ifa vi tar en ambient light bild eller svarta bilder
+		
+	/*	if(Raw_im.data == 0) {
+			Raw_im = Raw_temp;
+		}
+
+		Main_Image_CV = Main_Image_CV - Raw_im;*/
+								  
 		//CV_8UC3
-		/*webcam >> Main_Image_CV;
-		webcam >> Main_Image_CV;*/
+		//webcam >> Main_Image_CV;
+		//webcam >> Main_Image_CV;
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 
-		Contrast_Images.push_back(Main_Image_CV);
-
-		if (Contrast_Images.size() >= 5)
-		{
-			Main_Image_CV = TemporalFiltering(Contrast_Images);
-			Contrast_Images.erase(Contrast_Images.begin());
-		}
-
-		//Main_Image_CV = Main_Image_CV;
+		Main_Image_CV = Main_Image_CV;
 
 		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
 
@@ -111,11 +112,13 @@ void LSIProjectGUI::update()
 		// vector for ROI colours
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
 
+		//QString color_index_string = QString::number(color_index);
+		//ui.button_test->setText(color_index_string); // just to see color_index
+
 		for (int f = 0; f < List_Of_ROI.size(); f++)
 		{
 			QPainter painter(&Main_Image);
-			color_index = List_Of_ROI.at(f).ROI_Colour - 1;
-			pen.setBrush(ROI_Colors.at(color_index)); // sets new color for each ROI
+			pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
 			painter.setPen(pen); //sets pen settings from above to painter
 			int x = List_Of_ROI.at(f).Get_ROI_Location().at(0);
 			int y = List_Of_ROI.at(f).Get_ROI_Location().at(1);
@@ -167,7 +170,8 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 		int selectedROI = ui.listROI->currentRow();
 		ui.button_test->setText(QString::number(selectedROI));
 
-		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); 
+		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); // maybe instead of deleting ROI, set Width and Height to 0 but obs: list.ROI and List_Of_ROI are not the same size any more
+		//List_Of_ROI(List_Of_ROI.begin() + selectedROI).Set_ROI_Region(vector<int>(0, 0));
 		delete ui.listROI->takeItem(selectedROI); 
 
 		
@@ -234,6 +238,9 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 
 		// same color vector as in update function
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+		
+		// color_index from 1 to ROI_Colors.size -> loops through ROI_Colours
+		//color_index = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor() = round down
 
 		// needs this manually for the first rectangle, otherwise it cannot be seen while it's drawn
 		if (List_Of_ROI.size() == 0)
@@ -253,8 +260,7 @@ void LSIProjectGUI::mouseMoveEvent(QMouseEvent *event)
 			QPainter painter(&temp_Main_Image);
 			pen;  // creates a default pen
 			pen.setWidth(4);
-			color_index = List_Of_ROI.at(f-1).ROI_Colour;
-			pen.setBrush(ROI_Colors.at(color_index)); // sets new color for each ROI
+			pen.setBrush(ROI_Colors.at(f)); // sets new color for each ROI
 			painter.setPen(pen); //sets pen settings to painter
 
 			painter.drawRect(QRect(Start_ROI_Coordinates, event->pos() - videoLabel_Coordinates));
@@ -289,13 +295,6 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		// skapar vektorer för att skapa nytt ROI object
 		vector<int> ROIlocation;
 		vector<int> ROIregion;
-		int ROIcolor;
-
-		// same color vector as in update function
-		QVector<QColor> ROI_Colors{ QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
-		
-		// should give 1 to ROI_Colors.size() so we can loop through ROI_Colors vector but doesn't really work; crashes after last color
-		ROIcolor = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor = round down
 		//
 		ROIregion.push_back(abs(ROI_Width));
 		ROIregion.push_back(abs(ROI_Height));
@@ -317,7 +316,7 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 			ROIlocation.push_back(y_End_ROI_Coordinate);
 		}
 
-		ROI ROI(ROIlocation, ROIregion, ROIcolor);
+		ROI ROI(ROIlocation, ROIregion);
 		List_Of_ROI.push_back(ROI);
 	}
 	Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
@@ -363,15 +362,59 @@ void LSIProjectGUI::makePlot(QVector<qreal> a)
 		x[i] = i; 
 	}
 	ui.customPlot->addGraph();
+	//ui.customPlot->graph(0)->addData(0, 10);
 	ui.customPlot->graph(0)->setData(x, a);
 	ui.customPlot->replot();
-	ui.customPlot->xAxis->setRange(x_min, x_max);
-
-	if (a.count() >= 6 ) {
+	
+	/*if (a.count() <= 5 ) {
 		x_min++;
 		x_max++;
-	}
+	}*/
 		
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+
+}
+
+
+void LSIProjectGUI::on_AmbL_Button_clicked()
+{
+	ui.button_test->setText("Amb!");
+	if (should_i_run) {
+		Raw_im = Raw_temp;
+		imwrite("images//ambIm.png", Raw_im);
+		ui.button_test->setText("Amb im!");
+	}
+}
+
+void LSIProjectGUI::on_Dark_Button_clicked()
+{
+	ui.button_test->setText("Start dark!");
+	should_i_run = false;
+	timer->stop();
+	camera.Connect();
+	Mat temp_black;
+	camera.RetrieveBuffer(&rawImage);
+
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	temp_black = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes)/100;
 	
 
+	for (i = 1; i < 100; i++) {
+		camera.RetrieveBuffer(&rawImage);
+
+		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+		temp_black = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes)/100 + temp_black ;
+	}
+	Black_im = temp_black;
+	imwrite("images//morkerBild.png", Black_im);
+	should_i_run = true;
+	ui.button_test->setText("Klar mork!");
+}
+
+void LSIProjectGUI::on_laserButton_clicked()
+{
+	ui.button_test->setText("RUN! The laser is ON");
+	//Viktors kanpp
 }

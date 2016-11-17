@@ -38,12 +38,4 @@ ROI::ROI(vector<int> Location, vector<int> Region)
 {
 	ROI_Location = Location;
 	ROI_Region = Region;
-	ROI_Colour = 7;
-}
-
-ROI::ROI(vector<int> Location, vector<int> Region, int Colour)
-{
-	ROI_Colour = Colour;
-	ROI_Location = Location;
-	ROI_Region = Region;
 }

@@ -20,10 +20,10 @@
    <widget class="QLabel" name="button_test">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>780</x>
       <y>30</y>
-      <width>121</width>
-      <height>41</height>
+      <width>191</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -123,8 +123,8 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QTabWidget" name="settings_patientInfo">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>30</y>
+      <x>990</x>
+      <y>20</y>
       <width>231</width>
       <height>631</height>
      </rect>
@@ -411,6 +411,38 @@ border-color: rgb(56, 56, 56);</string>
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="AmbL_Button">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>340</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(64, 140, 255);</string>
+      </property>
+      <property name="text">
+       <string>Take Ambient light Image</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Dark_Button">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>410</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(64, 140, 255);</string>
+      </property>
+      <property name="text">
+       <string>Take Dark Images</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QCustomPlot" name="customPlot" native="true">
@@ -594,6 +626,22 @@ border-color: rgb(56, 56, 56);</string>
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="laserButton">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>590</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 71, 15);</string>
+    </property>
+    <property name="text">
+     <string>Turn on laser</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
