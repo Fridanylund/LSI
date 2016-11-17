@@ -122,9 +122,8 @@ cv::Mat TemporalFiltering(vector<cv::Mat> input)
 
 
 
-vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, vector<ROI> The_List_Of_ROIs) 
+vector<double> Calc_ROI_Average(cv::Mat Perfusion_Image, vector<ROI> The_List_Of_ROIs)
 {
-	Mat Perfusion_Image = Current_Working_Frame->Get_Perfusion_Image();
 	vector<double> ROI_Averages;
 
 	// Calculate the average of each ROI i in the vector.
