@@ -36,6 +36,7 @@ public:
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
+	vector<cv::Mat> Contrast_Images;
 	
 private:
 	Ui::LSIProjectGUIClass ui;
