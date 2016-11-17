@@ -25,5 +25,5 @@ public:
 
 	//Constructor
 	ROI(vector<int> ROI_Location, vector<int> ROI_Region);
-	ROI(vector<int> Location, vector<int> Region, int ROI_Colour);
+	ROI(vector<int> ROI_Location, vector<int> ROI_Region, int ROI_Colour);
 };

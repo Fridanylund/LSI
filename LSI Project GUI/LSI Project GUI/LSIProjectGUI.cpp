@@ -80,6 +80,15 @@ void LSIProjectGUI::update()
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+		
+		Raw_temp = Main_Image_CV; // Sparar en temporär orginalbild ifa vi tar en ambient light bild eller svarta bilder
+		
+	/*	if(Raw_im.data == 0) {
+			Raw_im = Raw_temp;
+		}
+
+		Main_Image_CV = Main_Image_CV - Raw_im;*/
+								  
 		//CV_8UC3
 		//webcam >> Main_Image_CV;
 		//webcam >> Main_Image_CV;
@@ -104,6 +113,9 @@ void LSIProjectGUI::update()
 
 		// vector for ROI colours
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
+
+		//QString color_index_string = QString::number(color_index);
+		//ui.button_test->setText(color_index_string); // just to see color_index
 
 		for (int f = 0; f < List_Of_ROI.size(); f++)
 		{
@@ -135,8 +147,6 @@ void LSIProjectGUI::update()
 		makePlot(b);
 		graph_update = 0;
 	}
-	
-
 }
 
 
@@ -157,7 +167,7 @@ void LSIProjectGUI::on_createROIButton_clicked()
 void LSIProjectGUI::on_removeROIButton_clicked()
 {
 	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
-	{
+	{		
 		int selectedROI = ui.listROI->currentRow();
 		ui.button_test->setText(QString::number(selectedROI));
 
@@ -180,8 +190,6 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 		////Set the property.
 		//camera.SetProperty(&prop);
 
-		// program crashes if we remove ROI when nothing is selected
-		//ui.listROI->item(0)->setSelected(true); // sets first row to selected row by default (doesn't work)
 	}
 }
 
@@ -313,6 +321,8 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 
 		ROI ROI(ROIlocation, ROIregion, ROIcolor);
 		List_Of_ROI.push_back(ROI);
+		// selects first row by default (program crashes if we remove ROI when nothing is selected)
+		ui.listROI->setCurrentRow(0);
 	}
 	Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
 }
@@ -357,15 +367,59 @@ void LSIProjectGUI::makePlot(QVector<qreal> a)
 		x[i] = i; 
 	}
 	ui.customPlot->addGraph();
-	//ui.customPlot->graph(0)->addData(0, 10);
 	ui.customPlot->graph(0)->setData(x, a);
 	ui.customPlot->replot();
-	
-	/*if (a.count() <= 5 ) {
-		x_min++;
-		x_max++;
-	}*/
-		
 	ui.customPlot->xAxis->setRange(x_min, x_max);
 
+	if (a.count() >= 6 ) {
+		x_min++;
+		x_max++;
+	}
+		
+	//ui.customPlot->xAxis->setRange(x_min, x_max);
+
+}
+
+
+void LSIProjectGUI::on_AmbL_Button_clicked()
+{
+	ui.button_test->setText("Amb!");
+	if (should_i_run) {
+		Raw_im = Raw_temp;
+		imwrite("images//ambIm.png", Raw_im);
+		ui.button_test->setText("Amb im!");
+	}
+}
+
+void LSIProjectGUI::on_Dark_Button_clicked()
+{
+	ui.button_test->setText("Start dark!");
+	should_i_run = false;
+	timer->stop();
+	camera.Connect();
+	Mat temp_black;
+	camera.RetrieveBuffer(&rawImage);
+
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	temp_black = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes)/100;
+	
+
+	for (i = 1; i < 100; i++) {
+		camera.RetrieveBuffer(&rawImage);
+
+		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+		temp_black = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes)/100 + temp_black ;
+	}
+	Black_im = temp_black;
+	imwrite("images//morkerBild.png", Black_im);
+	should_i_run = true;
+	ui.button_test->setText("Klar mork!");
+}
+
+void LSIProjectGUI::on_laserButton_clicked()
+{
+	ui.button_test->setText("RUN! The laser is ON");
+	//Viktors kanpp
 }

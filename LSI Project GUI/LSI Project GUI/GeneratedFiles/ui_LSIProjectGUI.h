@@ -59,10 +59,13 @@ public:
     QLabel *exposure_label;
     QDoubleSpinBox *exposuretime;
     QLabel *error_LASCA_label;
+    QPushButton *AmbL_Button;
+    QPushButton *Dark_Button;
     QCustomPlot *customPlot;
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
+    QPushButton *laserButton;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -76,7 +79,7 @@ public:
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
         button_test = new QLabel(centralWidget);
         button_test->setObjectName(QStringLiteral("button_test"));
-        button_test->setGeometry(QRect(490, 30, 121, 41));
+        button_test->setGeometry(QRect(780, 30, 191, 61));
         startButton = new QPushButton(centralWidget);
         startButton->setObjectName(QStringLiteral("startButton"));
         startButton->setGeometry(QRect(830, 110, 141, 61));
@@ -109,7 +112,7 @@ public:
         videoLabel->setGeometry(QRect(10, 0, 640, 480));
         settings_patientInfo = new QTabWidget(centralWidget);
         settings_patientInfo->setObjectName(QStringLiteral("settings_patientInfo"));
-        settings_patientInfo->setGeometry(QRect(1010, 30, 231, 631));
+        settings_patientInfo->setGeometry(QRect(990, 20, 231, 631));
         QFont font1;
         font1.setFamily(QStringLiteral("Segoe UI Light"));
         font1.setPointSize(14);
@@ -200,6 +203,14 @@ public:
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
         error_LASCA_label->setGeometry(QRect(20, 120, 261, 51));
         error_LASCA_label->setStyleSheet(QStringLiteral("color: rgb(186, 1, 35);"));
+        AmbL_Button = new QPushButton(settings);
+        AmbL_Button->setObjectName(QStringLiteral("AmbL_Button"));
+        AmbL_Button->setGeometry(QRect(30, 340, 171, 41));
+        AmbL_Button->setStyleSheet(QStringLiteral("background-color: rgb(64, 140, 255);"));
+        Dark_Button = new QPushButton(settings);
+        Dark_Button->setObjectName(QStringLiteral("Dark_Button"));
+        Dark_Button->setGeometry(QRect(30, 410, 171, 41));
+        Dark_Button->setStyleSheet(QStringLiteral("background-color: rgb(64, 140, 255);"));
         settings_patientInfo->addTab(settings, QString());
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
@@ -241,6 +252,10 @@ public:
         listROI->setSelectionRectVisible(true);
         listROI->setSortingEnabled(false);
         scrollArea_2->setWidget(scrollAreaWidgetContents_2);
+        laserButton = new QPushButton(centralWidget);
+        laserButton->setObjectName(QStringLiteral("laserButton"));
+        laserButton->setGeometry(QRect(830, 590, 141, 41));
+        laserButton->setStyleSheet(QStringLiteral("background-color: rgb(255, 71, 15);"));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -276,7 +291,10 @@ public:
         LASCA_label->setText(QApplication::translate("LSIProjectGUIClass", "LASCA area:", 0));
         exposure_label->setText(QApplication::translate("LSIProjectGUIClass", "Exposure time:", 0));
         error_LASCA_label->setText(QString());
+        AmbL_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Ambient light Image", 0));
+        Dark_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Dark Images", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(settings), QApplication::translate("LSIProjectGUIClass", "Settings", 0));
+        laserButton->setText(QApplication::translate("LSIProjectGUIClass", "Turn on laser", 0));
     } // retranslateUi
 
 };
