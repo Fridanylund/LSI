@@ -372,9 +372,9 @@ void LSIProjectGUI::makePlot(QVector<qreal> a)
 	if (a.count() >= 6 ) {
 		x_min++;
 		x_max++;
-	}*/
+	}
 		
-	ui.customPlot->xAxis->setRange(x_min, x_max);
+	//ui.customPlot->xAxis->setRange(x_min, x_max);
 
 }
 
