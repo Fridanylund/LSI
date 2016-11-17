@@ -71,16 +71,16 @@ void LSIProjectGUI::update()
 {
 	if (should_i_run) {
 		// For BW camera
-		camera.Connect(0);
-		camera.StartCapture();
-		camera.RetrieveBuffer(&rawImage);
+		//camera.Connect(0);
+		//camera.StartCapture();
+		//camera.RetrieveBuffer(&rawImage);
 
-		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+		//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		//unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+		//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 		//CV_8UC3
-		//webcam >> Main_Image_CV;
-		//webcam >> Main_Image_CV;
+		webcam >> Main_Image_CV;
+		webcam >> Main_Image_CV;
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
@@ -96,7 +96,7 @@ void LSIProjectGUI::update()
 		//Main_Image_CV = kontrast_squared(Main_Image_CV);
 
 		//imshow("ewa", Main_Image_CV);
-		//cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
+		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
@@ -133,8 +133,6 @@ void LSIProjectGUI::update()
 		makePlot(b);
 		graph_update = 0;
 	}
-	
-
 }
 
 
@@ -155,7 +153,7 @@ void LSIProjectGUI::on_createROIButton_clicked()
 void LSIProjectGUI::on_removeROIButton_clicked()
 {
 	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
-	{
+	{		
 		int selectedROI = ui.listROI->currentRow();
 		ui.button_test->setText(QString::number(selectedROI));
 
@@ -178,8 +176,6 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 		////Set the property.
 		//camera.SetProperty(&prop);
 
-		// program crashes if we remove ROI when nothing is selected
-		//ui.listROI->item(0)->setSelected(true); // sets first row to selected row by default (doesn't work)
 	}
 }
 
@@ -311,6 +307,8 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 
 		ROI ROI(ROIlocation, ROIregion, ROIcolor);
 		List_Of_ROI.push_back(ROI);
+		// selects first row by default (program crashes if we remove ROI when nothing is selected)
+		ui.listROI->setCurrentRow(0);
 	}
 	Is_ROI_Button_Is_Pressed = false; // only make one ROI at a time
 }
