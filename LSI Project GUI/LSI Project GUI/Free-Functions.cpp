@@ -156,19 +156,19 @@ void Real_Time_Main(LSIProjectGUI* The_GUI) {
 
 cv::Mat one_divided_by_kontrast(cv::Mat input)
 {
-	Mat temp = 1 / (input);
+	Mat temp = 255 / (input);
 	return temp;
 }
 
 cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
 {
-	Mat temp = 1 / (input ^ 2);
+	Mat temp = 255 / (input ^ 2);
 	return temp;
 }
 
 cv::Mat one_minus_kontrast(cv::Mat input)
 {
-	Mat temp = 1 - input;
+	Mat temp = 255 - input;
 	return temp;
 }
 

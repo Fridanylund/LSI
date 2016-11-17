@@ -32,19 +32,19 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ui.customPlot->xAxis->setRange(x_min, x_max);
 	ui.customPlot->yAxis->setRange(0, 20);
 
-	//Declare a Property struct.
-	Property prop;
-	//Define the property to adjust.
-	prop.type = GAIN;
-	//Ensure auto-adjust mode is off.
-	prop.autoManualMode = false;
-	//Ensure the property is set up to use absolute value control.
+	////Declare a Property struct.
+	//Property prop;
+	////Define the property to adjust.
+	//prop.type = GAIN;
+	////Ensure auto-adjust mode is off.
+	//prop.autoManualMode = false;
+	////Ensure the property is set up to use absolute value control.
 	//prop.absControl = true;
-	//Set the absolute value of gain to 10.5 dB.
+	////Set the absolute value of gain to 10.5 dB.
 	//prop.absValue = 10.5;
-	//Set the property.
-	camera.SetProperty(&prop);
-	set_exposure(exposure_time);
+	////Set the property.
+	//camera.SetProperty(&prop);
+	//set_exposure(exposure_time);
 
 }
 
@@ -71,21 +71,21 @@ void LSIProjectGUI::update()
 {
 	if (should_i_run) {
 		// For BW camera
-		//camera.Connect(0);
-		//camera.StartCapture();
-		//camera.RetrieveBuffer(&rawImage);
+		camera.Connect(0);
+		camera.StartCapture();
+		camera.RetrieveBuffer(&rawImage);
 
-		//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-		//unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
-		//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
-
-		webcam >> Main_Image_CV;
-		webcam >> Main_Image_CV;
+		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+		//CV_8UC3
+		//webcam >> Main_Image_CV;
+		//webcam >> Main_Image_CV;
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
-		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
+		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 
-		Main_Image_CV = Main_Image_CV / 255;
+		Main_Image_CV = Main_Image_CV;
 
 		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
 
@@ -95,7 +95,8 @@ void LSIProjectGUI::update()
 
 		//Main_Image_CV = kontrast_squared(Main_Image_CV);
 
-
+		//imshow("ewa", Main_Image_CV);
+		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
