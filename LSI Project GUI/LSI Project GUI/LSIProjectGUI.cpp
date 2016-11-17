@@ -1,4 +1,7 @@
 #include "LSIProjectGUI.h"
+#include "qcustomplot.h"
+#include "LSIProjectGUI.h"
+
 
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
@@ -18,19 +21,30 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	webcam = temp;
 	should_i_run = true;
 
-	//Declare a Property struct.
-	Property prop;
-	//Define the property to adjust.
-	prop.type = GAIN;
-	//Ensure auto-adjust mode is off.
-	prop.autoManualMode = false;
-	//Ensure the property is set up to use absolute value control.
+	//LSIProjectGUI::makePlot();
+	graph_update=0;
+	x_min = -1;
+	x_max = 5;
+	
+	// give the axes some labels:
+	ui.customPlot->xAxis->setLabel("Time");
+	ui.customPlot->yAxis->setLabel("Mean Contrast");
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+	ui.customPlot->yAxis->setRange(0, 20);
+
+	////Declare a Property struct.
+	//Property prop;
+	////Define the property to adjust.
+	//prop.type = GAIN;
+	////Ensure auto-adjust mode is off.
+	//prop.autoManualMode = false;
+	////Ensure the property is set up to use absolute value control.
 	//prop.absControl = true;
-	//Set the absolute value of gain to 10.5 dB.
+	////Set the absolute value of gain to 10.5 dB.
 	//prop.absValue = 10.5;
-	//Set the property.
-	camera.SetProperty(&prop);
-	set_exposure(exposure_time);
+	////Set the property.
+	//camera.SetProperty(&prop);
+	//set_exposure(exposure_time);
 
 }
 
@@ -57,17 +71,32 @@ void LSIProjectGUI::update()
 {
 	if (should_i_run) {
 		// For BW camera
-		//camera.Connect(0);
-		//camera.StartCapture();
-		//camera.RetrieveBuffer(&rawImage);
+		camera.Connect(0);
+		camera.StartCapture();
+		camera.RetrieveBuffer(&rawImage);
 
-		//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-		//unsigned int rowBytes = (double)rawImage.GetReceivedDataSize() / (double)rawImage.GetRows(); //Converts the Image to Mat
-		//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8U, rgbImage.GetData(), rowBytes);
+		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+		//CV_8UC3
+		//webcam >> Main_Image_CV;
+		//webcam >> Main_Image_CV;
 
-		webcam >> Main_Image_CV;
-		webcam >> Main_Image_CV;
+		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
+		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 
+		Main_Image_CV = Main_Image_CV;
+
+		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
+
+		//Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
+
+		//Main_Image_CV = one_minus_kontrast(Main_Image_CV);
+
+		//Main_Image_CV = kontrast_squared(Main_Image_CV);
+
+		//imshow("ewa", Main_Image_CV);
+		cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
@@ -91,6 +120,21 @@ void LSIProjectGUI::update()
 	//Fel att ta in frame objekt nu...
 
 	//vector<double> averageROI = Calc_ROI_Average(Main_Image, List_Of_ROI);
+	if (Is_ROI_Button_Is_Pressed)
+	{
+		QPainter painter(&Main_Image);
+		painter.setPen(pen); //sets pen settings from above to painter
+		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
+		ui.videoLabel->setPixmap(Main_Image);
+	}
+	graph_update++;
+	if (graph_update == 5) {
+		b.append(b.count());
+		makePlot(b);
+		graph_update = 0;
+	}
+	
+
 }
 
 
@@ -300,4 +344,26 @@ void LSIProjectGUI::on_exposuretime_valueChanged()
 	int t = ui.exposuretime->value();
 	//ui.error_LASCA_label->setText(Width_string);
 	set_exposure(t);
+}
+
+void LSIProjectGUI::makePlot(QVector<qreal> a)
+{
+	// generate some data:
+	QVector<qreal> x(a.count()); 
+	for (int i = 0; i<a.count(); ++i)
+	{
+		x[i] = i; 
+	}
+	ui.customPlot->addGraph();
+	//ui.customPlot->graph(0)->addData(0, 10);
+	ui.customPlot->graph(0)->setData(x, a);
+	ui.customPlot->replot();
+	
+	/*if (a.count() <= 5 ) {
+		x_min++;
+		x_max++;
+	}*/
+		
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+
 }

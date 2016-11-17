@@ -22,9 +22,11 @@
 **             Date: 13.09.16                                             **
 **          Version: 2.0.0-beta                                           **
 ****************************************************************************/
-
+//#pragma once
 #ifndef QCUSTOMPLOT_H
 #define QCUSTOMPLOT_H
+#undef max
+//#define NOMINMAX
 
 #include <QtCore/qglobal.h>
 

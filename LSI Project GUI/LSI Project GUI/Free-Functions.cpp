@@ -153,3 +153,27 @@ void Real_Time_Main(LSIProjectGUI* The_GUI) {
 	// Remove frame and, if the user didn't want to save, remove the files.
 } // I can't get it to work with the dependencies. The .h files include in a cycle.
 */
+
+cv::Mat one_divided_by_kontrast(cv::Mat input)
+{
+	Mat temp = 255 / (input);
+	return temp;
+}
+
+cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
+{
+	Mat temp = 255 / (input ^ 2);
+	return temp;
+}
+
+cv::Mat one_minus_kontrast(cv::Mat input)
+{
+	Mat temp = 255 - input;
+	return temp;
+}
+
+cv::Mat kontrast_squared(cv::Mat input)
+{
+	Mat temp = input ^ 2;
+	return temp;
+}
