@@ -35,7 +35,7 @@ cv::Mat TemporalFiltering(vector<cv::Mat> input);
 
 class Frame; // Forward declaration, part of getting rid of cycle includes.
 
-std::vector<double> Calc_ROI_Average(Frame *Current_Working_Frame, std::vector<ROI> The_List_Of_ROIs);
+std::vector<double> Calc_ROI_Average(Mat Perfusion_Image, std::vector<ROI> The_List_Of_ROIs);
 
 cv::Mat one_divided_by_kontrast(cv::Mat input);
 

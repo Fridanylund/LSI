@@ -71,13 +71,13 @@ void LSIProjectGUI::update()
 {
 	if (should_i_run) {
 		// For BW camera
-		camera.Connect(0);
-		camera.StartCapture();
-		camera.RetrieveBuffer(&rawImage);
+		//camera.Connect(0);
+		//camera.StartCapture();
+		//camera.RetrieveBuffer(&rawImage);
 
-		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+		//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+		//unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+		//Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 		
 		Raw_temp = Main_Image_CV; // Sparar en temporär orginalbild ifa vi tar en ambient light bild eller svarta bilder
 		
@@ -88,8 +88,8 @@ void LSIProjectGUI::update()
 		Main_Image_CV = Main_Image_CV - Raw_im;*/
 								  
 		//CV_8UC3
-		//webcam >> Main_Image_CV;
-		//webcam >> Main_Image_CV;
+		webcam >> Main_Image_CV;
+		webcam >> Main_Image_CV;
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
@@ -111,10 +111,7 @@ void LSIProjectGUI::update()
 
 		// vector for ROI colours
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
-
-		//QString color_index_string = QString::number(color_index);
-		//ui.button_test->setText(color_index_string); // just to see color_index
-
+		
 		for (int f = 0; f < List_Of_ROI.size(); f++)
 		{
 			QPainter painter(&Main_Image);
@@ -139,11 +136,20 @@ void LSIProjectGUI::update()
 		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
 		ui.videoLabel->setPixmap(Main_Image);
 	}
-	graph_update++;
-	if (graph_update == 5) {
-		b.append(b.count());
-		makePlot(b);
-		graph_update = 0;
+
+
+	// works for one graph now, needs loop for several graphs
+	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
+	{
+		graph_update++;
+		vector<double> ROI_Averages = Calc_ROI_Average(Main_Image_CV, List_Of_ROI); // Main_Image_CV not right perfusion image yet
+
+		if (graph_update == 5)
+		{
+			b.append(ROI_Averages.at(0));
+			makePlot(b);
+			graph_update = 0;
+		}
 	}
 }
 

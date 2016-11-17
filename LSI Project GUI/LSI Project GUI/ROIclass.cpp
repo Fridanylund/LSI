@@ -26,6 +26,7 @@ vector<int> ROI::Get_ROI_Region() {
 	return(ROI_Region);
 }
 
+// I don't think we use this one
 Mat ROI::Set_ROI(Mat Perfusion_Image)
 {
 	Mat ROI = Perfusion_Image(Rect(ROI_Location.at(0), ROI_Location.at(1), ROI_Region.at(0), ROI_Region.at(1)));

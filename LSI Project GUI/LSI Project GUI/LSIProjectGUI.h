@@ -4,6 +4,7 @@
 #include "ui_LSIProjectGUI.h"
 #include "FrameClass.h"
 #include "ROIclass.h"
+#include "Free-Functions.h"
 //
 #include <QColor>
 #include <QWidget>
