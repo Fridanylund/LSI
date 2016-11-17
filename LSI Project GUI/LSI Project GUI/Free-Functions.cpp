@@ -100,6 +100,7 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize) //There is some(read al
 			
 		}
 	}
+	cvtColor(perfusionimage, perfusionimage, cv::COLOR_GRAY2BGR);
 	resize(perfusionimage, perfusionimage, cv::Size(input.cols, input.rows), 0, 0, cv::INTER_CUBIC);
 	return perfusionimage;
 }
