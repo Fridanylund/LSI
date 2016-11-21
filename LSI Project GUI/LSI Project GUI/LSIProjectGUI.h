@@ -71,6 +71,7 @@ private:
 	int graph_update;
 	void set_exposure(int);
 	QVector<qreal> b;
+	Mat LSIProjectGUI::Help_Remove_Light();
 	//
 
 	public slots:
