@@ -71,7 +71,7 @@ private:
 	int graph_update;
 	void set_exposure(int);
 	QVector<qreal> b;
-	Mat LSIProjectGUI::Help_Remove_Light();
+	Mat LSIProjectGUI::Help_Average_Images(int Num_Images);
 	//
 
 	public slots:

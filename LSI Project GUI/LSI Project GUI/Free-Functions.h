@@ -17,12 +17,7 @@ This document contains declarations of all functions not bound to a specific cla
 
 #include "FlyCapture2.h" //This one will give errors unless camera thingy is fixed
 #include "Test-Function.h"
-//#include "FrameClass.h"
 #include "ROIclass.h"
-//#include "LSIProjectGUI.h" // Gives cycle.
-
-//using namespace std;
-//using namespace FlyCapture2;
 
 
 cv::Mat RemoveAmbientLight(cv::Mat baseimage, cv::Mat laserimage, int threshhold);
@@ -33,8 +28,6 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize);
 
 cv::Mat TemporalFiltering(vector<cv::Mat> input);
 
-class Frame; // Forward declaration, part of getting rid of cycle includes.
-
 std::vector<double> Calc_ROI_Average(Mat Perfusion_Image, std::vector<ROI> The_List_Of_ROIs);
 
 cv::Mat one_divided_by_kontrast(cv::Mat input);
@@ -44,6 +37,3 @@ cv::Mat one_divided_by_kontrast_squared(cv::Mat input);
 cv::Mat one_minus_kontrast(cv::Mat input);
 
 cv::Mat kontrast_squared(cv::Mat input);
-
-/*class LSIProjectGUI;
-void Real_Time_Main(LSIProjectGUI* The_GUI);*/

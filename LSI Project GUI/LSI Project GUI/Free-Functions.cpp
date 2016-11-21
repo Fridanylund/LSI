@@ -137,23 +137,6 @@ vector<double> Calc_ROI_Average(cv::Mat Perfusion_Image, vector<ROI> The_List_Of
 	return(ROI_Averages);
 }
 
-/*
-void Real_Time_Main(LSIProjectGUI* The_GUI) {
-	Frame Working_Frame("LSI_Measurements", 640, 480, "Webcam", 5);
-	
-	while (The_GUI->Get_Run_Real_Time()) { // "Pointer to incomplete class type is not allowed."?
-		cout << The_GUI->Get_Run_Real_Time() << endl;
-
-		// Take images. Base image and laser images. And put these in the Frame object.
-		// Preform all the calculations on the images.
-		// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
-		// Calculate the ROI averages and update them in the GUI.
-	}
-	// Check if the user wants to save the measurement files.
-	// Remove frame and, if the user didn't want to save, remove the files.
-} // I can't get it to work with the dependencies. The .h files include in a cycle.
-*/
-
 cv::Mat one_divided_by_kontrast(cv::Mat input)
 {
 	Mat temp = 255 / (input);
@@ -162,7 +145,11 @@ cv::Mat one_divided_by_kontrast(cv::Mat input)
 
 cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
 {
-	Mat temp = 255 / (input ^ 2);
+	Mat temp;
+	threshold((1 / (input ^ 2)) * 400, temp, 255, 0, THRESH_TRUNC);
+	// *400 is to emphesise the differences too be able to see them clearer.
+
+	//Mat temp = 255 / (input ^ 2);
 	return temp;
 }
 

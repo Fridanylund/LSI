@@ -75,6 +75,7 @@ void LSIProjectGUI::update()
 		// For BW camera
 		camera.Connect(0);
 		camera.StartCapture();
+
 		camera.RetrieveBuffer(&rawImage);
 
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
@@ -101,7 +102,7 @@ void LSIProjectGUI::update()
 
 		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
 
-		//Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
+		Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
 
 		//Main_Image_CV = one_minus_kontrast(Main_Image_CV);
 
@@ -388,38 +389,34 @@ void LSIProjectGUI::makePlot(QVector<qreal> a)
 }
 
 // Function used to generate the image to remove ambient light and unevenness in the camera.
-Mat LSIProjectGUI::Help_Remove_Light()
+Mat LSIProjectGUI::Help_Average_Images(int Num_Images)
 {
-	should_i_run = false;
+	//should_i_run = false;
 	timer->stop();
 	camera.Connect();
 	Mat Ave_Image;
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < Num_Images; i++) {
 		camera.RetrieveBuffer(&rawImage);
 
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-		Ave_Image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes) / 100 + Ave_Image;
+		Ave_Image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes) / Num_Images + Ave_Image;
 	}
-	should_i_run = true;
+	//should_i_run = true;
 	return(Ave_Image);
 }
 
 void LSIProjectGUI::on_AmbL_Button_clicked()
 {
-	ui.button_test->setText("Amb start!");
-
-	Raw_im = Help_Remove_Light();
+	Raw_im = Help_Average_Images(100);
 	imwrite("images//ambientBild.png", Raw_im);
 	ui.button_test->setText("Amb klart!");
 }
 
 void LSIProjectGUI::on_Dark_Button_clicked()
 {
-	ui.button_test->setText("Start dark!");
-
-	Black_im = Help_Remove_Light();
+	Black_im = Help_Average_Images(100);
 	imwrite("images//morkerBild.png", Black_im);
 	ui.button_test->setText("Klar mork!");
 }
