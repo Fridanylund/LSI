@@ -11,27 +11,20 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 {
 
 	ui.setupUi(this);
+
+	//Timer which updates the gui and takes images
 	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+	//Connects the serial port which is used to control the laser
 	port = new QSerialPort(this);
 	port->setPortName("COM3");
-	//port->setDataBits(QSerialPort::Data8);
-	//port->setParity(QSerialPort::NoParity);
-	//port->setStopBits(QSerialPort::OneStop);
-	//port->setFlowControl(QSerialPort::NoFlowControl);
-	
-	//connect(port, &QSerialPort::readyRead, this, &LSIProjectGUI::on_startButton_clicked);
-	//port->setDataTerminalReady(true);
 	port->open(QIODevice::WriteOnly);
-	//port->setDataTerminalReady(true);
-	//port->open(QIODevice::ReadOnly);
-	//port->setFlowControl(QSerialPort::SoftwareControl);
 	port->setRequestToSend(true);
-	//port->setRequestToSend(true);
-	//port->setRequestToSend(true);
-	//port->close();
-	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+
+	
 	camera.Connect(0);
 	camera.StartCapture();
+	camera.SetVideoModeAndFrameRate(VIDEOMODE_1280x960Y8, FRAMERATE_60); //Changes the resolution of the camera
 
 	refresh_rate = 200;
 	exposure_time = 20;
@@ -211,23 +204,6 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 
 		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); 
 		delete ui.listROI->takeItem(selectedROI); 
-
-		
-		////Declare a Property struct.
-		//Property prop;
-		////Define the property to adjust.
-		//prop.type = SHUTTER;
-		////Ensure the property is on.
-		//prop.onOff = true;
-		////Ensure auto-adjust mode is off.
-		//prop.autoManualMode = false;
-		////Ensure the property is set up to use absolute value control.
-		//prop.absControl = true;
-		////Set the absolute value of shutter to X ms.
-		//prop.absValue = 20;
-		////Set the property.
-		//camera.SetProperty(&prop);
-
 	}
 }
 
@@ -463,22 +439,19 @@ void LSIProjectGUI::on_Dark_Button_clicked()
 
 void LSIProjectGUI::on_laserButton_clicked()
 {
-	//SerialPort a;
-	//a.connect();
-	//unsigned char* b;
 	port->setRequestToSend(laser_switch);
 	laser_switch = !laser_switch;
-	//bool test = port->setRequestToSend(true);
-	//if (test)
-	//{
-	//	ui.button_test->setText("Sucsess!");
-	//}
-	//else
-	//{
-	//	ui.button_test->setText("Fail!");
-	//}
+}
 
-	//a.sendArray(b, 1);
-	//ui.button_test->setText("RUN! The laser is ON");
-	//Viktors kanpp
+void LSIProjectGUI::laser_ON()
+{
+	laser_switch = false;
+	port->setRequestToSend(laser_switch);
+
+}
+void LSIProjectGUI::laser_OF();
+{
+	laser_switch = true;
+	port->setRequestToSend(laser_switch);
+
 }

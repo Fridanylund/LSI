@@ -97,6 +97,9 @@ private:
 	//
 	void on_LASCAarea_valueChanged();
 	void on_exposuretime_valueChanged();
+
+	void laser_ON();
+	void laser_OF();
 	//Real time hanterarn
 	private slots:
 		void makePlot(QVector<qreal>);
