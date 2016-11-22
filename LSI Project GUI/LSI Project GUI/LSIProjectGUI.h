@@ -21,6 +21,7 @@
 #include <fstream>
 #include <FlyCapture2.h>
 #include <QVector>
+#include <QTime>
 
 
 using namespace std;
@@ -87,12 +88,18 @@ private:
 	vector<Mat> Contrast_Images;
 	void Add_Contrast_Image(Mat New_Cont_Image);
 	Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images);
+	string filename;
+	VideoWriter Video_Base;
+	VideoWriter Video_Contrast;
+	
+	
 	void take_laser_image();
 	void take_ambient_light_image();
 	void remove_ambient_ligth_and_black_image();
 	void uppdate_ambientlight();
 	void do_contrast();
 	void load_init();
+	void save_init();
 	
 	//
 
@@ -108,6 +115,7 @@ private:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
+	void on_patientName_textEdited(const QString &text);
 	void update();
 	//
 	void on_LASCAarea_valueChanged();
