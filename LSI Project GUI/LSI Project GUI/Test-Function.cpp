@@ -281,7 +281,7 @@ void stilltest()
 		
 		image2 = CalculateContrast(image1, 5);
 
-		image3 = CalculateContrast2(image1, 5);
+		image3 = CalculateContrast2(image1, 5, 0, 0);
 		
 		cvWaitKey(1);
 	}
