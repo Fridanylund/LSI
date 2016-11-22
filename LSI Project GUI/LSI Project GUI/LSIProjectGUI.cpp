@@ -1,10 +1,4 @@
 #include "LSIProjectGUI.h"
-//#include "LSIProjectGUI.h"
-//#include <Arduino.h>
-
-
-
-
 
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
@@ -108,6 +102,10 @@ void LSIProjectGUI::take_ambient_light_image()
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
+	}
 	Raw_im = Main_Image_CV_for_ambient_light;
 }
 
@@ -162,9 +160,18 @@ void LSIProjectGUI::load_init()
 		//Set standard values instead and write and error.
 		refresh_rate = 5;
 	}
-
+	Black_im = imread("images//morkerBild.png");
 
 }
+
+void LSIProjectGUI::save_init()
+{
+	ofstream write;
+	write.open("settings//settings.txt", std::ofstream::trunc);
+	write << refresh_rate; //Add any other variables to be saved.
+}
+
+
 
 void LSIProjectGUI::update()
 {
@@ -489,6 +496,29 @@ void LSIProjectGUI::on_laserButton_clicked()
 		laser_switch = !laser_switch;
 	}
 }
+
+void LSIProjectGUI::laser_OF()
+{
+	laser_switch = true;
+	port->setRequestToSend(laser_switch);
+}
+void LSIProjectGUI::laser_ON()
+{
+	laser_switch = false;
+	port->setRequestToSend(laser_switch);
+}
+
+
+void LSIProjectGUI::on_patientName_textEdited(const QString &text)
+{
+	string time  = QTime::currentTime().toString().toStdString();
+	filename = text.toStdString();
+	
+	Video_Contrast.open("images\\" + filename + "_contrast.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
+	Video_Base.open("images\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
+
+}
+
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
