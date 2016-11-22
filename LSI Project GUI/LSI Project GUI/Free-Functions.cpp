@@ -109,11 +109,9 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize) //There is some(read al
 
 cv::Mat TemporalFiltering(vector<cv::Mat> input)
 {
-
 	Mat result;
-	result = input[0]/ input.size();
 	
-	for (unsigned int k = 1; k <= input.size() -1 ; k++)
+	for (unsigned int k = 0; k <= input.size() -1 ; k++)
 	{
 		result = result + input[k]/ input.size();
 	}
