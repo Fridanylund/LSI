@@ -121,6 +121,9 @@ void LSIProjectGUI::update()
 		}
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
+		Add_Contrast_Image(Main_Image_CV);
+		TemporalFiltering(Contrast_Images);
+
 		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 
 		Main_Image_CV = Main_Image_CV;
@@ -415,8 +418,18 @@ void LSIProjectGUI::makePlot(QVector<qreal> a)
 
 }
 
+void LSIProjectGUI::Add_Contrast_Image(Mat New_Cont_Image)
+{
+	Contrast_Images.push_back(New_Cont_Image);
+
+	if (Contrast_Images.size() > 5) // Number of images to do temporal filtering over.
+	{
+		Contrast_Images.erase(Contrast_Images.begin());
+	}
+}
+
 // Function used to generate the image to remove ambient light and unevenness in the camera.
-Mat LSIProjectGUI::Help_Average_Images(int Num_Images)
+Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 {
 	//should_i_run = false;
 	timer->stop();
@@ -436,14 +449,14 @@ Mat LSIProjectGUI::Help_Average_Images(int Num_Images)
 
 void LSIProjectGUI::on_AmbL_Button_clicked()
 {
-	Raw_im = Help_Average_Images(100);
+	Raw_im = Help_Average_Images_RT(100);
 	imwrite("images//ambientBild.png", Raw_im);
 	ui.button_test->setText("Amb klart!");
 }
 
 void LSIProjectGUI::on_Dark_Button_clicked()
 {
-	Black_im = Help_Average_Images(100);
+	Black_im = Help_Average_Images_RT(100);
 	imwrite("images//morkerBild.png", Black_im);
 	ui.button_test->setText("Klar mork!");
 }

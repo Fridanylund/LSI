@@ -76,7 +76,9 @@ private:
 	void set_exposure(int);
 	bool laser_switch = false;
 	QVector<qreal> b;
-	Mat LSIProjectGUI::Help_Average_Images(int Num_Images);
+	vector<Mat> Contrast_Images;
+	void Add_Contrast_Image(Mat New_Cont_Image);
+	Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images);
 	//
 
 	public slots:
