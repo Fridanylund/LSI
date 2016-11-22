@@ -4,6 +4,7 @@
 #include "ui_LSIProjectGUI.h"
 #include "FrameClass.h"
 #include "ROIclass.h"
+#include "Free-Functions.h"
 #include "qcustomplot.h"
 //
 #include <QColor>
@@ -75,6 +76,7 @@ private:
 	void set_exposure(int);
 	bool laser_switch = false;
 	QVector<qreal> b;
+	Mat LSIProjectGUI::Help_Average_Images(int Num_Images);
 	//
 
 	public slots:

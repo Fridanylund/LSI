@@ -128,32 +128,15 @@ vector<double> Calc_ROI_Average(cv::Mat Perfusion_Image, vector<ROI> The_List_Of
 	vector<double> ROI_Averages;
 
 	// Calculate the average of each ROI i in the vector.
-	for (int i = 0; i <= The_List_Of_ROIs.size(); i++)
+	for (int i = 0; i < The_List_Of_ROIs.size(); i++)
 	{
 		vector<int> Location = The_List_Of_ROIs.at(i).Get_ROI_Location();
 		vector<int> Region = The_List_Of_ROIs.at(i).Get_ROI_Region();
-		Mat ROI_Image = Perfusion_Image(Rect(Location.at(0), Location.at(1), Location.at(0) + Region.at(0), Location.at(1) + Region.at(1)));
-		ROI_Averages.at(i) = mean(ROI_Image).val[0];
+		Mat ROI_Image = Perfusion_Image(Rect(Location.at(0), Location.at(1), Region.at(0), Region.at(1)));
+		ROI_Averages.push_back(mean(ROI_Image).val[0]);
 	}
 	return(ROI_Averages);
 }
-
-/*
-void Real_Time_Main(LSIProjectGUI* The_GUI) {
-	Frame Working_Frame("LSI_Measurements", 640, 480, "Webcam", 5);
-	
-	while (The_GUI->Get_Run_Real_Time()) { // "Pointer to incomplete class type is not allowed."?
-		cout << The_GUI->Get_Run_Real_Time() << endl;
-
-		// Take images. Base image and laser images. And put these in the Frame object.
-		// Preform all the calculations on the images.
-		// Update the perfusion image shown in the GUI. Might have to send some input to the function for that?
-		// Calculate the ROI averages and update them in the GUI.
-	}
-	// Check if the user wants to save the measurement files.
-	// Remove frame and, if the user didn't want to save, remove the files.
-} // I can't get it to work with the dependencies. The .h files include in a cycle.
-*/
 
 cv::Mat one_divided_by_kontrast(cv::Mat input)
 {
@@ -163,7 +146,11 @@ cv::Mat one_divided_by_kontrast(cv::Mat input)
 
 cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
 {
-	Mat temp = 255 / (input ^ 2);
+	Mat temp;
+	threshold((1 / (input ^ 2)) * 400, temp, 255, 0, THRESH_TRUNC);
+	// *400 is to emphesise the differences too be able to see them clearer.
+
+	//Mat temp = 255 / (input ^ 2);
 	return temp;
 }
 

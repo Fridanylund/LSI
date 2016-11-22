@@ -100,23 +100,25 @@ void LSIProjectGUI::update()
 		// For BW camera
 		camera.Connect(0);
 		camera.StartCapture();
+
 		camera.RetrieveBuffer(&rawImage);
 
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 		
-		Raw_temp = Main_Image_CV; // Sparar en temporär orginalbild ifa vi tar en ambient light bild eller svarta bilder
-		
-	/*	if(Raw_im.data == 0) {
-			Raw_im = Raw_temp;
-		}
-
-		Main_Image_CV = Main_Image_CV - Raw_im;*/
-								  
 		//CV_8UC3
-		//webcam >> Main_Image_CV;
-		//webcam >> Main_Image_CV;
+		/*webcam >> Main_Image_CV;
+		webcam >> Main_Image_CV;*/
+
+		if (!Black_im.empty()) // Removes the black image when taken.
+		{
+			absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+		}
+		if (!Raw_im.empty()) // Removes the ambient light when image taken.
+		{
+			absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+		}
 
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
@@ -125,7 +127,7 @@ void LSIProjectGUI::update()
 
 		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
 
-		//Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
+		Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
 
 		//Main_Image_CV = one_minus_kontrast(Main_Image_CV);
 
@@ -138,10 +140,7 @@ void LSIProjectGUI::update()
 
 		// vector for ROI colours
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
-
-		//QString color_index_string = QString::number(color_index);
-		//ui.button_test->setText(color_index_string); // just to see color_index
-
+		
 		for (int f = 0; f < List_Of_ROI.size(); f++)
 		{
 			QPainter painter(&Main_Image);
@@ -166,11 +165,20 @@ void LSIProjectGUI::update()
 		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
 		ui.videoLabel->setPixmap(Main_Image);
 	}
-	graph_update++;
-	if (graph_update == 5) {
-		b.append(b.count());
-		makePlot(b);
-		graph_update = 0;
+
+
+	// works for one graph now, needs loop for several graphs
+	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
+	{
+		graph_update++;
+		vector<double> ROI_Averages = Calc_ROI_Average(Main_Image_CV, List_Of_ROI); // Main_Image_CV not right perfusion image yet
+
+		if (graph_update == 5)
+		{
+			b.append(ROI_Averages.at(0));
+			makePlot(b);
+			graph_update = 0;
+		}
 	}
 }
 
@@ -407,41 +415,36 @@ void LSIProjectGUI::makePlot(QVector<qreal> a)
 
 }
 
-
-void LSIProjectGUI::on_AmbL_Button_clicked()
+// Function used to generate the image to remove ambient light and unevenness in the camera.
+Mat LSIProjectGUI::Help_Average_Images(int Num_Images)
 {
-	ui.button_test->setText("Amb!");
-	if (should_i_run) {
-		Raw_im = Raw_temp;
-		imwrite("images//ambIm.png", Raw_im);
-		ui.button_test->setText("Amb im!");
-	}
-}
-
-void LSIProjectGUI::on_Dark_Button_clicked()
-{
-	ui.button_test->setText("Start dark!");
-	should_i_run = false;
+	//should_i_run = false;
 	timer->stop();
 	camera.Connect();
-	Mat temp_black;
-	camera.RetrieveBuffer(&rawImage);
+	Mat Ave_Image;
 
-	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	temp_black = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes)/100;
-	
-
-	for (i = 1; i < 100; i++) {
+	for (int i = 0; i < Num_Images; i++) {
 		camera.RetrieveBuffer(&rawImage);
 
 		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-		temp_black = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes)/100 + temp_black ;
+		Ave_Image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes) / Num_Images + Ave_Image;
 	}
-	Black_im = temp_black;
+	//should_i_run = true;
+	return(Ave_Image);
+}
+
+void LSIProjectGUI::on_AmbL_Button_clicked()
+{
+	Raw_im = Help_Average_Images(100);
+	imwrite("images//ambientBild.png", Raw_im);
+	ui.button_test->setText("Amb klart!");
+}
+
+void LSIProjectGUI::on_Dark_Button_clicked()
+{
+	Black_im = Help_Average_Images(100);
 	imwrite("images//morkerBild.png", Black_im);
-	should_i_run = true;
 	ui.button_test->setText("Klar mork!");
 }
 
