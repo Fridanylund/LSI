@@ -18,8 +18,10 @@
 #include <QSerialPort>
 #include <opencv/cv.h>
 #include <iostream>
+#include <fstream>
 #include <FlyCapture2.h>
 #include <QVector>
+
 
 using namespace std;
 using namespace FlyCapture2;
@@ -39,11 +41,16 @@ public:
 	Mat Black_im;
 	QPixmap temp_Main_Image;
 	Mat Main_Image_CV;
+	Mat Main_Image_CV_for_ambient_light;
 	Image rgbImage;
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
 	QSerialPort *port;
+	bool static_ambient_ligth; //If the ambient light image should update or not
+	int ambient_ligth_refresh_rate; //How often ambient light is updated
+	int ambient_ligth_refresh_rate_count;
+	
 	double Calib_Still = 0;
 	double Calib_Moving = 0;
 	
@@ -81,6 +88,13 @@ private:
 	vector<Mat> Contrast_Images;
 	void Add_Contrast_Image(Mat New_Cont_Image);
 	Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images);
+	void take_laser_image();
+	void take_ambient_light_image();
+	void remove_ambient_ligth_and_black_image();
+	void uppdate_ambientlight();
+	void do_contrast();
+	void load_init();
+	
 	//
 
 	public slots:
@@ -103,6 +117,9 @@ private:
 	//
 	void on_LASCAarea_valueChanged();
 	void on_exposuretime_valueChanged();
+
+	void laser_ON();
+	void laser_OF();
 	//Real time hanterarn
 	private slots:
 		void makePlot(QVector<qreal>);
