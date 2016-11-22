@@ -65,7 +65,7 @@ cv::Mat CalculateContrast(cv::Mat input, int lascaSize) //There is some(read alo
 	return perfusionimage;
 }
 
-cv::Mat CalculateContrast2(cv::Mat input, int lascaSize) //There is some(read alot) problems with the iteration 
+cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, double Calib_Moving) //There is some(read alot) problems with the iteration 
 {
 	cv::cvtColor(input, input, CV_BGR2GRAY);
 	int H = input.rows / lascaSize; 
@@ -89,6 +89,12 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize) //There is some(read al
 				for (lasca_height_it = 0; lasca_height_it < lascaSize; lasca_height_it++)
 				{
 					temp_value = p3[lascaSize* input.cols*width_it + lasca_width_it*input.cols + lasca_height_it + height_it*lascaSize];
+					
+					if (Calib_Still > 0 & Calib_Moving > 0)
+					{
+						temp_value = (temp_value - Calib_Moving)/(Calib_Still - Calib_Moving); //(C - CMoving) / (CStill - CMoving)
+					}
+
 					mean_value += temp_value;
 					mean_value_squared += temp_value*temp_value;
 				}			

@@ -24,7 +24,7 @@ cv::Mat RemoveAmbientLight(cv::Mat baseimage, cv::Mat laserimage, int threshhold
 
 cv::Mat CalculateContrast(cv::Mat input, int lascaSize);
 
-cv::Mat CalculateContrast2(cv::Mat input, int lascaSize);
+cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, double Calib_Moving);
 
 cv::Mat TemporalFiltering(vector<cv::Mat> input);
 

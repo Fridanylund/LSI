@@ -521,3 +521,45 @@ void LSIProjectGUI::on_patientName_textEdited(const QString &text)
 
 
 
+	//a.sendArray(b, 1);
+	//ui.button_test->setText("RUN! The laser is ON");
+	//Viktors kanpp
+}
+
+void LSIProjectGUI::on_CalibrateStill_Button_clicked()
+{
+	Mat Calib_Image_Still = Help_Average_Images_RT(10);
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
+	}
+
+	Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
+	Calib_Still = mean(Calib_Image_Still).val[0];
+}
+
+void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
+{
+	Mat Calib_Image_Moving;
+	camera.RetrieveBuffer(&rawImage);
+
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Calib_Image_Moving = Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+
+	if (!Black_im.empty()) // Removes the black image if taken.
+	{
+		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
+	}
+	if (!Raw_im.empty()) // Removes ambient light if image taken.
+	{
+		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
+	}
+
+	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
+	Calib_Moving = mean(Calib_Image_Moving).val[0];
+}
