@@ -1,6 +1,6 @@
 #include "LSIProjectGUI.h"
-#include "qcustomplot.h"
-#include "LSIProjectGUI.h"
+//#include "LSIProjectGUI.h"
+//#include <Arduino.h>
 
 
 
@@ -9,8 +9,26 @@
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
+
 	ui.setupUi(this);
 	timer = new QTimer(this);
+	port = new QSerialPort(this);
+	port->setPortName("COM3");
+	//port->setDataBits(QSerialPort::Data8);
+	//port->setParity(QSerialPort::NoParity);
+	//port->setStopBits(QSerialPort::OneStop);
+	//port->setFlowControl(QSerialPort::NoFlowControl);
+	
+	//connect(port, &QSerialPort::readyRead, this, &LSIProjectGUI::on_startButton_clicked);
+	//port->setDataTerminalReady(true);
+	port->open(QIODevice::WriteOnly);
+	//port->setDataTerminalReady(true);
+	//port->open(QIODevice::ReadOnly);
+	//port->setFlowControl(QSerialPort::SoftwareControl);
+	port->setRequestToSend(true);
+	//port->setRequestToSend(true);
+	//port->setRequestToSend(true);
+	//port->close();
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	camera.Connect(0);
 	camera.StartCapture();
@@ -27,6 +45,8 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
+	//port = new QSerialPort(this);
+
 	
 	// give the axes some labels:
 	ui.customPlot->xAxis->setLabel("Time");
@@ -47,6 +67,11 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	////Set the property.
 	//camera.SetProperty(&prop);
 	//set_exposure(exposure_time);
+
+
+	//int ledPin = 13;
+	//pinMode(ledPin, OUTPUT);
+	//digitalWrite(ledPin, HIGH);
 
 }
 
@@ -157,6 +182,8 @@ void LSIProjectGUI::on_startButton_clicked() {
 void LSIProjectGUI::on_stopButton_clicked() {
 	ui.button_test->setText("STOP!");
 	timer->stop();
+	port->open(QIODevice::WriteOnly);
+	port->close();
 }
 
 void LSIProjectGUI::on_createROIButton_clicked()
@@ -420,6 +447,22 @@ void LSIProjectGUI::on_Dark_Button_clicked()
 
 void LSIProjectGUI::on_laserButton_clicked()
 {
-	ui.button_test->setText("RUN! The laser is ON");
+	//SerialPort a;
+	//a.connect();
+	//unsigned char* b;
+	port->setRequestToSend(laser_switch);
+	laser_switch = !laser_switch;
+	//bool test = port->setRequestToSend(true);
+	//if (test)
+	//{
+	//	ui.button_test->setText("Sucsess!");
+	//}
+	//else
+	//{
+	//	ui.button_test->setText("Fail!");
+	//}
+
+	//a.sendArray(b, 1);
+	//ui.button_test->setText("RUN! The laser is ON");
 	//Viktors kanpp
 }

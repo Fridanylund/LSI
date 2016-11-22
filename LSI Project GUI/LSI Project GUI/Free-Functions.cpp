@@ -20,6 +20,7 @@ This document contains functions not bound to a specific class.
 
 
 
+
 using namespace std;
 using namespace FlyCapture2;
 using namespace cv;
