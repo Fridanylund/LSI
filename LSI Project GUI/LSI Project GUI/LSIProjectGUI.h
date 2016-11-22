@@ -1,10 +1,11 @@
 #pragma once
-
+#include <windows.h>
 #include <QtWidgets/QMainWindow>
 #include "ui_LSIProjectGUI.h"
 #include "FrameClass.h"
 #include "ROIclass.h"
 #include "Free-Functions.h"
+#include "qcustomplot.h"
 //
 #include <QColor>
 #include <QWidget>
@@ -14,10 +15,12 @@
 #include <QPainter>
 #include <QPen>
 #include <QTimer>
+#include <QSerialPort>
 #include <opencv/cv.h>
 #include <iostream>
 #include <FlyCapture2.h>
 #include <QVector>
+
 using namespace std;
 using namespace FlyCapture2;
 using namespace cv;
@@ -40,6 +43,7 @@ public:
 	Image rawImage;
 	Camera camera;
 	VideoCapture webcam;
+	QSerialPort *port;
 	
 private:
 	Ui::LSIProjectGUIClass ui;
@@ -70,6 +74,7 @@ private:
 	int x_min;
 	int graph_update;
 	void set_exposure(int);
+	bool laser_switch = false;
 	QVector<qreal> b;
 	vector<Mat> Contrast_Images;
 	void Add_Contrast_Image(Mat New_Cont_Image);
