@@ -19,7 +19,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	port = new QSerialPort(this);
 	port->setPortName("COM3");
 	port->open(QIODevice::WriteOnly);
-	port->setRequestToSend(true);
+	port->setRequestToSend(false);
 
 	
 	camera.Connect(0);
@@ -38,6 +38,8 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
+	ambient_ligth_refresh_rate = 5;
+	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
 
 	
@@ -59,13 +61,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	//prop.absValue = 10.5;
 	////Set the property.
 	//camera.SetProperty(&prop);
-	//set_exposure(exposure_time);
-
-
-	//int ledPin = 13;
-	//pinMode(ledPin, OUTPUT);
-	//digitalWrite(ledPin, HIGH);
-
+	load_init();
 }
 
 void LSIProjectGUI::set_exposure(int time)
@@ -86,51 +82,99 @@ void LSIProjectGUI::set_exposure(int time)
 	camera.SetProperty(&prop);
 }
 
+void LSIProjectGUI::take_laser_image()
+{
+	laser_ON();
+	camera.Connect(0);
+	camera.StartCapture();
+	camera.RetrieveBuffer(&rawImage);
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	/*webcam >> Main_Image_CV;
+	webcam >> Main_Image_CV;*/
+	//remove_ambient_ligth_and_black_image();
+	laser_OF();
+}
+
+void LSIProjectGUI::take_ambient_light_image()
+{
+	camera.Connect(0);
+	camera.StartCapture();
+	camera.RetrieveBuffer(&rawImage);
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	/*webcam >> Main_Image_CV;
+	webcam >> Main_Image_CV;*/
+	//remove_ambient_ligth_and_black_image();
+	Raw_im = Main_Image_CV_for_ambient_light;
+}
+
+void LSIProjectGUI::remove_ambient_ligth_and_black_image()
+{
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+	}
+}
+
+void LSIProjectGUI::uppdate_ambientlight()
+{
+	if (!static_ambient_ligth) 
+	{
+		if (ambient_ligth_refresh_rate_count == 0)
+		{
+			take_ambient_light_image();
+			ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+		}
+		else
+		{
+			ambient_ligth_refresh_rate_count--;
+		}
+	}
+}
+
+void LSIProjectGUI::do_contrast()
+{
+	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
+	Add_Contrast_Image(Main_Image_CV);
+	TemporalFiltering(Contrast_Images);
+	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
+	Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
+}
+
+void LSIProjectGUI::load_init()
+{
+	ifstream read;
+	read.open("settings//settings.txt");
+
+	if (read.is_open())
+	{
+		read >> refresh_rate; //Reads the variables in the order they come in the settings.txt
+	}
+	else
+	{
+		//Set standard values instead and write and error.
+		refresh_rate = 5;
+	}
+
+
+}
 
 void LSIProjectGUI::update()
 {
 	if (should_i_run) {
-		// For BW camera
-		camera.Connect(0);
-		camera.StartCapture();
+		uppdate_ambientlight();
+		take_laser_image();
+		remove_ambient_ligth_and_black_image();
+		do_contrast();
 
-		camera.RetrieveBuffer(&rawImage);
 
-		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-		Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
-		
-		//CV_8UC3
-		/*webcam >> Main_Image_CV;
-		webcam >> Main_Image_CV;*/
-
-		if (!Black_im.empty()) // Removes the black image when taken.
-		{
-			absdiff(Main_Image_CV, Black_im, Main_Image_CV);
-		}
-		if (!Raw_im.empty()) // Removes the ambient light when image taken.
-		{
-			absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
-		}
-
-		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
-		Add_Contrast_Image(Main_Image_CV);
-		TemporalFiltering(Contrast_Images);
-
-		cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-
-		Main_Image_CV = Main_Image_CV;
-
-		//Main_Image_CV=  one_divided_by_kontrast(Main_Image_CV);
-
-		Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
-
-		//Main_Image_CV = one_minus_kontrast(Main_Image_CV);
-
-		//Main_Image_CV = kontrast_squared(Main_Image_CV);
-
-		//imshow("ewa", Main_Image_CV);
-		//cvtColor(Main_Image_CV, Main_Image_CV, cv::COLOR_GRAY2BGR);
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
@@ -186,8 +230,7 @@ void LSIProjectGUI::on_startButton_clicked() {
 void LSIProjectGUI::on_stopButton_clicked() {
 	ui.button_test->setText("STOP!");
 	timer->stop();
-	port->open(QIODevice::WriteOnly);
-	port->close();
+	port->setRequestToSend(false);
 }
 
 void LSIProjectGUI::on_createROIButton_clicked()
@@ -425,6 +468,7 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 
 void LSIProjectGUI::on_AmbL_Button_clicked()
 {
+	static_ambient_ligth = true; 
 	Raw_im = Help_Average_Images_RT(100);
 	imwrite("images//ambientBild.png", Raw_im);
 	ui.button_test->setText("Amb klart!");
@@ -439,19 +483,20 @@ void LSIProjectGUI::on_Dark_Button_clicked()
 
 void LSIProjectGUI::on_laserButton_clicked()
 {
-	port->setRequestToSend(laser_switch);
-	laser_switch = !laser_switch;
+	if (!should_i_run) //If since it may screw something up if allowed to swithc while running
+	{
+		port->setRequestToSend(laser_switch);
+		laser_switch = !laser_switch;
+	}
 }
 
+void LSIProjectGUI::laser_OF()
+{
+	laser_switch = true;
+	port->setRequestToSend(laser_switch);
+}
 void LSIProjectGUI::laser_ON()
 {
 	laser_switch = false;
 	port->setRequestToSend(laser_switch);
-
-}
-void LSIProjectGUI::laser_OF();
-{
-	laser_switch = true;
-	port->setRequestToSend(laser_switch);
-
 }
