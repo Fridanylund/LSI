@@ -45,6 +45,8 @@ public:
 	Mat Main_Image_CV_for_ambient_light;
 	Image rgbImage;
 	Image rawImage;
+	Image rgbImage2;
+	Image rawImage2;
 	Camera camera;
 	VideoCapture webcam;
 	QSerialPort *port;

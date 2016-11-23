@@ -78,27 +78,37 @@ void LSIProjectGUI::set_exposure(int time)
 
 void LSIProjectGUI::take_laser_image()
 {
-	laser_ON();
 	camera.Connect(0);
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage);
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+	}
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
-	laser_OF();
 }
 
 void LSIProjectGUI::take_ambient_light_image()
 {
+	port->setRequestToSend(false);
+	Sleep(75);
 	camera.Connect(0);
 	camera.StartCapture();
-	camera.RetrieveBuffer(&rawImage);
-	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	camera.RetrieveBuffer(&rawImage2);
+	port->setRequestToSend(true);
+	Sleep(75);
+	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
+	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
+	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
@@ -107,6 +117,7 @@ void LSIProjectGUI::take_ambient_light_image()
 		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
 	}
 	Raw_im = Main_Image_CV_for_ambient_light;
+
 }
 
 void LSIProjectGUI::remove_ambient_ligth_and_black_image()
@@ -176,11 +187,16 @@ void LSIProjectGUI::save_init()
 void LSIProjectGUI::update()
 {
 	if (should_i_run) {
-		uppdate_ambientlight();
-		take_laser_image();
-		remove_ambient_ligth_and_black_image();
-		do_contrast();
-
+		if (ambient_ligth_refresh_rate_count == 0)
+		{
+			take_ambient_light_image();
+			ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+		}
+		else {
+			take_laser_image();
+			do_contrast();
+			ambient_ligth_refresh_rate_count--;
+		}
 
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
