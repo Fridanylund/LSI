@@ -157,6 +157,9 @@ void LSIProjectGUI::do_contrast()
 	TemporalFiltering(Contrast_Images);
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
+
+	// Add colors to the perfusion image.
+	applyColorMap(Main_Image_CV, Main_Image_CV, COLORMAP_JET);
 }
 
 void LSIProjectGUI::load_init()
