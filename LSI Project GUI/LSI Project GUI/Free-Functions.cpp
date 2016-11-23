@@ -114,13 +114,36 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, dou
 
 
 
+//cv::Mat TemporalFiltering(vector<cv::Mat> input)
+//{
+//	Mat result;
+//	
+//	for (unsigned int k = 0; k <= input.size() -1 ; k++)
+//	{
+//		result = result + input[k]/ input.size();
+//	}
+//	return result;
+//}
+
 cv::Mat TemporalFiltering(vector<cv::Mat> input)
 {
-	Mat result;
+	int H = input[0].rows;
+	int W = input[0].cols;
+	int number_of_images = input.size();
+	Mat result = cv::Mat::zeros(H, W, CV_8U);
+	uchar* input_pointer;
+	uchar* output_pointer = result.ptr();
+	int image_size = sizeof(output_pointer);
 	
-	for (unsigned int k = 0; k <= input.size() -1 ; k++)
+		
+	for (unsigned int k = 0; k <= number_of_images - 1; k++)
 	{
-		result = result + input[k]/ input.size();
+		input_pointer = input[k].ptr();
+		for (unsigned int p = 0; p < image_size; p++)
+		{
+			output_pointer[p] = output_pointer[p] + input_pointer[p] / number_of_images;
+
+		}
 	}
 	return result;
 }

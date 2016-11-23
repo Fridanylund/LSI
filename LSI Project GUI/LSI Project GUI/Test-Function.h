@@ -20,7 +20,7 @@ void testFrame();
 
 void testcapture();
 
-
+void guitestloop();
 
 
 

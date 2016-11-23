@@ -21,7 +21,8 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	camera.SetVideoModeAndFrameRate(VIDEOMODE_1280x960Y8, FRAMERATE_60); //Changes the resolution of the camera
 
 	refresh_rate = 200;
-	exposure_time = 20;
+	exposure_time = 5;
+	set_exposure(exposure_time);
 	lasca_area = 5;
 	//For webcam
 	VideoCapture temp(0);
@@ -32,12 +33,12 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
-	ambient_ligth_refresh_rate = 5;
+	ambient_ligth_refresh_rate = 100;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
 
 	
-	// give the graph axes some labels:
+	// give the axes some labels:
 	ui.customPlot->xAxis->setLabel("Time");
 	ui.customPlot->yAxis->setLabel("Mean Contrast");
 	ui.customPlot->xAxis->setRange(x_min, x_max);
@@ -78,36 +79,47 @@ void LSIProjectGUI::set_exposure(int time)
 
 void LSIProjectGUI::take_laser_image()
 {
-	laser_ON();
 	camera.Connect(0);
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage);
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	//imshow("sadsa", Main_Image_CV);
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+	}
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
-	laser_OF();
 }
 
 void LSIProjectGUI::take_ambient_light_image()
 {
+	port->setRequestToSend(false);
+	Sleep(75);
 	camera.Connect(0);
 	camera.StartCapture();
-	camera.RetrieveBuffer(&rawImage);
-	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	camera.RetrieveBuffer(&rawImage2);
+	port->setRequestToSend(true);
+	Sleep(75);
+	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
+	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
+	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
-
 	//remove_ambient_ligth_and_black_image();
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
 		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
 	}
 	Raw_im = Main_Image_CV_for_ambient_light;
+
 }
 
 void LSIProjectGUI::remove_ambient_ligth_and_black_image()
@@ -161,6 +173,7 @@ void LSIProjectGUI::load_init()
 		//Set standard values instead and write and error.
 		refresh_rate = 5;
 	}
+	refresh_rate = 100;
 	Black_im = imread("images//morkerBild.png");
 
 }
@@ -177,11 +190,16 @@ void LSIProjectGUI::save_init()
 void LSIProjectGUI::update()
 {
 	if (should_i_run) {
-		uppdate_ambientlight();
-		take_laser_image();
-		remove_ambient_ligth_and_black_image();
-		do_contrast();
-
+		if (ambient_ligth_refresh_rate_count == 0)
+		{
+			take_ambient_light_image();
+			ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+		}
+		else {
+			take_laser_image();
+			do_contrast();
+			ambient_ligth_refresh_rate_count--;
+		}
 
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
@@ -204,7 +222,6 @@ void LSIProjectGUI::update()
 		}
 	}
 	//Fel att ta in frame objekt nu...
-
 
 	if (Is_ROI_Button_Is_Pressed)
 	{
@@ -291,7 +308,7 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 		ui.button_test->setText(QString::number(selectedROI));
 
 		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); 
-		delete ui.listROI->takeItem(selectedROI); 
+		delete ui.listROI->takeItem(selectedROI);
 
 		// removes graph
 		Multiple_ROI_Averages.erase(Multiple_ROI_Averages.begin() + selectedROI);

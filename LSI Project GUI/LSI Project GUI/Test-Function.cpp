@@ -15,6 +15,7 @@
 
 #include"Test-Function.h"
 #include"Free-Functions.h"
+#include "LSIProjectGUI.h"
 
 using namespace std;
 using namespace FlyCapture2; //This one will give errors unless camera thingy is fixed
@@ -280,7 +281,7 @@ void stilltest()
 		
 		image2 = CalculateContrast(image1, 5);
 
-		image3 = CalculateContrast2(image1, 5);
+		image3 = CalculateContrast2(image1, 5, 0, 0);
 		
 		cvWaitKey(1);
 	}
@@ -355,7 +356,6 @@ void filtertest()
 void testFrame()
 {
 	Frame a("test", 640, 480,"Webcam",5);
-	Mat temp;
 	a.Set_Filter_Window_Size(5);
 
 	for (int k = 1; k < 5; k++)
@@ -382,9 +382,9 @@ void testcapture()
 {
 
 	cvNamedWindow("test1", 1);
-	//cvNamedWindow("test2", 1);
+	cvNamedWindow("test2", 1);
 	char k = 's';
-	Frame a("test", 640, 480, "Webcam", 5);
+	Frame a("test", 64, 48, "Webcam", 3);
 	Mat temp1;
 	Mat temp2;
 
@@ -396,9 +396,10 @@ void testcapture()
 		 temp1 = a.Get_Base_Image();
 		 cout << temp1.empty() << endl;
 		imshow("test2", temp1);
-		for (int k = 0; k < 1;k++) {
+		for (int p = 0; p < 1;p++) {
 			a.Take_Picture("LaserImage");
 		}
+
 		temp2 = a.Get_Contrast_Image();
 
 		if (temp2.empty()) { return; }
@@ -406,5 +407,33 @@ void testcapture()
 		k = cvWaitKey(10);
 		
 	}
-
+	destroyWindow("test1");
+	destroyWindow("test2");
 }
+
+
+
+//void guitestloop()
+//{
+//	Frame a("test", 640, 480, "Webcam", 5);
+//	a.Set_Filter_Window_Size(1);
+//	Mat opencv_image;
+//
+//	Mat dest;
+//	QImage image;
+//
+//	while (1)
+//	{
+//
+//		a.Take_Picture("BaseImage");
+//		opencv_image = a.Get_Base_Image();
+//		//bild.load("3110_handwithlaser_1.png");
+//
+//		cvtColor(opencv_image, dest, CV_BGR2RGB);
+//		QImage image((uchar*)dest.data, dest.cols, dest.rows, QImage::Format_RGB888);
+//		
+//		ui.im_show->setPixmap(image);
+//	}
+//
+//	return
+//}

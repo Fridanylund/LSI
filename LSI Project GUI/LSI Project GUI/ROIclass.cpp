@@ -7,6 +7,7 @@ This is the ROI class and its functions.
 #include<opencv2/imgproc/imgproc.hpp>
 #include <opencv/cv.h>
 #include <chrono>
+
 using namespace cv;
 
 void ROI::Set_ROI_Location(vector<int> New_ROI_Location) {
@@ -25,6 +26,7 @@ vector<int> ROI::Get_ROI_Region() {
 	return(ROI_Region);
 }
 
+// I don't think we use this one
 Mat ROI::Set_ROI(Mat Perfusion_Image)
 {
 	Mat ROI = Perfusion_Image(Rect(ROI_Location.at(0), ROI_Location.at(1), ROI_Region.at(0), ROI_Region.at(1)));
@@ -37,4 +39,12 @@ ROI::ROI(vector<int> Location, vector<int> Region)
 {
 	ROI_Location = Location;
 	ROI_Region = Region;
+	ROI_Colour = 7;
+}
+
+ROI::ROI(vector<int> Location, vector<int> Region, int Colour)
+{
+	ROI_Location = Location;
+	ROI_Region = Region;
+	ROI_Colour = Colour;
 }
