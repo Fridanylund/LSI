@@ -18,17 +18,15 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	
 	camera.Connect(0);
 	camera.StartCapture();
-	//camera.SetVideoModeAndFrameRate(VIDEOMODE_640x480Y8, FRAMERATE_60);
 	camera.SetVideoModeAndFrameRate(VIDEOMODE_1280x960Y8, FRAMERATE_60); //Changes the resolution of the camera
-	//VIDEOMODE_640x480Y8 //VIDEOMODE_1280x960Y8
+
 	refresh_rate = 200;
-	exposure_time = 5;
+	exposure_time = 20;
 	lasca_area = 5;
 	//For webcam
 	VideoCapture temp(0);
 	webcam = temp;
 	should_i_run = true;
-	static_ambient_ligth = false;
 
 	//LSIProjectGUI::makePlot();
 	graph_update=0;
@@ -58,7 +56,6 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	////Set the property.
 	//camera.SetProperty(&prop);
 	load_init();
-	set_exposure(exposure_time);
 }
 
 void LSIProjectGUI::set_exposure(int time)
@@ -81,71 +78,48 @@ void LSIProjectGUI::set_exposure(int time)
 
 void LSIProjectGUI::take_laser_image()
 {
-	//port->setRequestToSend(true);
-	//Sleep(50);
+	laser_ON();
 	camera.Connect(0);
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage);
-	/*port->setRequestToSend(false);*/
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
-	//imshow("asdd", Main_Image_CV_for_ambient_light);
-	
-	if (!Black_im.empty()) // Removes the black image when taken.
-	{
-		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
-	}
-	
-	if (!Raw_im.empty()) // Removes the ambient light when image taken.
-	{
-		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
-	}
-	//imshow("asdd", Raw_im);
-	
+	laser_OF();
 }
 
 void LSIProjectGUI::take_ambient_light_image()
 {
-	port->setRequestToSend(false);
-	Sleep(75);
 	camera.Connect(0);
 	camera.StartCapture();
-	camera.RetrieveBuffer(&rawImage2);
-	port->setRequestToSend(true);
-	Sleep(75);
-	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
-	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
-	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
+	camera.RetrieveBuffer(&rawImage);
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
-		absdiff(Main_Image_CV_for_ambient_light, Main_Image_CV_for_ambient_light, Black_im);
+		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
 	}
-	//Raw_im = new Mat(Main_Image_CV_for_ambient_light);
 	Raw_im = Main_Image_CV_for_ambient_light;
-	
-	//imshow("asdd", Raw_im);
-	//imwrite("images//asdd", Main_Image_CV_for_ambient_light);
-	
 }
 
-//void LSIProjectGUI::remove_ambient_ligth_and_black_image()
-//{
-//	if (!Black_im.empty()) // Removes the black image when taken.
-//	{
-//		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
-//	}
-//	if (!Raw_im.empty()) // Removes the ambient light when image taken.
-//	{
-//		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
-//	}
-//}
+void LSIProjectGUI::remove_ambient_ligth_and_black_image()
+{
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+	}
+}
 
 void LSIProjectGUI::uppdate_ambientlight()
 {
@@ -165,17 +139,11 @@ void LSIProjectGUI::uppdate_ambientlight()
 
 void LSIProjectGUI::do_contrast()
 {
-	cout << "a";
-	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area,0,0); //QImage::Format_RGB888 QImage::Format_Grayscale8
-	cout << "a";
+	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
 	Add_Contrast_Image(Main_Image_CV);
-	cout << "a";
 	TemporalFiltering(Contrast_Images);
-	cout << "a";
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-	cout << "a";
 	Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
-	cout << "a";
 }
 
 void LSIProjectGUI::load_init()
@@ -208,24 +176,12 @@ void LSIProjectGUI::save_init()
 void LSIProjectGUI::update()
 {
 	if (should_i_run) {
-		//uppdate_ambientlight();
-		if (ambient_ligth_refresh_rate_count == 0)
-		{
-			take_ambient_light_image();
-			ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
-		}
-		else
-		{
-			ambient_ligth_refresh_rate_count--;
-			take_laser_image();
+		uppdate_ambientlight();
+		take_laser_image();
+		remove_ambient_ligth_and_black_image();
+		do_contrast();
 
-			do_contrast();
 
-		}
-		//remove_ambient_ligth_and_black_image();
-		
-		cout << "asda";
-		//
 		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 		ui.videoLabel->setPixmap(Main_Image);
 
@@ -555,13 +511,55 @@ void LSIProjectGUI::laser_ON()
 
 void LSIProjectGUI::on_patientName_textEdited(const QString &text)
 {
-
-	filename = text.toStdString();// +QTime::currentTime().toString().toStdString();
+	string time  = QTime::currentTime().toString().toStdString();
+	filename = text.toStdString();
 	
-	Video_Contrast.open("videos\\" + filename + "_contrast.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
-	Video_Base.open("videos\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
+	Video_Contrast.open("images\\" + filename + "_contrast.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
+	Video_Base.open("images\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
 
 }
 
 
 
+	//a.sendArray(b, 1);
+	//ui.button_test->setText("RUN! The laser is ON");
+	//Viktors kanpp
+}
+
+void LSIProjectGUI::on_CalibrateStill_Button_clicked()
+{
+	Mat Calib_Image_Still = Help_Average_Images_RT(10);
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
+	}
+
+	Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
+	Calib_Still = mean(Calib_Image_Still).val[0];
+}
+
+void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
+{
+	Mat Calib_Image_Moving;
+	camera.RetrieveBuffer(&rawImage);
+
+	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+	Calib_Image_Moving = Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+
+	if (!Black_im.empty()) // Removes the black image if taken.
+	{
+		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
+	}
+	if (!Raw_im.empty()) // Removes ambient light if image taken.
+	{
+		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
+	}
+
+	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
+	Calib_Moving = mean(Calib_Image_Moving).val[0];
+}
