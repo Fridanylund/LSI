@@ -198,7 +198,7 @@ public:
 "border-color: rgb(56, 56, 56);"));
         exposuretime->setDecimals(0);
         exposuretime->setMinimum(1);
-        exposuretime->setValue(20);
+        exposuretime->setValue(5);
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
         error_LASCA_label->setGeometry(QRect(20, 120, 261, 51));

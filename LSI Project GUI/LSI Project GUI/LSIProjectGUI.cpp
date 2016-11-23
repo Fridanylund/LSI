@@ -20,7 +20,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	camera.StartCapture();
 	camera.SetVideoModeAndFrameRate(VIDEOMODE_1280x960Y8, FRAMERATE_60); //Changes the resolution of the camera
 
-	refresh_rate = 200;
+	refresh_rate = 100;
 	exposure_time = 5;
 	set_exposure(exposure_time);
 	lasca_area = 5;
