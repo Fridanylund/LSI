@@ -3,27 +3,46 @@ c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\test-f
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\roiclass.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\qcustomplot.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\main.obj
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsiprojectgui.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\guiclass.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\moc_qcustomplot.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\moc_lsiprojectgui.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\free-functions.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\frameclass.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\buttonclass.obj
+c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsiprojectgui.obj
 c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\qrc_lsiprojectgui.obj
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\generatedfiles\debug\moc_qcustomplot.cpp
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\generatedfiles\qrc_lsiprojectgui.cpp
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\generatedfiles\debug\moc_lsiprojectgui.cpp
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\generatedfiles\ui_lsiprojectgui.h
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\vc140.pdb
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\test-function.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\roiclass.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\qcustomplot.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\main.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\guiclass.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\moc_qcustomplot.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\moc_lsiprojectgui.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\free-functions.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\frameclass.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\buttonclass.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsiprojectgui.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\qrc_lsiprojectgui.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\generatedfiles\debug\moc_lsiprojectgui.cpp
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\generatedfiles\ui_lsiprojectgui.h
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\generatedfiles\debug\moc_qcustomplot.cpp
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\generatedfiles\qrc_lsiprojectgui.cpp
 c:\users\frida\source\repos\lsi\lsi project gui\x64\debug\lsi project gui.ilk
 c:\users\frida\source\repos\lsi\lsi project gui\x64\debug\lsi project gui.exe
 c:\users\frida\source\repos\lsi\lsi project gui\x64\debug\lsi project gui.pdb
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\cl.command.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\cl.read.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\cl.write.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\custombuild.command.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\custombuild.read.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\custombuild.write.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link.command.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link.read.1.tlog
-c:\users\frida\source\repos\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link.write.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\laser.obj
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\x64\debug\lsi project gui.pdb
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\cl.command.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\cl.read.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\cl.write.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\custombuild.command.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\custombuild.read.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\custombuild.write.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link-cvtres.read.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link-cvtres.write.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link-rc.read.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link-rc.write.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link.command.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link.read.1.tlog
+c:\users\victor\documents\visual studio 2015\projects\lsi\lsi project gui\lsi project gui\x64\debug\lsi project gui.tlog\link.write.1.tlog

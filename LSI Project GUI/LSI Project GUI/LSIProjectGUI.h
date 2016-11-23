@@ -45,6 +45,8 @@ public:
 	Mat Main_Image_CV_for_ambient_light;
 	Image rgbImage;
 	Image rawImage;
+	Image rgbImage2;
+	Image rawImage2;
 	Camera camera;
 	VideoCapture webcam;
 	QSerialPort *port;
@@ -113,8 +115,8 @@ private:
 	void on_AmbL_Button_clicked();
 	void on_laserButton_clicked();
 	// These two calibration buttons are needed in the GUI:
-	void on_CalibrateStill_Button_clicked();
-	void on_CalibrateMoving_Button_clicked();
+	//void on_CalibrateStill_Button_clicked();
+	//void on_CalibrateMoving_Button_clicked();
 
 	//
 	void mousePressEvent(QMouseEvent *event);

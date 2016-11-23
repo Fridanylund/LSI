@@ -112,7 +112,7 @@ public:
         videoLabel->setGeometry(QRect(10, 0, 640, 480));
         settings_patientInfo = new QTabWidget(centralWidget);
         settings_patientInfo->setObjectName(QStringLiteral("settings_patientInfo"));
-        settings_patientInfo->setGeometry(QRect(990, 20, 231, 631));
+        settings_patientInfo->setGeometry(QRect(970, 10, 281, 621));
         QFont font1;
         font1.setFamily(QStringLiteral("Segoe UI Light"));
         font1.setPointSize(14);
@@ -267,7 +267,7 @@ public:
 
         retranslateUi(LSIProjectGUIClass);
 
-        settings_patientInfo->setCurrentIndex(1);
+        settings_patientInfo->setCurrentIndex(0);
         listROI->setCurrentRow(-1);
 
 
