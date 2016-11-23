@@ -20,7 +20,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	camera.StartCapture();
 	camera.SetVideoModeAndFrameRate(VIDEOMODE_1280x960Y8, FRAMERATE_60); //Changes the resolution of the camera
 
-	refresh_rate = 100;
+	refresh_rate = 200;
 	exposure_time = 5;
 	set_exposure(exposure_time);
 	lasca_area = 5;
@@ -33,7 +33,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
-	ambient_ligth_refresh_rate = 5;
+	ambient_ligth_refresh_rate = 100;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
 
@@ -85,6 +85,7 @@ void LSIProjectGUI::take_laser_image()
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	//imshow("sadsa", Main_Image_CV);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
 		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
@@ -172,6 +173,7 @@ void LSIProjectGUI::load_init()
 		//Set standard values instead and write and error.
 		refresh_rate = 5;
 	}
+	refresh_rate = 100;
 	Black_im = imread("images//morkerBild.png");
 
 }
