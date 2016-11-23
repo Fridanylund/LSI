@@ -139,7 +139,7 @@ void LSIProjectGUI::uppdate_ambientlight()
 
 void LSIProjectGUI::do_contrast()
 {
-	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area); //QImage::Format_RGB888 QImage::Format_Grayscale8
+	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
 	Add_Contrast_Image(Main_Image_CV);
 	TemporalFiltering(Contrast_Images);
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
@@ -519,12 +519,6 @@ void LSIProjectGUI::on_patientName_textEdited(const QString &text)
 
 }
 
-
-
-	//a.sendArray(b, 1);
-	//ui.button_test->setText("RUN! The laser is ON");
-	//Viktors kanpp
-}
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
