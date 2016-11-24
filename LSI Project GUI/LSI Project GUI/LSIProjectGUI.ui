@@ -544,7 +544,7 @@ background-color: rgb(135, 68, 115);</string>
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>490</y>
+      <y>480</y>
       <width>431</width>
       <height>161</height>
      </rect>
@@ -736,6 +736,19 @@ background-color: rgb(135, 68, 115);</string>
     </property>
     <property name="text">
      <string>Turn on laser</string>
+    </property>
+   </widget>
+   <widget class="QScrollBar" name="horizontalScrollBar">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>640</y>
+      <width>431</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>

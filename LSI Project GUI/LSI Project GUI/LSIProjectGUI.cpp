@@ -269,6 +269,9 @@ void LSIProjectGUI::update()
 				{
 					x_min++;
 					x_max++;
+
+					//// Horizontal scroll bar
+					//connect(ui.horizontalScrollBar, SIGNAL(timeout()), SLOT(update()));
 				}
 			}
 			graph_update = 0;

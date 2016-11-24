@@ -23,6 +23,7 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
+#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
@@ -71,6 +72,7 @@ public:
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
     QPushButton *laserButton;
+    QScrollBar *horizontalScrollBar;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -251,7 +253,7 @@ public:
         settings_patientInfo->addTab(settings, QString());
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(130, 490, 431, 161));
+        customPlot->setGeometry(QRect(130, 480, 431, 161));
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
         scrollArea_2->setGeometry(QRect(770, 420, 141, 121));
@@ -293,6 +295,10 @@ public:
         laserButton->setObjectName(QStringLiteral("laserButton"));
         laserButton->setGeometry(QRect(770, 560, 141, 41));
         laserButton->setStyleSheet(QStringLiteral("background-color: rgb(255, 71, 15);"));
+        horizontalScrollBar = new QScrollBar(centralWidget);
+        horizontalScrollBar->setObjectName(QStringLiteral("horizontalScrollBar"));
+        horizontalScrollBar->setGeometry(QRect(130, 640, 431, 16));
+        horizontalScrollBar->setOrientation(Qt::Horizontal);
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
