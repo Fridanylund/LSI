@@ -11,7 +11,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	//Connects the serial port which is used to control the laser
 	port = new QSerialPort(this);
-	port->setPortName("COM3");
+	port->setPortName("COM10");
 	port->open(QIODevice::WriteOnly);
 	port->setRequestToSend(false);
 
@@ -25,8 +25,8 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	set_exposure(exposure_time);
 	lasca_area = 5;
 	//For webcam
-	VideoCapture temp(0);
-	webcam = temp;
+	/*VideoCapture temp(0);
+	webcam = temp;*/
 	should_i_run = true;
 
 	//LSIProjectGUI::makePlot();
@@ -107,7 +107,7 @@ void LSIProjectGUI::take_ambient_light_image()
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage2);
 	port->setRequestToSend(true);
-	Sleep(75);
+	Sleep(150);
 	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
 	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
 	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
@@ -134,21 +134,6 @@ void LSIProjectGUI::remove_ambient_ligth_and_black_image()
 	}
 }
 
-void LSIProjectGUI::uppdate_ambientlight()
-{
-	if (!static_ambient_ligth) 
-	{
-		if (ambient_ligth_refresh_rate_count == 0)
-		{
-			take_ambient_light_image();
-			ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
-		}
-		else
-		{
-			ambient_ligth_refresh_rate_count--;
-		}
-	}
-}
 
 void LSIProjectGUI::do_contrast()
 {
@@ -169,7 +154,7 @@ void LSIProjectGUI::load_init()
 
 	if (read.is_open())
 	{
-		read >> refresh_rate; //Reads the variables in the order they come in the settings.txt
+		read >> refresh_rate >> Calib_Still >> Calib_Moving; //Reads the variables in the order they come in the settings.txt
 	}
 	else
 	{
@@ -185,7 +170,7 @@ void LSIProjectGUI::save_init()
 {
 	ofstream write;
 	write.open("settings//settings.txt", std::ofstream::trunc);
-	write << refresh_rate; //Add any other variables to be saved.
+	write << refresh_rate<< endl << Calib_Still << endl << Calib_Moving << endl; //Add any other variables to be saved.
 }
 
 
@@ -306,6 +291,7 @@ void LSIProjectGUI::update()
 
 void LSIProjectGUI::on_startButton_clicked() {
 	timer->start(refresh_rate);
+	load_init();
 	// Läsa av vad patienten heter för att spara videon som en fil med patient + datum som namn
 	string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
@@ -319,6 +305,7 @@ void LSIProjectGUI::on_stopButton_clicked() {
 	ui.button_test->setText("STOP!");
 	timer->stop();
 	port->setRequestToSend(false);
+	save_init();
 }
 
 void LSIProjectGUI::on_createROIButton_clicked()
@@ -545,13 +532,15 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 	timer->stop();
 	camera.Connect();
 	Mat Ave_Image;
+	Image rawImage_av;
+	Image rgbImage_av;
 
 	for (int i = 0; i < Num_Images; i++) {
-		camera.RetrieveBuffer(&rawImage);
+		camera.RetrieveBuffer(&rawImage_av);
 
-		rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-		unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-		Ave_Image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes) / Num_Images + Ave_Image;
+		rawImage_av.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_av);
+		unsigned int rowBytes = (double)rgbImage_av.GetReceivedDataSize() / (double)rgbImage_av.GetRows(); //Converts the Image to Mat
+		Ave_Image = cv::Mat(rgbImage_av.GetRows(), rgbImage_av.GetCols(), CV_8UC3, rgbImage_av.GetData(), rowBytes) / Num_Images + Ave_Image;
 	}
 	//should_i_run = true;
 	return(Ave_Image);
@@ -593,48 +582,47 @@ void LSIProjectGUI::laser_ON()
 }
 
 
-void LSIProjectGUI::on_patientName_textEdited(const QString &text)
-{
-
-}
-
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
 	ui.button_test->setText("still!");
-	//Mat Calib_Image_Still = Help_Average_Images_RT(10);
-	//if (!Black_im.empty()) // Removes the black image when taken.
-	//{
-	//	absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
-	//}
-	//if (!Raw_im.empty()) // Removes the ambient light when image taken.
-	//{
-	//	absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
-	//}
+	Mat Calib_Image_Still = Help_Average_Images_RT(10);
+	if (!Black_im.empty()) // Removes the black image when taken.
+	{
+		absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
+	}
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
+	{
+		absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
+	}
 
-	//Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
-	//Calib_Still = mean(Calib_Image_Still).val[0];
+	Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
+	Calib_Still = mean(Calib_Image_Still).val[0];
+	save_init();
 }
 
 void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 {
 	ui.button_test->setText("moving!");
-	//Mat Calib_Image_Moving;
-	//camera.RetrieveBuffer(&rawImage);
+	Mat Calib_Image_Moving;
+	Image rawImage_calib;
+	Image rgbImage_calib;
+	camera.RetrieveBuffer(&rawImage_calib);
 
-	//rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
-	//unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
-	//Calib_Image_Moving = Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	rawImage_calib.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_calib);
+	unsigned int rowBytes = (double)rgbImage_calib.GetReceivedDataSize() / (double)rgbImage_calib.GetRows(); //Converts the Image to Mat
+	Calib_Image_Moving = Mat(rgbImage_calib.GetRows(), rgbImage_calib.GetCols(), CV_8UC3, rgbImage_calib.GetData(), rowBytes);
 
-	//if (!Black_im.empty()) // Removes the black image if taken.
-	//{
-	//	absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
-	//}
-	//if (!Raw_im.empty()) // Removes ambient light if image taken.
-	//{
-	//	absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
-	//}
+	if (!Black_im.empty()) // Removes the black image if taken.
+	{
+		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
+	}
+	if (!Raw_im.empty()) // Removes ambient light if image taken.
+	{
+		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
+	}
 
-	//Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
-	//Calib_Moving = mean(Calib_Image_Moving).val[0];
+	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
+	Calib_Moving = mean(Calib_Image_Moving).val[0];
+	save_init();
 }
