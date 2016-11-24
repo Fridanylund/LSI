@@ -61,6 +61,11 @@ public:
     QLabel *error_LASCA_label;
     QPushButton *AmbL_Button;
     QPushButton *Dark_Button;
+    QLabel *label;
+    QSpinBox *spinBox;
+    QPushButton *CalibrateStill_Button;
+    QPushButton *CalibrateMoving_Button;
+    QLabel *label_2;
     QCustomPlot *customPlot;
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
@@ -79,10 +84,10 @@ public:
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
         button_test = new QLabel(centralWidget);
         button_test->setObjectName(QStringLiteral("button_test"));
-        button_test->setGeometry(QRect(780, 30, 191, 61));
+        button_test->setGeometry(QRect(880, 30, 91, 31));
         startButton = new QPushButton(centralWidget);
         startButton->setObjectName(QStringLiteral("startButton"));
-        startButton->setGeometry(QRect(830, 110, 141, 61));
+        startButton->setGeometry(QRect(770, 80, 141, 61));
         QFont font;
         font.setFamily(QStringLiteral("Segoe UI Light"));
         font.setPointSize(11);
@@ -94,17 +99,17 @@ public:
 "background-color: rgb(150, 223, 111);"));
         stopButton = new QPushButton(centralWidget);
         stopButton->setObjectName(QStringLiteral("stopButton"));
-        stopButton->setGeometry(QRect(830, 190, 141, 61));
+        stopButton->setGeometry(QRect(770, 160, 141, 61));
         stopButton->setStyleSheet(QLatin1String("background-color: rgb(255, 137, 58);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         createROIButton = new QPushButton(centralWidget);
         createROIButton->setObjectName(QStringLiteral("createROIButton"));
-        createROIButton->setGeometry(QRect(830, 260, 141, 61));
+        createROIButton->setGeometry(QRect(770, 230, 141, 61));
         createROIButton->setStyleSheet(QLatin1String("background-color: rgb(170, 85, 127);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         removeROIButton = new QPushButton(centralWidget);
         removeROIButton->setObjectName(QStringLiteral("removeROIButton"));
-        removeROIButton->setGeometry(QRect(830, 340, 141, 61));
+        removeROIButton->setGeometry(QRect(770, 310, 141, 61));
         removeROIButton->setStyleSheet(QLatin1String("background-color: rgb(255, 170, 255);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         videoLabel = new QLabel(centralWidget);
@@ -112,7 +117,7 @@ public:
         videoLabel->setGeometry(QRect(10, 0, 640, 480));
         settings_patientInfo = new QTabWidget(centralWidget);
         settings_patientInfo->setObjectName(QStringLiteral("settings_patientInfo"));
-        settings_patientInfo->setGeometry(QRect(990, 20, 231, 631));
+        settings_patientInfo->setGeometry(QRect(940, 20, 291, 621));
         QFont font1;
         font1.setFamily(QStringLiteral("Segoe UI Light"));
         font1.setPointSize(14);
@@ -172,7 +177,7 @@ public:
         settings->setObjectName(QStringLiteral("settings"));
         LASCAarea = new QSpinBox(settings);
         LASCAarea->setObjectName(QStringLiteral("LASCAarea"));
-        LASCAarea->setGeometry(QRect(140, 50, 71, 51));
+        LASCAarea->setGeometry(QRect(150, 10, 71, 51));
         QFont font2;
         font2.setFamily(QStringLiteral("Segoe UI Light"));
         font2.setPointSize(13);
@@ -184,15 +189,15 @@ public:
         LASCAarea->setValue(5);
         LASCA_label = new QLabel(settings);
         LASCA_label->setObjectName(QStringLiteral("LASCA_label"));
-        LASCA_label->setGeometry(QRect(30, 70, 91, 21));
+        LASCA_label->setGeometry(QRect(20, 30, 91, 21));
         LASCA_label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         exposure_label = new QLabel(settings);
         exposure_label->setObjectName(QStringLiteral("exposure_label"));
-        exposure_label->setGeometry(QRect(20, 190, 111, 21));
+        exposure_label->setGeometry(QRect(20, 120, 111, 21));
         exposure_label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         exposuretime = new QDoubleSpinBox(settings);
         exposuretime->setObjectName(QStringLiteral("exposuretime"));
-        exposuretime->setGeometry(QRect(140, 180, 71, 51));
+        exposuretime->setGeometry(QRect(150, 100, 71, 51));
         exposuretime->setFont(font2);
         exposuretime->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
 "border-color: rgb(56, 56, 56);"));
@@ -201,23 +206,55 @@ public:
         exposuretime->setValue(5);
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
-        error_LASCA_label->setGeometry(QRect(20, 120, 261, 51));
+        error_LASCA_label->setGeometry(QRect(20, 70, 231, 21));
         error_LASCA_label->setStyleSheet(QStringLiteral("color: rgb(186, 1, 35);"));
         AmbL_Button = new QPushButton(settings);
         AmbL_Button->setObjectName(QStringLiteral("AmbL_Button"));
-        AmbL_Button->setGeometry(QRect(30, 340, 171, 41));
+        AmbL_Button->setGeometry(QRect(60, 270, 171, 41));
         AmbL_Button->setStyleSheet(QStringLiteral("background-color: rgb(64, 140, 255);"));
         Dark_Button = new QPushButton(settings);
         Dark_Button->setObjectName(QStringLiteral("Dark_Button"));
-        Dark_Button->setGeometry(QRect(30, 410, 171, 41));
+        Dark_Button->setGeometry(QRect(60, 330, 171, 41));
         Dark_Button->setStyleSheet(QStringLiteral("background-color: rgb(64, 140, 255);"));
+        label = new QLabel(settings);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(20, 190, 121, 31));
+        label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
+        spinBox = new QSpinBox(settings);
+        spinBox->setObjectName(QStringLiteral("spinBox"));
+        spinBox->setGeometry(QRect(150, 180, 71, 51));
+        QFont font3;
+        font3.setFamily(QStringLiteral("Segoe UI Light"));
+        font3.setPointSize(12);
+        font3.setBold(false);
+        font3.setWeight(50);
+        spinBox->setFont(font3);
+        spinBox->setStyleSheet(QLatin1String("background-color: rgb(17, 132, 255);\n"
+"border-color: rgb(56, 56, 56);"));
+        spinBox->setMaximum(300);
+        spinBox->setValue(20);
+        CalibrateStill_Button = new QPushButton(settings);
+        CalibrateStill_Button->setObjectName(QStringLiteral("CalibrateStill_Button"));
+        CalibrateStill_Button->setGeometry(QRect(60, 460, 171, 41));
+        CalibrateStill_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+"background-color: rgb(135, 68, 115);"));
+        CalibrateMoving_Button = new QPushButton(settings);
+        CalibrateMoving_Button->setObjectName(QStringLiteral("CalibrateMoving_Button"));
+        CalibrateMoving_Button->setGeometry(QRect(60, 520, 171, 41));
+        CalibrateMoving_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+"background-color: rgb(135, 68, 115);"));
+        label_2 = new QLabel(settings);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(30, 420, 101, 21));
+        label_2->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+""));
         settings_patientInfo->addTab(settings, QString());
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
         customPlot->setGeometry(QRect(130, 490, 431, 161));
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
-        scrollArea_2->setGeometry(QRect(830, 450, 141, 121));
+        scrollArea_2->setGeometry(QRect(770, 420, 141, 121));
         scrollArea_2->setStyleSheet(QStringLiteral("background-color: rgb(71, 71, 71);"));
         scrollArea_2->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
@@ -254,7 +291,7 @@ public:
         scrollArea_2->setWidget(scrollAreaWidgetContents_2);
         laserButton = new QPushButton(centralWidget);
         laserButton->setObjectName(QStringLiteral("laserButton"));
-        laserButton->setGeometry(QRect(830, 590, 141, 41));
+        laserButton->setGeometry(QRect(770, 560, 141, 41));
         laserButton->setStyleSheet(QStringLiteral("background-color: rgb(255, 71, 15);"));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
@@ -293,6 +330,10 @@ public:
         error_LASCA_label->setText(QString());
         AmbL_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Ambient light Image", 0));
         Dark_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Dark Images", 0));
+        label->setText(QApplication::translate("LSIProjectGUIClass", "New Base image:", 0));
+        CalibrateStill_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Still Image", 0));
+        CalibrateMoving_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take moving image", 0));
+        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Calibration:", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(settings), QApplication::translate("LSIProjectGUIClass", "Settings", 0));
         laserButton->setText(QApplication::translate("LSIProjectGUIClass", "Turn on laser", 0));
     } // retranslateUi
