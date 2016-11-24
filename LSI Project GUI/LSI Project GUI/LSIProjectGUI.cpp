@@ -240,7 +240,6 @@ void LSIProjectGUI::update()
 			QVector<qreal> firstvector;
 			firstvector.append(ROI_Averages.at(0));
 			Multiple_ROI_Averages.append(firstvector);
-
 			ROI_Averages_qreal.append(ROI_Averages.at(i)); // makes QVector out of vector
 			Multiple_ROI_Averages[i].append(ROI_Averages_qreal.at(i));
 		}
@@ -263,7 +262,6 @@ void LSIProjectGUI::update()
 				ui.customPlot->addGraph();
 				ui.customPlot->graph(k)->setData(x, Multiple_ROI_Averages[k]);
 				ui.customPlot->graph(k)->setPen(QPen(ROI_Colors.at(color)));
-				//ui.customPlot->graph(k)->setData(x, Multiple_ROI_Averages[k]);
 				ui.customPlot->replot();
 				ui.customPlot->xAxis->setRange(x_min, x_max);
 
@@ -285,7 +283,6 @@ void LSIProjectGUI::update()
 		ui.customPlot->clearGraphs();
 		ui.customPlot->replot();
 	}
-
 }
 
 
@@ -325,6 +322,9 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 
 		// removes graph
 		Multiple_ROI_Averages.erase(Multiple_ROI_Averages.begin() + selectedROI);
+
+		ui.customPlot->removeGraph(selectedROI);
+		ui.customPlot->replot();
 	}
 }
 
@@ -344,21 +344,29 @@ void LSIProjectGUI::mousePressEvent(QMouseEvent *event)
 		x_videoLabel_Coordinate = videoLabel_Coordinates.x();
 		y_videoLabel_Coordinate = videoLabel_Coordinates.y();
 
-		x_Start_ROI_Coordinate = x_Start_Click_Coordinate - x_videoLabel_Coordinate;
-		y_Start_ROI_Coordinate = y_Start_Click_Coordinate - y_videoLabel_Coordinate;
-		Start_ROI_Coordinates = QPoint(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate);
+		if (x_Start_Click_Coordinate >= x_videoLabel_Coordinate & y_Start_Click_Coordinate >= y_videoLabel_Coordinate & x_Start_Click_Coordinate <= ui.videoLabel->width() & y_Start_Click_Coordinate <= ui.videoLabel->height())
 
-		QString x_videoLabel_string = QString::number(x_videoLabel_Coordinate);
-		QString y_videoLabel_string = QString::number(y_videoLabel_Coordinate);
-		ui.button_test->setText(x_videoLabel_string + "<x  y>" + y_videoLabel_string); // just to see videoLabel coordinates
+		{
+			x_Start_ROI_Coordinate = x_Start_Click_Coordinate - x_videoLabel_Coordinate;
+			y_Start_ROI_Coordinate = y_Start_Click_Coordinate - y_videoLabel_Coordinate;
+			Start_ROI_Coordinates = QPoint(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate);
 
-		QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
-		QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
-		ui.button_test->setText(x_Start_Click_Coordinates_string + "<x  y>" + y_Start_Click_Coordinates_string); // just to see GUI window coordinates
+			QString x_videoLabel_string = QString::number(x_videoLabel_Coordinate);
+			QString y_videoLabel_string = QString::number(y_videoLabel_Coordinate);
+			ui.button_test->setText(x_videoLabel_string + "<x  y>" + y_videoLabel_string); // just to see videoLabel coordinates
 
-		QString x_Start_ROI_Coordinate_string = QString::number(x_Start_ROI_Coordinate);
-		QString y_Start_ROI_Coordinate_string = QString::number(y_Start_ROI_Coordinate);
-		ui.button_test->setText(x_Start_ROI_Coordinate_string + "<x  y>" + y_Start_ROI_Coordinate_string); // just to see ROI coordinates
+			QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
+			QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
+			ui.button_test->setText(x_Start_Click_Coordinates_string + "<x  y>" + y_Start_Click_Coordinates_string); // just to see GUI window coordinates
+
+			QString x_Start_ROI_Coordinate_string = QString::number(x_Start_ROI_Coordinate);
+			QString y_Start_ROI_Coordinate_string = QString::number(y_Start_ROI_Coordinate);
+			ui.button_test->setText(x_Start_ROI_Coordinate_string + "<x  y>" + y_Start_ROI_Coordinate_string); // just to see ROI coordinates
+	}
+		else
+		{
+			Is_ROI_Button_Is_Pressed = false;
+		}
 	}
 }
 
@@ -409,8 +417,35 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		int x_End_Click_Coordinate = End_Click_Coordinates.x();
 		int y_End_Click_Coordinate = End_Click_Coordinates.y();
 
-		x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
-		y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
+		if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & y_End_Click_Coordinate >= y_videoLabel_Coordinate & x_End_Click_Coordinate <= ui.videoLabel->width() & y_End_Click_Coordinate <= ui.videoLabel->height())
+		{
+			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
+		}
+
+		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate)
+		{
+			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
+		}
+
+		else if (x_End_Click_Coordinate > ui.videoLabel->width())
+		{
+			x_End_ROI_Coordinate = ui.videoLabel->width();
+			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
+		}
+
+		else if (y_End_Click_Coordinate < y_videoLabel_Coordinate)
+		{
+			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = y_videoLabel_Coordinate;
+		}
+
+		else // if (y_End_Click_Coordinate > ui.videoLabel->height())
+		{
+			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = ui.videoLabel->height();
+		}
 
 		ROI_Width = x_End_ROI_Coordinate - x_Start_ROI_Coordinate;
 		ROI_Height = y_End_ROI_Coordinate - y_Start_ROI_Coordinate;
