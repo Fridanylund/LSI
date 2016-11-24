@@ -291,6 +291,16 @@ void LSIProjectGUI::update()
 			graph_update = 0;
 		}
 	}
+	if (List_Of_ROI.empty())
+	{
+		Multiple_ROI_Averages.clear();
+	}
+	if (Multiple_ROI_Averages.empty())
+	{
+		ui.customPlot->clearGraphs();
+		ui.customPlot->replot();
+	}
+
 }
 
 
