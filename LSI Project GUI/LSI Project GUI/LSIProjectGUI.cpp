@@ -11,7 +11,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	//Connects the serial port which is used to control the laser
 	port = new QSerialPort(this);
-	port->setPortName("COM10");
+	port->setPortName("COM5");
 	port->open(QIODevice::WriteOnly);
 	port->setRequestToSend(false);
 
@@ -44,7 +44,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ui.customPlot->xAxis->setRange(x_min, x_max);
 	ui.customPlot->yAxis->setRange(0, 200);
 
-	////Declare a Property struct.
+	//Declare a Property struct.
 	//Property prop;
 	////Define the property to adjust.
 	//prop.type = GAIN;
@@ -102,12 +102,12 @@ void LSIProjectGUI::take_laser_image()
 void LSIProjectGUI::take_ambient_light_image()
 {
 	port->setRequestToSend(false);
-	Sleep(75);
+	Sleep(100);
 	camera.Connect(0);
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage2);
 	port->setRequestToSend(true);
-	Sleep(150);
+	Sleep(200);
 	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
 	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
 	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
@@ -119,7 +119,7 @@ void LSIProjectGUI::take_ambient_light_image()
 		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
 	}
 	Raw_im = Main_Image_CV_for_ambient_light;
-
+	//imshow("asd", Raw_im);
 }
 
 void LSIProjectGUI::remove_ambient_ligth_and_black_image()
@@ -142,9 +142,10 @@ void LSIProjectGUI::do_contrast()
 	TemporalFiltering(Contrast_Images);
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
-
 	// Add colors to the perfusion image.
 	applyColorMap(Main_Image_CV, Main_Image_CV, COLORMAP_JET);
+	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
+	ui.videoLabel->setPixmap(Main_Image);
 }
 
 void LSIProjectGUI::load_init()
@@ -189,8 +190,7 @@ void LSIProjectGUI::update()
 			ambient_ligth_refresh_rate_count--;
 		}
 
-		Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
-		ui.videoLabel->setPixmap(Main_Image);
+
 
 		// vector for ROI colours
 		QVector<QColor> ROI_Colors{QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
@@ -608,7 +608,6 @@ void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 	Image rawImage_calib;
 	Image rgbImage_calib;
 	camera.RetrieveBuffer(&rawImage_calib);
-
 	rawImage_calib.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_calib);
 	unsigned int rowBytes = (double)rgbImage_calib.GetReceivedDataSize() / (double)rgbImage_calib.GetRows(); //Converts the Image to Mat
 	Calib_Image_Moving = Mat(rgbImage_calib.GetRows(), rgbImage_calib.GetCols(), CV_8UC3, rgbImage_calib.GetData(), rowBytes);
