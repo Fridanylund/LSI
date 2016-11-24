@@ -40,9 +40,9 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	
 	// give the axes some labels:
 	ui.customPlot->xAxis->setLabel("Time");
-	ui.customPlot->yAxis->setLabel("Mean Contrast");
+	ui.customPlot->yAxis->setLabel("Perfusion");
 	ui.customPlot->xAxis->setRange(x_min, x_max);
-	ui.customPlot->yAxis->setRange(0, 50);
+	ui.customPlot->yAxis->setRange(0, 200);
 
 	////Declare a Property struct.
 	//Property prop;
@@ -228,6 +228,11 @@ void LSIProjectGUI::update()
 
 	if (Is_ROI_Button_Is_Pressed)
 	{
+		if (List_Of_ROI.empty())
+		{
+			ROI_Width = 0;
+			ROI_Height = 0;
+		}
 		QPainter painter(&Main_Image);
 		painter.setPen(pen); //sets pen settings from above to painter
 		painter.drawRect(x_Start_ROI_Coordinate, y_Start_ROI_Coordinate, ROI_Width, ROI_Height);
@@ -273,6 +278,7 @@ void LSIProjectGUI::update()
 				ui.customPlot->addGraph();
 				ui.customPlot->graph(k)->setData(x, Multiple_ROI_Averages[k]);
 				ui.customPlot->graph(k)->setPen(QPen(ROI_Colors.at(color)));
+				//ui.customPlot->graph(k)->setData(x, Multiple_ROI_Averages[k]);
 				ui.customPlot->replot();
 				ui.customPlot->xAxis->setRange(x_min, x_max);
 
