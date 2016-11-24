@@ -122,7 +122,6 @@ private:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
-	void on_patientName_textEdited(const QString &text);
 	void update();
 	//
 	void on_LASCAarea_valueChanged();
