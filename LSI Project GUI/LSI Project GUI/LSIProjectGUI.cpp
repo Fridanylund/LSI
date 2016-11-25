@@ -464,14 +464,22 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 		// skapar vektorer för att skapa nytt ROI object
 		vector<int> ROIlocation;
 		vector<int> ROIregion;
-		int ROIcolor;
+		
 
 		// same color vector as in update function
 		QVector<QColor> ROI_Colors{ QColor("red"), QColor("darkBlue"), QColor("Yellow"), QColor("cyan"), QColor("darkMagenta"), QColor("green"), QColor("darkRed"), QColor("blue"), QColor("darkYellow"), QColor("darkCyan"), QColor("magenta"), QColor("darkGreen") };
 		
 		// should give 1 to ROI_Colors.size() so we can loop through ROI_Colors vector but doesn't really work; crashes after last color
-		ROIcolor = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor = round down
+		//ROIcolor = i - ROI_Colors.size() * floor((i - 1) / ROI_Colors.size()); // floor = round down
 		//
+
+		// loops through color 1-11, even though there are 12 colors, but whatever
+		ROIcolor++;
+		if (ROIcolor == ROI_Colors.size())
+		{
+			ROIcolor = 1;
+		}
+
 		ROIregion.push_back(abs(ROI_Width));
 		ROIregion.push_back(abs(ROI_Height));
 		//
