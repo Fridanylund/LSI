@@ -78,6 +78,7 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, dou
 	double mean_value; 
 	double mean_value_squared;
 	double temp_value;
+	double temp_contrast;
 	int height_it, width_it,lasca_width_it, lasca_height_it;
 	for (width_it = 0; width_it < H; width_it++)
 	{
@@ -90,10 +91,10 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, dou
 				{
 					temp_value = p3[lascaSize* input.cols*width_it + lasca_width_it*input.cols + lasca_height_it + height_it*lascaSize];
 					
-					if (Calib_Still > 0 & Calib_Moving > 0)
-					{
-						temp_value = (temp_value - Calib_Moving)/(Calib_Still - Calib_Moving); //(C - CMoving) / (CStill - CMoving)
-					}
+					//if (Calib_Still > 0 & Calib_Moving > 0)
+					//{
+					//	temp_value = (temp_value - Calib_Moving)/(Calib_Still - Calib_Moving); //(C - CMoving) / (CStill - CMoving)
+					//}
 
 					mean_value += temp_value;
 					mean_value_squared += temp_value*temp_value;
@@ -101,10 +102,19 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, dou
 			}
 			mean_value = mean_value / (lascaSize*lascaSize);
 			mean_value_squared = mean_value_squared / (lascaSize*lascaSize); 
-			p[height_it] = (sqrt(mean_value_squared - mean_value*mean_value) / mean_value) * 255;
+			temp_contrast = (sqrt(mean_value_squared - mean_value*mean_value) / mean_value)* 255;
+			if (Calib_Still > 0 & Calib_Moving > 0)
+			{
+				//temp_contrast = (temp_contrast - Calib_Still) / (Calib_Moving - Calib_Still);
+				temp_contrast = (temp_contrast - Calib_Moving) / (Calib_Still - Calib_Moving); //(C - CMoving) / (CStill - CMoving)
+			}
+			//if (temp_contrast >= 230)
+			//{
+			//	temp_contrast = 0;
+			//}
+			p[height_it] = temp_contrast;
 			mean_value = 0;
-			mean_value_squared = 0;
-			
+			mean_value_squared = 0;		
 		}
 	}
 	cvtColor(perfusionimage, perfusionimage, cv::COLOR_GRAY2BGR);
@@ -174,11 +184,13 @@ cv::Mat one_divided_by_kontrast(cv::Mat input)
 cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
 {
 	Mat temp;
-	threshold((1 / (input ^ 2)) * 400, temp, 255, 0, THRESH_TRUNC);
+	threshold((255 / (input^2)), temp, 255, 0, THRESH_TRUNC);
+	//threshold((255 / (input ^ 2)), temp, 0, 0, THRESH_TOZERO);
 	// *400 is to emphesise the differences too be able to see them clearer.
 
 	//Mat temp = 255 / (input ^ 2);
 	return temp;
+
 }
 
 cv::Mat one_minus_kontrast(cv::Mat input)
