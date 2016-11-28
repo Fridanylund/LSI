@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
-    QByteArrayData data[23];
-    char stringdata0[422];
+    QByteArrayData data[24];
+    char stringdata0[441];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,20 +39,21 @@ QT_MOC_LITERAL(5, 87, 26), // "on_removeROIButton_clicked"
 QT_MOC_LITERAL(6, 114, 22), // "on_Dark_Button_clicked"
 QT_MOC_LITERAL(7, 137, 22), // "on_AmbL_Button_clicked"
 QT_MOC_LITERAL(8, 160, 22), // "on_laserButton_clicked"
-QT_MOC_LITERAL(9, 183, 32), // "on_CalibrateStill_Button_clicked"
-QT_MOC_LITERAL(10, 216, 33), // "on_CalibrateMoving_Button_cli..."
-QT_MOC_LITERAL(11, 250, 15), // "mousePressEvent"
-QT_MOC_LITERAL(12, 266, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(13, 279, 5), // "event"
-QT_MOC_LITERAL(14, 285, 14), // "mouseMoveEvent"
-QT_MOC_LITERAL(15, 300, 17), // "mouseReleaseEvent"
-QT_MOC_LITERAL(16, 318, 6), // "update"
-QT_MOC_LITERAL(17, 325, 25), // "on_LASCAarea_valueChanged"
-QT_MOC_LITERAL(18, 351, 28), // "on_exposuretime_valueChanged"
-QT_MOC_LITERAL(19, 380, 8), // "laser_ON"
-QT_MOC_LITERAL(20, 389, 8), // "laser_OF"
-QT_MOC_LITERAL(21, 398, 8), // "makePlot"
-QT_MOC_LITERAL(22, 407, 14) // "QVector<qreal>"
+QT_MOC_LITERAL(9, 183, 18), // "on_Save_Im_clicked"
+QT_MOC_LITERAL(10, 202, 32), // "on_CalibrateStill_Button_clicked"
+QT_MOC_LITERAL(11, 235, 33), // "on_CalibrateMoving_Button_cli..."
+QT_MOC_LITERAL(12, 269, 15), // "mousePressEvent"
+QT_MOC_LITERAL(13, 285, 12), // "QMouseEvent*"
+QT_MOC_LITERAL(14, 298, 5), // "event"
+QT_MOC_LITERAL(15, 304, 14), // "mouseMoveEvent"
+QT_MOC_LITERAL(16, 319, 17), // "mouseReleaseEvent"
+QT_MOC_LITERAL(17, 337, 6), // "update"
+QT_MOC_LITERAL(18, 344, 25), // "on_LASCAarea_valueChanged"
+QT_MOC_LITERAL(19, 370, 28), // "on_exposuretime_valueChanged"
+QT_MOC_LITERAL(20, 399, 8), // "laser_ON"
+QT_MOC_LITERAL(21, 408, 8), // "laser_OF"
+QT_MOC_LITERAL(22, 417, 8), // "makePlot"
+QT_MOC_LITERAL(23, 426, 14) // "QVector<qreal>"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
@@ -60,7 +61,7 @@ QT_MOC_LITERAL(22, 407, 14) // "QVector<qreal>"
     "on_createROIButton_clicked\0"
     "on_removeROIButton_clicked\0"
     "on_Dark_Button_clicked\0on_AmbL_Button_clicked\0"
-    "on_laserButton_clicked\0"
+    "on_laserButton_clicked\0on_Save_Im_clicked\0"
     "on_CalibrateStill_Button_clicked\0"
     "on_CalibrateMoving_Button_clicked\0"
     "mousePressEvent\0QMouseEvent*\0event\0"
@@ -77,7 +78,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -85,24 +86,25 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  104,    2, 0x0a /* Public */,
-       3,    0,  105,    2, 0x0a /* Public */,
-       4,    0,  106,    2, 0x0a /* Public */,
-       5,    0,  107,    2, 0x0a /* Public */,
-       6,    0,  108,    2, 0x0a /* Public */,
-       7,    0,  109,    2, 0x0a /* Public */,
-       8,    0,  110,    2, 0x0a /* Public */,
-       9,    0,  111,    2, 0x0a /* Public */,
-      10,    0,  112,    2, 0x0a /* Public */,
-      11,    1,  113,    2, 0x0a /* Public */,
-      14,    1,  116,    2, 0x0a /* Public */,
-      15,    1,  119,    2, 0x0a /* Public */,
-      16,    0,  122,    2, 0x0a /* Public */,
-      17,    0,  123,    2, 0x0a /* Public */,
-      18,    0,  124,    2, 0x0a /* Public */,
-      19,    0,  125,    2, 0x0a /* Public */,
-      20,    0,  126,    2, 0x0a /* Public */,
-      21,    1,  127,    2, 0x08 /* Private */,
+       1,    0,  109,    2, 0x0a /* Public */,
+       3,    0,  110,    2, 0x0a /* Public */,
+       4,    0,  111,    2, 0x0a /* Public */,
+       5,    0,  112,    2, 0x0a /* Public */,
+       6,    0,  113,    2, 0x0a /* Public */,
+       7,    0,  114,    2, 0x0a /* Public */,
+       8,    0,  115,    2, 0x0a /* Public */,
+       9,    0,  116,    2, 0x0a /* Public */,
+      10,    0,  117,    2, 0x0a /* Public */,
+      11,    0,  118,    2, 0x0a /* Public */,
+      12,    1,  119,    2, 0x0a /* Public */,
+      15,    1,  122,    2, 0x0a /* Public */,
+      16,    1,  125,    2, 0x0a /* Public */,
+      17,    0,  128,    2, 0x0a /* Public */,
+      18,    0,  129,    2, 0x0a /* Public */,
+      19,    0,  130,    2, 0x0a /* Public */,
+      20,    0,  131,    2, 0x0a /* Public */,
+      21,    0,  132,    2, 0x0a /* Public */,
+      22,    1,  133,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -114,15 +116,16 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 12,   13,
-    QMetaType::Void, 0x80000000 | 12,   13,
-    QMetaType::Void, 0x80000000 | 12,   13,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 13,   14,
+    QMetaType::Void, 0x80000000 | 13,   14,
+    QMetaType::Void, 0x80000000 | 13,   14,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 22,    2,
+    QMetaType::Void, 0x80000000 | 23,    2,
 
        0        // eod
 };
@@ -140,23 +143,24 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 4: _t->on_Dark_Button_clicked(); break;
         case 5: _t->on_AmbL_Button_clicked(); break;
         case 6: _t->on_laserButton_clicked(); break;
-        case 7: _t->on_CalibrateStill_Button_clicked(); break;
-        case 8: _t->on_CalibrateMoving_Button_clicked(); break;
-        case 9: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 10: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 11: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 12: _t->update(); break;
-        case 13: _t->on_LASCAarea_valueChanged(); break;
-        case 14: _t->on_exposuretime_valueChanged(); break;
-        case 15: _t->laser_ON(); break;
-        case 16: _t->laser_OF(); break;
-        case 17: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
+        case 7: _t->on_Save_Im_clicked(); break;
+        case 8: _t->on_CalibrateStill_Button_clicked(); break;
+        case 9: _t->on_CalibrateMoving_Button_clicked(); break;
+        case 10: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 11: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 12: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 13: _t->update(); break;
+        case 14: _t->on_LASCAarea_valueChanged(); break;
+        case 15: _t->on_exposuretime_valueChanged(); break;
+        case 16: _t->laser_ON(); break;
+        case 17: _t->laser_OF(); break;
+        case 18: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 17:
+        case 18:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -192,13 +196,13 @@ int LSIProjectGUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 19;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 19;
     }
     return _id;
 }

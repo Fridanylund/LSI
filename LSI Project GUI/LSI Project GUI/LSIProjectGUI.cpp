@@ -448,29 +448,54 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate)
+		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate >= y_videoLabel_Coordinate)
 		{
 			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
 			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate > ui.videoLabel->width())
+		else if (x_End_Click_Coordinate > ui.videoLabel->width() & y_End_Click_Coordinate >= y_videoLabel_Coordinate)
 		{
 			x_End_ROI_Coordinate = ui.videoLabel->width();
 			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
 		}
 
-		else if (y_End_Click_Coordinate < y_videoLabel_Coordinate)
+		else if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & y_End_Click_Coordinate < y_videoLabel_Coordinate)
 		{
 			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
 			y_End_ROI_Coordinate = y_videoLabel_Coordinate;
 		}
 
-		else // if (y_End_Click_Coordinate > ui.videoLabel->height())
+		else if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & y_End_Click_Coordinate > ui.videoLabel->height())
 		{
 			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
 			y_End_ROI_Coordinate = ui.videoLabel->height();
 		}
+
+		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate < y_videoLabel_Coordinate)
+		{
+			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = y_videoLabel_Coordinate;
+		}
+
+		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate > ui.videoLabel->height())
+		{
+			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = ui.videoLabel->height();
+		}
+
+		else if (x_End_Click_Coordinate > ui.videoLabel->width() & y_End_Click_Coordinate < y_videoLabel_Coordinate)
+		{
+			x_End_ROI_Coordinate = ui.videoLabel->width();
+			y_End_ROI_Coordinate = y_videoLabel_Coordinate;
+		}
+
+		else //if (x_End_Click_Coordinate > ui.videoLabel->width() & y_End_Click_Coordinate > ui.videoLabel->height())
+		{
+			x_End_ROI_Coordinate = ui.videoLabel->width();
+			y_End_ROI_Coordinate = ui.videoLabel->height();
+		}
+
 
 		ROI_Width = x_End_ROI_Coordinate - x_Start_ROI_Coordinate;
 		ROI_Height = y_End_ROI_Coordinate - y_Start_ROI_Coordinate;
@@ -650,6 +675,11 @@ void LSIProjectGUI::laser_ON()
 	port->setRequestToSend(laser_switch);
 }
 
+
+void LSIProjectGUI::on_Save_Im_clicked()
+{
+	ui.button_test->setText("save!");
+}
 
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
