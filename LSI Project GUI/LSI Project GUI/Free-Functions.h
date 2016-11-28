@@ -35,7 +35,7 @@ QVector<double> Calc_ROI_Average(Mat Perfusion_Image, std::vector<ROI> The_List_
 
 cv::Mat one_divided_by_kontrast(cv::Mat input);
 
-cv::Mat one_divided_by_kontrast_squared(cv::Mat input);
+cv::Mat one_divided_by_kontrast_squared(cv::Mat input, bool log_it);
 
 cv::Mat one_minus_kontrast(cv::Mat input);
 

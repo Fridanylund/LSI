@@ -275,7 +275,7 @@ cv::Mat one_divided_by_kontrast(cv::Mat input)
 	return temp;
 }
 
-cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
+cv::Mat one_divided_by_kontrast_squared(cv::Mat input, bool log_it)
 {
 	int H = input.rows;
 	int W = input.cols;
@@ -290,13 +290,26 @@ cv::Mat one_divided_by_kontrast_squared(cv::Mat input)
 		double a = temp[0];
 		double o = input_pointer[p];
 		double i = 1/input_pointer[p];
-		double u = i;//*i;
-		if (u > 1500) //För att se vad som ger "abnormala" värden. Och för att sätta en övre gräns
+		double u = i*i;
+		if (log_it)
 		{
-			output_pointer[p] = 1500;
+			if (u <= 0) //För att se vad som ger "abnormala" värden. Och för att sätta en övre gräns
+			{
+				output_pointer[p] = 0;
+			}
+			else {
+				output_pointer[p] = log(u);
+			}
+		
 		}
 		else {
-			output_pointer[p] = u;
+			if (u > 1500) //För att se vad som ger "abnormala" värden. Och för att sätta en övre gräns
+			{
+				output_pointer[p] = 1500;
+			}
+			else {
+				output_pointer[p] = u;
+			}
 		}
 	}
 	return output;

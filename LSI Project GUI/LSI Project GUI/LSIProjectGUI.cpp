@@ -153,8 +153,8 @@ void LSIProjectGUI::do_contrast()
 
 	
 	
-	Mat Main_Image_CV_divided = one_divided_by_kontrast_squared(Main_Image_CV_filter);
-	Main_Image_CV_divided = 255 * Main_Image_CV_divided / 1500; //Normaliserar och sätter sedan på en skala 0-255
+	Mat Main_Image_CV_divided = one_divided_by_kontrast_squared(Main_Image_CV_filter,true);
+	//Main_Image_CV_divided = 255 * Main_Image_CV_divided / 1500; //Normaliserar och sätter sedan på en skala 0-255
 	minMaxLoc(Main_Image_CV_divided, &_min2, &_max2);
 	_mean2 = mean(Main_Image_CV_divided).val[0];
 	cout << _min << _max << _mean << _min2 << _max2 << _mean2;
@@ -654,7 +654,7 @@ void LSIProjectGUI::laser_ON()
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
-	ui.button_test->setText("still!");
+	ui.button_test->setText("still start!");
 	Mat Calib_Image_Still = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
@@ -664,29 +664,29 @@ void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 	{
 		absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
 	}
-
 	Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
 	Calib_Still = mean(Calib_Image_Still).val[0];
 	save_init();
+	ui.button_test->setText("still done!");
 }
 
 void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 {
-	Mat Calib_Image_Moving;
-	ui.button_test->setText("still!");
-	Mat Calib_Image_Still = Help_Average_Images_RT(100);
+	ui.button_test->setText("moving start!");
+	Mat Calib_Image_Moving = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
-		absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
+		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
 	}
 	if (!Raw_im.empty()) // Removes the ambient light when image taken.
 	{
-		absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
+		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
 	}
 
 	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
 	Calib_Moving = mean(Calib_Image_Moving).val[0];
 	save_init();
+	ui.button_test->setText("moving done!");
 }
 
 //void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
