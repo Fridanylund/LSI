@@ -11,7 +11,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	//Connects the serial port which is used to control the laser
 	port = new QSerialPort(this);
-	port->setPortName("COM5");
+	port->setPortName("COM3");
 	port->open(QIODevice::WriteOnly);
 	port->setRequestToSend(false);
 
@@ -94,6 +94,7 @@ void LSIProjectGUI::take_laser_image()
 	{
 		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
 	}
+	//imshow("Råbild", Main_Image_CV);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
@@ -137,14 +138,35 @@ void LSIProjectGUI::remove_ambient_ligth_and_black_image()
 
 void LSIProjectGUI::do_contrast()
 {
-	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
-	Add_Contrast_Image(Main_Image_CV);
-	TemporalFiltering(Contrast_Images);
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-	Main_Image_CV = one_divided_by_kontrast_squared(Main_Image_CV);
-	// Add colors to the perfusion image.
-	applyColorMap(Main_Image_CV, Main_Image_CV, COLORMAP_JET);
-	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
+	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
+	double _min, _max, _min2, _max2;
+	double _mean, _mean2;
+
+
+
+	Add_Contrast_Image(Main_Image_CV);
+	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
+
+	_mean = mean(Main_Image_CV_filter).val[0];
+	minMaxLoc(Main_Image_CV_filter, &_min, &_max);
+
+	
+	
+	Mat Main_Image_CV_divided = one_divided_by_kontrast_squared(Main_Image_CV_filter);
+	Main_Image_CV_divided = 255 * Main_Image_CV_divided / 1500; //Normaliserar och sätter sedan på en skala 0-255
+	minMaxLoc(Main_Image_CV_divided, &_min2, &_max2);
+	_mean2 = mean(Main_Image_CV_divided).val[0];
+	cout << _min << _max << _mean << _min2 << _max2 << _mean2;
+
+	Mat temp;
+	Main_Image_CV_divided.convertTo(temp, CV_8U);
+
+	imshow("Kontrast", Main_Image_CV_filter);
+	imshow("1/kontrast^2", Main_Image_CV_divided);
+
+
+	//Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
 }
 
@@ -588,6 +610,7 @@ void LSIProjectGUI::on_AmbL_Button_clicked()
 {
 	static_ambient_ligth = true; 
 	Raw_im = Help_Average_Images_RT(100);
+	ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
 	imwrite("images//ambientBild.png", Raw_im);
 	ui.button_test->setText("Amb klart!");
 }
@@ -624,7 +647,7 @@ void LSIProjectGUI::laser_ON()
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
 	ui.button_test->setText("still!");
-	Mat Calib_Image_Still = Help_Average_Images_RT(10);
+	Mat Calib_Image_Still = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
 		absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
@@ -641,25 +664,44 @@ void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 
 void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 {
-	ui.button_test->setText("moving!");
 	Mat Calib_Image_Moving;
-	Image rawImage_calib;
-	Image rgbImage_calib;
-	camera.RetrieveBuffer(&rawImage_calib);
-	rawImage_calib.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_calib);
-	unsigned int rowBytes = (double)rgbImage_calib.GetReceivedDataSize() / (double)rgbImage_calib.GetRows(); //Converts the Image to Mat
-	Calib_Image_Moving = Mat(rgbImage_calib.GetRows(), rgbImage_calib.GetCols(), CV_8UC3, rgbImage_calib.GetData(), rowBytes);
-
-	if (!Black_im.empty()) // Removes the black image if taken.
+	ui.button_test->setText("still!");
+	Mat Calib_Image_Still = Help_Average_Images_RT(100);
+	if (!Black_im.empty()) // Removes the black image when taken.
 	{
-		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
+		absdiff(Calib_Image_Still, Black_im, Calib_Image_Still);
 	}
-	if (!Raw_im.empty()) // Removes ambient light if image taken.
+	if (!Raw_im.empty()) // Removes the ambient light when image taken.
 	{
-		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
+		absdiff(Calib_Image_Still, Raw_im, Calib_Image_Still);
 	}
 
 	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
 	Calib_Moving = mean(Calib_Image_Moving).val[0];
 	save_init();
 }
+
+//void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
+//{
+//	ui.button_test->setText("moving!");
+//	Mat Calib_Image_Moving;
+//	Image rawImage_calib;
+//	Image rgbImage_calib;
+//	camera.RetrieveBuffer(&rawImage_calib);
+//	rawImage_calib.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_calib);
+//	unsigned int rowBytes = (double)rgbImage_calib.GetReceivedDataSize() / (double)rgbImage_calib.GetRows(); //Converts the Image to Mat
+//	Calib_Image_Moving = Mat(rgbImage_calib.GetRows(), rgbImage_calib.GetCols(), CV_8UC3, rgbImage_calib.GetData(), rowBytes);
+//
+//	if (!Black_im.empty()) // Removes the black image if taken.
+//	{
+//		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
+//	}
+//	if (!Raw_im.empty()) // Removes ambient light if image taken.
+//	{
+//		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
+//	}
+//
+//	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
+//	Calib_Moving = mean(Calib_Image_Moving).val[0];
+//	save_init();
+//}

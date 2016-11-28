@@ -27,6 +27,8 @@ cv::Mat CalculateContrast(cv::Mat input, int lascaSize);
 
 cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, double Calib_Moving);
 
+cv::Mat Convert_From_Double2Int(cv::Mat input);
+
 cv::Mat TemporalFiltering(vector<cv::Mat> input);
 
 QVector<double> Calc_ROI_Average(Mat Perfusion_Image, std::vector<ROI> The_List_Of_ROIs);
