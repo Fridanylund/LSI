@@ -33,7 +33,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
-	ambient_ligth_refresh_rate = 100;
+	ambient_ligth_refresh_rate = 5;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
 
@@ -85,6 +85,7 @@ void LSIProjectGUI::take_laser_image()
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+	cv::resize(Main_Image_CV, temp, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	//imshow("sadsa", Main_Image_CV);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
@@ -94,7 +95,8 @@ void LSIProjectGUI::take_laser_image()
 	{
 		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
 	}
-	//imshow("Råbild", Main_Image_CV);
+	//cv::resize(Main_Image_CV, temp, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
+	//imshow("Råbild", temp);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
@@ -120,7 +122,7 @@ void LSIProjectGUI::take_ambient_light_image()
 		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
 	}
 	Raw_im = Main_Image_CV_for_ambient_light;
-	//imshow("asd", Raw_im);
+
 }
 
 void LSIProjectGUI::remove_ambient_ligth_and_black_image()
@@ -153,7 +155,7 @@ void LSIProjectGUI::do_contrast()
 
 	
 	
-	Mat Main_Image_CV_divided = one_divided_by_kontrast_squared(Main_Image_CV_filter,true);
+	Main_Image_CV_divided = one_divided_by_kontrast_squared(Main_Image_CV_filter,true);
 	//Main_Image_CV_divided = 255 * Main_Image_CV_divided / 1500; //Normaliserar och sätter sedan på en skala 0-255
 	minMaxLoc(Main_Image_CV_divided, &_min2, &_max2);
 	_mean2 = mean(Main_Image_CV_divided).val[0];
@@ -679,6 +681,13 @@ void LSIProjectGUI::laser_ON()
 void LSIProjectGUI::on_Save_Im_clicked()
 {
 	ui.button_test->setText("save!");
+	//string name = ui.nameLabel->text(); //.toStdString();
+	
+	string fname;
+	//fname = "images//whynowork.png";
+	//"time" + QTime::currentTime().toString().toStdString() +
+	fname = "images//laser.png"; //+ to_string(lasca_area) + "ET" + to_string(exposure_time) + QTime::currentTime().toString().toStdString() +".png";
+	imwrite(fname, temp); //Main_Image_CV_divided
 }
 
 

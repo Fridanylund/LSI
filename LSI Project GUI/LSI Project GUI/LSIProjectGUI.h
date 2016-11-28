@@ -95,7 +95,9 @@ private:
 	string filename;
 	VideoWriter Video_Base;
 	VideoWriter Video_Contrast;
-	
+	string patient_name;
+	Mat Main_Image_CV_divided;
+	Mat temp;
 	
 	void take_laser_image();
 	void take_ambient_light_image();
