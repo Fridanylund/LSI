@@ -676,6 +676,11 @@ void LSIProjectGUI::laser_ON()
 }
 
 
+void LSIProjectGUI::on_Save_Im_clicked()
+{
+	ui.button_test->setText("save!");
+}
+
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {

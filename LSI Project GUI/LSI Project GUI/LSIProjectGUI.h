@@ -115,6 +115,7 @@ private:
 	void on_Dark_Button_clicked();
 	void on_AmbL_Button_clicked();
 	void on_laserButton_clicked();
+	void on_Save_Im_clicked();
 	// These two calibration buttons are needed in the GUI:
 	void on_CalibrateStill_Button_clicked();
 	void on_CalibrateMoving_Button_clicked();

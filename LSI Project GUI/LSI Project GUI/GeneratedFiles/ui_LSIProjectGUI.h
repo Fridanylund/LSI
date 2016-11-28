@@ -67,6 +67,7 @@ public:
     QPushButton *CalibrateStill_Button;
     QPushButton *CalibrateMoving_Button;
     QLabel *label_2;
+    QPushButton *Save_Im;
     QCustomPlot *customPlot;
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
@@ -106,12 +107,12 @@ public:
 "font: 75 11pt \"Segoe UI Light\";"));
         createROIButton = new QPushButton(centralWidget);
         createROIButton->setObjectName(QStringLiteral("createROIButton"));
-        createROIButton->setGeometry(QRect(770, 230, 141, 61));
+        createROIButton->setGeometry(QRect(770, 240, 141, 61));
         createROIButton->setStyleSheet(QLatin1String("background-color: rgb(170, 85, 127);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         removeROIButton = new QPushButton(centralWidget);
         removeROIButton->setObjectName(QStringLiteral("removeROIButton"));
-        removeROIButton->setGeometry(QRect(770, 310, 141, 61));
+        removeROIButton->setGeometry(QRect(770, 320, 141, 61));
         removeROIButton->setStyleSheet(QLatin1String("background-color: rgb(255, 170, 255);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         videoLabel = new QLabel(centralWidget);
@@ -212,12 +213,14 @@ public:
         error_LASCA_label->setStyleSheet(QStringLiteral("color: rgb(186, 1, 35);"));
         AmbL_Button = new QPushButton(settings);
         AmbL_Button->setObjectName(QStringLiteral("AmbL_Button"));
-        AmbL_Button->setGeometry(QRect(60, 270, 171, 41));
-        AmbL_Button->setStyleSheet(QStringLiteral("background-color: rgb(64, 140, 255);"));
+        AmbL_Button->setGeometry(QRect(60, 250, 171, 41));
+        AmbL_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+"background-color: rgb(64, 140, 255);"));
         Dark_Button = new QPushButton(settings);
         Dark_Button->setObjectName(QStringLiteral("Dark_Button"));
-        Dark_Button->setGeometry(QRect(60, 330, 171, 41));
-        Dark_Button->setStyleSheet(QStringLiteral("background-color: rgb(64, 140, 255);"));
+        Dark_Button->setGeometry(QRect(60, 310, 171, 41));
+        Dark_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+"background-color: rgb(64, 140, 255);"));
         label = new QLabel(settings);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 190, 121, 31));
@@ -250,6 +253,11 @@ public:
         label_2->setGeometry(QRect(30, 420, 101, 21));
         label_2->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 ""));
+        Save_Im = new QPushButton(settings);
+        Save_Im->setObjectName(QStringLiteral("Save_Im"));
+        Save_Im->setGeometry(QRect(60, 370, 171, 41));
+        Save_Im->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+"background-color: rgb(64, 140, 255);"));
         settings_patientInfo->addTab(settings, QString());
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
@@ -340,6 +348,7 @@ public:
         CalibrateStill_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Still Image", 0));
         CalibrateMoving_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take moving image", 0));
         label_2->setText(QApplication::translate("LSIProjectGUIClass", "Calibration:", 0));
+        Save_Im->setText(QApplication::translate("LSIProjectGUIClass", "Save Image", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(settings), QApplication::translate("LSIProjectGUIClass", "Settings", 0));
         laserButton->setText(QApplication::translate("LSIProjectGUIClass", "Turn on laser", 0));
     } // retranslateUi
