@@ -76,6 +76,7 @@ private:
 	int ROI_Height;
 	QPen pen;
 	QTimer *timer;
+	int ROIcolor = 0;
 	int i = 0;
 	int color_index;
 	int refresh_rate; //How often the update function will be called in mS
