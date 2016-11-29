@@ -33,7 +33,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
-	ambient_ligth_refresh_rate = 5;
+	ambient_ligth_refresh_rate = 100;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
 
@@ -89,14 +89,16 @@ void LSIProjectGUI::take_laser_image()
 	//imshow("sadsa", Main_Image_CV);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
-		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+		//absdiff(Main_Image_CV, Black_im, Main_Image_CV);
+		Main_Image_CV = Main_Image_CV - Black_im;
 	}
 	if (!Raw_im.empty()) // Removes the ambient light when image taken.
 	{
-		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+		//absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
+		Main_Image_CV = Main_Image_CV - Raw_im;
 	}
 	//cv::resize(Main_Image_CV, temp, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-	//imshow("Råbild", temp);
+	//imshow("Råbild", Main_Image_CV);
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
@@ -110,7 +112,7 @@ void LSIProjectGUI::take_ambient_light_image()
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage2);
 	port->setRequestToSend(true);
-	Sleep(200);
+	Sleep(650);
 	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
 	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
 	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
@@ -119,23 +121,17 @@ void LSIProjectGUI::take_ambient_light_image()
 	//remove_ambient_ligth_and_black_image();
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
-		absdiff(Main_Image_CV_for_ambient_light, Black_im, Main_Image_CV_for_ambient_light);
+		Raw_im = Main_Image_CV_for_ambient_light - Black_im;
+		/*imshow("Ambient light", Raw_im);*/
 	}
-	Raw_im = Main_Image_CV_for_ambient_light;
+	else 
+	{
+		Raw_im = Main_Image_CV_for_ambient_light;
+
+	}
 
 }
 
-void LSIProjectGUI::remove_ambient_ligth_and_black_image()
-{
-	if (!Black_im.empty()) // Removes the black image when taken.
-	{
-		absdiff(Main_Image_CV, Black_im, Main_Image_CV);
-	}
-	if (!Raw_im.empty()) // Removes the ambient light when image taken.
-	{
-		absdiff(Main_Image_CV, Raw_im, Main_Image_CV);
-	}
-}
 
 
 void LSIProjectGUI::do_contrast()
@@ -150,22 +146,41 @@ void LSIProjectGUI::do_contrast()
 	Add_Contrast_Image(Main_Image_CV);
 	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
 
-	_mean = mean(Main_Image_CV_filter).val[0];
-	minMaxLoc(Main_Image_CV_filter, &_min, &_max);
 
+
+	Mat Main_Image_CV_divided_log;
+	Mat Main_Image_CV_divided_reg;
 	
+	Main_Image_CV_divided_log = one_divided_by_kontrast_squared(Main_Image_CV_filter,true); //Tar 1/k^2 och log på det
+	Main_Image_CV_divided_reg = one_divided_by_kontrast_squared(Main_Image_CV_filter, false);
+
+	 //
+
+
+	Main_Image_CV_divided_log = 2 * Main_Image_CV_divided_log;
+	Main_Image_CV_divided_log.convertTo(Main_Image_CV_divided_log, CV_8UC3);
+
+	Main_Image_CV_divided_reg = 1 * Main_Image_CV_divided_reg/2;
+	Main_Image_CV_divided_reg.convertTo(Main_Image_CV_divided_reg, CV_8UC3);
+
+	_mean = mean(Main_Image_CV_divided_log).val[0];
+	minMaxLoc(Main_Image_CV_divided_log, &_min, &_max);
+
+	minMaxLoc(Main_Image_CV_divided_reg, &_min2, &_max2);
+	_mean2 = mean(Main_Image_CV_divided_reg).val[0];
 	
-	Main_Image_CV_divided = one_divided_by_kontrast_squared(Main_Image_CV_filter,true);
-	//Main_Image_CV_divided = 255 * Main_Image_CV_divided / 1500; //Normaliserar och sätter sedan på en skala 0-255
-	minMaxLoc(Main_Image_CV_divided, &_min2, &_max2);
-	_mean2 = mean(Main_Image_CV_divided).val[0];
 	cout << _min << _max << _mean << _min2 << _max2 << _mean2;
 
-	Mat temp;
-	Main_Image_CV_divided.convertTo(temp, CV_8U);
 
-	imshow("Kontrast", Main_Image_CV_filter);
-	imshow("1/kontrast^2", Main_Image_CV_divided);
+
+	
+	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
+	applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
+	//cv::cvtColor(Main_Image_CV_divided_log, Main_Image_CV_divided_log, cv::COLOR_GRAY2BGR);
+	//cv::cvtColor(divided_converted, color, cv::COLOR_GRAY2BGR);
+
+	imshow("1/Kontrast^2", Main_Image_CV_divided_reg);
+	imshow("1/kontrast^2 log", Main_Image_CV_divided_log);
 
 
 	//Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
@@ -728,27 +743,3 @@ void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 	ui.button_test->setText("moving done!");
 }
 
-//void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
-//{
-//	ui.button_test->setText("moving!");
-//	Mat Calib_Image_Moving;
-//	Image rawImage_calib;
-//	Image rgbImage_calib;
-//	camera.RetrieveBuffer(&rawImage_calib);
-//	rawImage_calib.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_calib);
-//	unsigned int rowBytes = (double)rgbImage_calib.GetReceivedDataSize() / (double)rgbImage_calib.GetRows(); //Converts the Image to Mat
-//	Calib_Image_Moving = Mat(rgbImage_calib.GetRows(), rgbImage_calib.GetCols(), CV_8UC3, rgbImage_calib.GetData(), rowBytes);
-//
-//	if (!Black_im.empty()) // Removes the black image if taken.
-//	{
-//		absdiff(Calib_Image_Moving, Black_im, Calib_Image_Moving);
-//	}
-//	if (!Raw_im.empty()) // Removes ambient light if image taken.
-//	{
-//		absdiff(Calib_Image_Moving, Raw_im, Calib_Image_Moving);
-//	}
-//
-//	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
-//	Calib_Moving = mean(Calib_Image_Moving).val[0];
-//	save_init();
-//}

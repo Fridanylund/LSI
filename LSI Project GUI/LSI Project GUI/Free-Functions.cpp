@@ -298,7 +298,7 @@ cv::Mat one_divided_by_kontrast_squared(cv::Mat input, bool log_it)
 				output_pointer[p] = 0;
 			}
 			else {
-				output_pointer[p] = log(u);
+				output_pointer[p] = log(u+1);
 			}
 		
 		}
