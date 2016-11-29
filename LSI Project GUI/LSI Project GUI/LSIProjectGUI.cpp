@@ -42,7 +42,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ui.customPlot->xAxis->setLabel("Time");
 	ui.customPlot->yAxis->setLabel("Perfusion");
 	ui.customPlot->xAxis->setRange(x_min, x_max);
-	ui.customPlot->yAxis->setRange(0, 200);
+	ui.customPlot->yAxis->setRange(0, 255);
 
 	//Declare a Property struct.
 	//Property prop;
@@ -136,17 +136,18 @@ void LSIProjectGUI::take_ambient_light_image()
 
 void LSIProjectGUI::do_contrast()
 {
-	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
+	//cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	//Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
-	Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
+	
 	double _min, _max, _min2, _max2;
 	double _mean, _mean2;
 
 
-
+	Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
+//	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
 	Add_Contrast_Image(Main_Image_CV);
 	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
-
+	
 
 
 	Mat Main_Image_CV_divided_log;
@@ -176,15 +177,15 @@ void LSIProjectGUI::do_contrast()
 
 	
 	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
-	applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
+	//applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
 	//cv::cvtColor(Main_Image_CV_divided_log, Main_Image_CV_divided_log, cv::COLOR_GRAY2BGR);
 	//cv::cvtColor(divided_converted, color, cv::COLOR_GRAY2BGR);
+	cv::cvtColor(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, CV_BGR2RGB);
+	//imshow("1/Kontrast^2", Main_Image_CV_divided_reg);
+	//imshow("1/kontrast^2 log", Main_Image_CV_divided_log);
 
-	imshow("1/Kontrast^2", Main_Image_CV_divided_reg);
-	imshow("1/kontrast^2 log", Main_Image_CV_divided_log);
-
-
-	//Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
+	Main_Image_CV = Main_Image_CV_divided_reg;
+	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
 }
 
