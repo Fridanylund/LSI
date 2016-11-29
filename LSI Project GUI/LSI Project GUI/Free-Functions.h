@@ -27,6 +27,8 @@ cv::Mat CalculateContrast(cv::Mat input, int lascaSize);
 
 cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, double Calib_Moving);
 
+cv::Mat CalculateContrast_pix_by_pix(cv::Mat input, int lascaSize, double Calib_Still, double Calib_Moving);
+
 cv::Mat Convert_From_Double2Int(cv::Mat input);
 
 cv::Mat TemporalFiltering(vector<cv::Mat> input);

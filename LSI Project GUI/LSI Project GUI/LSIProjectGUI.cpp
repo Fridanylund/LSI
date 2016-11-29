@@ -11,7 +11,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	//Connects the serial port which is used to control the laser
 	port = new QSerialPort(this);
-	port->setPortName("COM3");
+	port->setPortName("COM5");
 	port->open(QIODevice::WriteOnly);
 	port->setRequestToSend(false);
 
@@ -137,7 +137,8 @@ void LSIProjectGUI::take_ambient_light_image()
 void LSIProjectGUI::do_contrast()
 {
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
+	//Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
+	Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
 	double _min, _max, _min2, _max2;
 	double _mean, _mean2;
 

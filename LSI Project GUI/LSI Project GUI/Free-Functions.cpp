@@ -186,6 +186,70 @@ cv::Mat CalculateContrast2(cv::Mat input, int lascaSize, double Calib_Still, dou
 	return perfusionimage;
 }
 
+cv::Mat CalculateContrast_pix_by_pix(cv::Mat input, int lascaSize, double Calib_Still, double Calib_Moving)
+{
+	cv::cvtColor(input, input, CV_BGR2GRAY);
+	int H = input.rows; // / lascaSize;
+	int W = input.cols; // / lascaSize;
+
+	cv::Mat perfusionimage = cv::Mat::ones(H, W, CV_64F);
+	double contrast;
+	double* p;
+	uchar* p3 = input.ptr();
+	double mean_value;
+	double mean_value_squared;
+	//double temp_value;
+	int temp_value;
+	double temp_contrast;
+	int height_it, width_it, lasca_width_it, lasca_height_it;
+	for (width_it = 0; width_it < H - lascaSize; width_it++)
+	{
+		p = perfusionimage.ptr<double>(width_it);
+		for (height_it = 0; height_it < W - lascaSize; height_it++)
+		{
+			for (lasca_width_it = 0; lasca_width_it < lascaSize; lasca_width_it++)
+			{
+				for (lasca_height_it = 0; lasca_height_it < lascaSize; lasca_height_it++)
+				{
+					temp_value = p3[input.cols*width_it + lasca_width_it*input.cols + lasca_height_it + height_it];
+					mean_value += temp_value;
+					mean_value_squared += temp_value*temp_value;
+				}
+			}
+			if (mean_value > 0)
+			{
+				mean_value = mean_value / (lascaSize*lascaSize);
+				mean_value_squared = mean_value_squared / (lascaSize*lascaSize);
+				temp_contrast = (sqrt(mean_value_squared - mean_value*mean_value) / mean_value);
+			}
+			else
+			{
+				temp_contrast = 0; //Vilket värde?
+			}
+
+			if (Calib_Still > 0 & Calib_Moving > 0 & temp_contrast > Calib_Moving) //Krav på temp_contrast?
+			{
+				//temp_contrast = (temp_contrast - Calib_Still) / (Calib_Moving - Calib_Still);
+				temp_contrast = ((temp_contrast - Calib_Moving) / (Calib_Still - Calib_Moving)); //(C - CMoving) / (CStill - CMoving)
+			}
+			if (isnan(temp_contrast)) //Sätta till vilket värde?
+			{
+				temp_contrast = 0;
+			}
+			if (temp_contrast < 0) //Kollar varför den blir negativ
+			{
+				cout << "asd";
+			}
+			p[height_it] = temp_contrast;//temp_contrast;
+			mean_value = 0;
+			mean_value_squared = 0;
+		}
+	}
+	//cvtColor(perfusionimage, perfusionimage, cv::COLOR_GRAY2BGR);
+	//resize(perfusionimage, perfusionimage, cv::Size(input.cols, input.rows), 0, 0, cv::INTER_CUBIC);
+	return perfusionimage;
+}
+
 cv::Mat Convert_From_Double2Int(cv::Mat input)
 {
 	//int H = input.rows;
