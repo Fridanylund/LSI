@@ -246,7 +246,7 @@ cv::Mat CalculateContrast_pix_by_pix(cv::Mat input, int lascaSize, double Calib_
 		}
 	}
 	//cvtColor(perfusionimage, perfusionimage, cv::COLOR_GRAY2BGR);
-	//resize(perfusionimage, perfusionimage, cv::Size(input.cols, input.rows), 0, 0, cv::INTER_CUBIC);
+	resize(perfusionimage, perfusionimage, cv::Size(input.cols, input.rows), 0, 0, cv::INTER_CUBIC);
 	return perfusionimage;
 }
 

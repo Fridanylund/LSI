@@ -144,6 +144,7 @@ void LSIProjectGUI::do_contrast()
 
 
 	Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
+	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 //	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
 	Add_Contrast_Image(Main_Image_CV);
 	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
@@ -162,7 +163,8 @@ void LSIProjectGUI::do_contrast()
 	Main_Image_CV_divided_log = 2 * Main_Image_CV_divided_log;
 	Main_Image_CV_divided_log.convertTo(Main_Image_CV_divided_log, CV_8UC3);
 
-	Main_Image_CV_divided_reg = 1 * Main_Image_CV_divided_reg/2;
+	Main_Image_CV_divided_reg = 1 * Main_Image_CV_divided_reg/2; ///////////////////////////// Gainfaktor! ////////////////////////////
+
 	Main_Image_CV_divided_reg.convertTo(Main_Image_CV_divided_reg, CV_8UC3);
 
 	_mean = mean(Main_Image_CV_divided_log).val[0];
@@ -467,27 +469,34 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate >= y_videoLabel_Coordinate)
+		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate >= y_videoLabel_Coordinate & y_End_Click_Coordinate <= ui.videoLabel->height())
 		{
 			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
 			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate > ui.videoLabel->width() & y_End_Click_Coordinate >= y_videoLabel_Coordinate)
+		else if (x_End_Click_Coordinate > ui.videoLabel->width() & y_End_Click_Coordinate >= y_videoLabel_Coordinate & y_End_Click_Coordinate <= ui.videoLabel->height())
 		{
 			x_End_ROI_Coordinate = ui.videoLabel->width();
 			y_End_ROI_Coordinate = y_End_Click_Coordinate - y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & y_End_Click_Coordinate < y_videoLabel_Coordinate)
+		else if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & x_End_Click_Coordinate <= ui.videoLabel->width() & y_End_Click_Coordinate < y_videoLabel_Coordinate)
 		{
 			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
 			y_End_ROI_Coordinate = y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & y_End_Click_Coordinate > ui.videoLabel->height())
+		else if (x_End_Click_Coordinate >= x_videoLabel_Coordinate & x_End_Click_Coordinate <= ui.videoLabel->width() & y_End_Click_Coordinate > ui.videoLabel->height())
 		{
 			x_End_ROI_Coordinate = x_End_Click_Coordinate - x_videoLabel_Coordinate;
+			y_End_ROI_Coordinate = ui.videoLabel->height();
+		}
+
+
+		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate > ui.videoLabel->height())
+		{
+			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
 			y_End_ROI_Coordinate = ui.videoLabel->height();
 		}
 
@@ -497,11 +506,7 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 			y_End_ROI_Coordinate = y_videoLabel_Coordinate;
 		}
 
-		else if (x_End_Click_Coordinate < x_videoLabel_Coordinate & y_End_Click_Coordinate > ui.videoLabel->height())
-		{
-			x_End_ROI_Coordinate = x_videoLabel_Coordinate;
-			y_End_ROI_Coordinate = ui.videoLabel->height();
-		}
+
 
 		else if (x_End_Click_Coordinate > ui.videoLabel->width() & y_End_Click_Coordinate < y_videoLabel_Coordinate)
 		{
