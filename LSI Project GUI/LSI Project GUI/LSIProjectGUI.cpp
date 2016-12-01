@@ -174,6 +174,7 @@ void LSIProjectGUI::do_contrast()
 	//applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
 	//cv::cvtColor(Main_Image_CV_divided_log, Main_Image_CV_divided_log, cv::COLOR_GRAY2BGR);
 	//cv::cvtColor(divided_converted, color, cv::COLOR_GRAY2BGR);
+	Video_Base.write(Main_Image_CV_divided_reg);
 	cv::cvtColor(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, CV_BGR2RGB);
 	//imshow("1/Kontrast^2", Main_Image_CV_divided_reg);
 	//imshow("1/kontrast^2 log", Main_Image_CV_divided_log);
@@ -181,7 +182,7 @@ void LSIProjectGUI::do_contrast()
 	Main_Image_CV = Main_Image_CV_divided_reg;
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
-	Video_Base.write(Main_Image_CV);
+	
 }
 
 void LSIProjectGUI::load_init()
