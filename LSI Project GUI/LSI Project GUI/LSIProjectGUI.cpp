@@ -139,11 +139,7 @@ void LSIProjectGUI::do_contrast()
 	//cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	//Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
 	
-	double _min, _max, _min2, _max2;
-	double _mean, _mean2;
 	int scaling_factor = ui.scaling_spinBox->value();
-	//QString ex = QString::fromStdString(std::to_string(scaling_factor));
-	//ui.button_test->setText(ex);
 
 	if (ui.Contrast_checkBox->isChecked()) {
 		Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
@@ -173,13 +169,6 @@ void LSIProjectGUI::do_contrast()
 
 	Main_Image_CV_divided_reg.convertTo(Main_Image_CV_divided_reg, CV_8UC3);
 
-	_mean = mean(Main_Image_CV_divided_log).val[0];
-	minMaxLoc(Main_Image_CV_divided_log, &_min, &_max);
-
-	minMaxLoc(Main_Image_CV_divided_reg, &_min2, &_max2);
-	_mean2 = mean(Main_Image_CV_divided_reg).val[0];
-	
-	//cout << _min << _max << _mean << _min2 << _max2 << _mean2;
 
 	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
 	//applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
@@ -192,6 +181,7 @@ void LSIProjectGUI::do_contrast()
 	Main_Image_CV = Main_Image_CV_divided_reg;
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
+	Video_Base.write(Main_Image_CV);
 }
 
 void LSIProjectGUI::load_init()
@@ -339,11 +329,10 @@ void LSIProjectGUI::on_startButton_clicked() {
 	timer->start(refresh_rate);
 	load_init();
 	// Läsa av vad patienten heter för att spara videon som en fil med patient + datum som namn
-	string time = QTime::currentTime().toString().toStdString();
+	//string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
 
-	Video_Contrast.open("images\\" + filename + "_contrast.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
-	Video_Base.open("images\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(1288, 964), true);
+	Video_Base.open("images\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640,480), true);
 
 }
 

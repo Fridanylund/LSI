@@ -94,7 +94,6 @@ private:
 	Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images);
 	string filename;
 	VideoWriter Video_Base;
-	VideoWriter Video_Contrast;
 	string patient_name;
 	Mat Main_Image_CV_divided;
 	Mat temp;
