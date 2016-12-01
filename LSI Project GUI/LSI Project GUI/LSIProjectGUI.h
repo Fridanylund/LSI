@@ -118,6 +118,7 @@ private:
 	void on_AmbL_Button_clicked();
 	void on_laserButton_clicked();
 	void on_Save_Im_clicked();
+	void on_reset_Button_clicked();
 	// These two calibration buttons are needed in the GUI:
 	void on_CalibrateStill_Button_clicked();
 	void on_CalibrateMoving_Button_clicked();
@@ -130,6 +131,7 @@ private:
 	//
 	void on_LASCAarea_valueChanged();
 	void on_exposuretime_valueChanged();
+	void on_Amb_spinBox_valueChanged();
 
 	void laser_ON();
 	void laser_OF();

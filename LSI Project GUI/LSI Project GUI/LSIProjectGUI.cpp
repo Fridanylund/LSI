@@ -141,15 +141,23 @@ void LSIProjectGUI::do_contrast()
 	
 	double _min, _max, _min2, _max2;
 	double _mean, _mean2;
+	int scaling_factor = ui.scaling_spinBox->value();
+	//QString ex = QString::fromStdString(std::to_string(scaling_factor));
+	//ui.button_test->setText(ex);
+
+	if (ui.Contrast_checkBox->isChecked()) {
+		Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
+	}
+	else
+	{
+		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
+	}
 
 
-	Main_Image_CV = CalculateContrast_pix_by_pix(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-//	Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
 	Add_Contrast_Image(Main_Image_CV);
 	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
 	
-
 
 	Mat Main_Image_CV_divided_log;
 	Mat Main_Image_CV_divided_reg;
@@ -157,13 +165,11 @@ void LSIProjectGUI::do_contrast()
 	Main_Image_CV_divided_log = one_divided_by_kontrast_squared(Main_Image_CV_filter,true); //Tar 1/k^2 och log på det
 	Main_Image_CV_divided_reg = one_divided_by_kontrast_squared(Main_Image_CV_filter, false);
 
-	 //
-
 
 	Main_Image_CV_divided_log = 2 * Main_Image_CV_divided_log;
 	Main_Image_CV_divided_log.convertTo(Main_Image_CV_divided_log, CV_8UC3);
 
-	Main_Image_CV_divided_reg = 1 * Main_Image_CV_divided_reg/2; ///////////////////////////// Gainfaktor! ////////////////////////////
+	Main_Image_CV_divided_reg = Main_Image_CV_divided_reg/scaling_factor; ///////////////2////////////// Gainfaktor! ////////////////////////////
 
 	Main_Image_CV_divided_reg.convertTo(Main_Image_CV_divided_reg, CV_8UC3);
 
@@ -173,11 +179,8 @@ void LSIProjectGUI::do_contrast()
 	minMaxLoc(Main_Image_CV_divided_reg, &_min2, &_max2);
 	_mean2 = mean(Main_Image_CV_divided_reg).val[0];
 	
-	cout << _min << _max << _mean << _min2 << _max2 << _mean2;
+	//cout << _min << _max << _mean << _min2 << _max2 << _mean2;
 
-
-
-	
 	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
 	//applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
 	//cv::cvtColor(Main_Image_CV_divided_log, Main_Image_CV_divided_log, cv::COLOR_GRAY2BGR);
@@ -252,7 +255,7 @@ void LSIProjectGUI::update()
 			ui.videoLabel->setPixmap(Main_Image);
 		}
 	}
-	//Fel att ta in frame objekt nu...
+
 
 	if (Is_ROI_Button_Is_Pressed)
 	{
@@ -703,19 +706,18 @@ void LSIProjectGUI::laser_ON()
 void LSIProjectGUI::on_Save_Im_clicked()
 {
 	ui.button_test->setText("save!");
-	//string name = ui.nameLabel->text(); //.toStdString();
-	
+	//string time = QTime::currentTime().toString().toStdString();
+	String filename = ui.patientName->text().toStdString();
 	string fname;
-	//fname = "images//whynowork.png";
-	//"time" + QTime::currentTime().toString().toStdString() +
-	fname = "images//laser.png"; //+ to_string(lasca_area) + "ET" + to_string(exposure_time) + QTime::currentTime().toString().toStdString() +".png";
-	imwrite(fname, temp); //Main_Image_CV_divided
+
+	fname = "images//" + filename + ".png"; 
+	imwrite(fname, Main_Image_CV); //Main_Image_CV_divided
 }
 
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
-	ui.button_test->setText("still start!");
+	
 	Mat Calib_Image_Still = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
@@ -733,7 +735,7 @@ void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 
 void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 {
-	ui.button_test->setText("moving start!");
+
 	Mat Calib_Image_Moving = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
@@ -750,3 +752,20 @@ void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 	ui.button_test->setText("moving done!");
 }
 
+void LSIProjectGUI::on_reset_Button_clicked()
+{
+	// byt till de värden vi vill ha!!
+	Calib_Moving = 0.3;
+	Calib_Still = 0.517;
+	
+	Mat Black_im_reset = imread("images//black.png");
+	imwrite("images//morkerBild.png", Black_im);
+
+	save_init();
+}
+
+void LSIProjectGUI::on_Amb_spinBox_valueChanged()
+{
+	int time = ui.Amb_spinBox->value();
+	ambient_ligth_refresh_rate = time;
+}
