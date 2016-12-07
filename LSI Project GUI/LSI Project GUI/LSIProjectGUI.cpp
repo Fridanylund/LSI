@@ -3,7 +3,7 @@
 LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
-
+	
 	ui.setupUi(this);
 
 	//Timer which updates the gui and takes images
@@ -242,6 +242,7 @@ void LSIProjectGUI::save_init()
 
 void LSIProjectGUI::update()
 {
+	time(&time1);
 	if (should_i_run) {
 		if (show_perfusion)
 		{
@@ -365,6 +366,14 @@ void LSIProjectGUI::update()
 		ui.customPlot->clearGraphs();
 		ui.customPlot->replot();
 	}
+
+	time(&time2);
+	diff = difftime(time1, time2);
+	if (diff < refresh_rate)
+	{
+		timer->start(refresh_rate - diff);
+	}
+
 }
 
 

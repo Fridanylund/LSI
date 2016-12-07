@@ -22,6 +22,7 @@
 #include <FlyCapture2.h>
 #include <QVector>
 #include <QTime>
+#include <time.h>
 
 
 using namespace std;
@@ -53,7 +54,9 @@ public:
 	bool static_ambient_ligth; //If the ambient light image should update or not
 	int ambient_ligth_refresh_rate; //How often ambient light is updated
 	int ambient_ligth_refresh_rate_count;
-	
+	time_t time1;
+	time_t time2;
+	double diff;
 	double Calib_Still = 0;
 	double Calib_Moving = 0;
 	
