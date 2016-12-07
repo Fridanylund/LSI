@@ -86,6 +86,8 @@ private:
 	int x_max;
 	int x_min;
 	int graph_update;
+	int value;
+	QCPRange range;
 	void set_exposure(int);
 	bool laser_switch = false;
 	QVector<QVector<qreal>> Multiple_ROI_Averages;
@@ -123,6 +125,8 @@ private:
 	void on_CalibrateStill_Button_clicked();
 	void on_CalibrateMoving_Button_clicked();
 
+	void horzScrollBarChanged(int value);
+	void xAxisChanged(QCPRange range);
 	//
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
