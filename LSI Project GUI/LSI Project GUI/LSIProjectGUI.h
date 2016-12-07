@@ -97,6 +97,7 @@ private:
 	string patient_name;
 	Mat Main_Image_CV_divided;
 	Mat temp;
+	bool show_perfusion;
 	
 	void take_laser_image();
 	void take_ambient_light_image();
@@ -131,6 +132,7 @@ private:
 	void on_LASCAarea_valueChanged();
 	void on_exposuretime_valueChanged();
 	void on_Amb_spinBox_valueChanged();
+	void connect_laser();
 
 	void laser_ON();
 	void laser_OF();

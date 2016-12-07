@@ -11,9 +11,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	//Connects the serial port which is used to control the laser
 	port = new QSerialPort(this);
-	port->setPortName("COM5");
-	port->open(QIODevice::WriteOnly);
-	port->setRequestToSend(false);
+	connect_laser();
 
 	
 	camera.Connect(0);
@@ -28,6 +26,8 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	/*VideoCapture temp(0);
 	webcam = temp;*/
 	should_i_run = true;
+	load_init();
+	show_perfusion = false;
 
 	//LSIProjectGUI::makePlot();
 	graph_update=0;
@@ -57,6 +57,33 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	////Set the property.
 	//camera.SetProperty(&prop);
 	load_init();
+	timer->start(refresh_rate);
+}
+
+void LSIProjectGUI::connect_laser()
+{
+	for (unsigned int k = 0; k <= 15; k++)
+	{
+		QString port_name;
+		port_name = "COM" + QString::number(k);
+		port->setPortName(port_name);
+		bool temp = port->open(QIODevice::WriteOnly);
+		if (temp)
+		{
+			port->setRequestToSend(false);
+			ui.button_test->setText(port_name);
+			break;
+		}
+		else if (k == 15)
+		{
+			ui.button_test->setText("Failed to connect the laser controller to a COM port!");
+			break;
+		}
+			
+	}
+	
+
+
 }
 
 void LSIProjectGUI::set_exposure(int time)
@@ -216,17 +243,32 @@ void LSIProjectGUI::save_init()
 void LSIProjectGUI::update()
 {
 	if (should_i_run) {
-		if (ambient_ligth_refresh_rate_count == 0)
+		if (show_perfusion)
 		{
-			take_ambient_light_image();
-			ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+			if (ambient_ligth_refresh_rate_count == 0)
+			{
+				take_ambient_light_image();
+				ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+			}
+			else {
+				take_laser_image();
+				do_contrast();
+				ambient_ligth_refresh_rate_count--;
+			}
 		}
-		else {
-			take_laser_image();
-			do_contrast();
-			ambient_ligth_refresh_rate_count--;
-		}
+		else
+		{
+			camera.Connect(0);
+			camera.StartCapture();
+			camera.RetrieveBuffer(&rawImage);
+			rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
+			unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
+			Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+			cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
+			Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888));
 
+
+		}
 
 
 		// vector for ROI colours
@@ -327,8 +369,8 @@ void LSIProjectGUI::update()
 
 
 void LSIProjectGUI::on_startButton_clicked() {
-	timer->start(refresh_rate);
-	load_init();
+	//timer->start(refresh_rate);
+	show_perfusion = !show_perfusion;
 	// Läsa av vad patienten heter för att spara videon som en fil med patient + datum som namn
 	//string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
