@@ -44,6 +44,9 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ui.customPlot->xAxis->setRange(x_min, x_max);
 	ui.customPlot->yAxis->setRange(0, 255);
 
+	connect(ui.horizontalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(horzScrollBarChanged(int)));
+	connect(ui.customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(xAxisChanged(QCPRange)));
+
 	//Declare a Property struct.
 	//Property prop;
 	////Define the property to adjust.
@@ -239,6 +242,21 @@ void LSIProjectGUI::save_init()
 }
 
 
+void LSIProjectGUI::horzScrollBarChanged(int value)
+{
+	if (qAbs(ui.customPlot->xAxis->range().center() - value / 100.0) > 0.01) // if user is dragging plot, we don't want to replot twice
+	{
+		ui.customPlot->xAxis->setRange(value / 100.0, ui.customPlot->xAxis->range().size()); //, Qt::AlignCenter
+		ui.customPlot->replot();
+	}
+}
+
+void LSIProjectGUI::xAxisChanged(QCPRange range)
+{
+	ui.horizontalScrollBar->setValue(qRound(range.center()*100.0)); // adjust position of scroll bar slider
+	ui.horizontalScrollBar->setPageStep(qRound(range.size()*100.0)); // adjust size of scroll bar slider
+}
+
 
 void LSIProjectGUI::update()
 {
@@ -344,6 +362,12 @@ void LSIProjectGUI::update()
 				ui.customPlot->graph(k)->setPen(QPen(ROI_Colors.at(color)));
 				ui.customPlot->replot();
 				ui.customPlot->xAxis->setRange(x_min, x_max);
+
+				ui.horizontalScrollBar->setRange(-100, x_max * 100);
+
+				//horzScrollBarChanged(value);
+				range = QCPRange::QCPRange(x_min, x_max);
+				xAxisChanged(range);
 
 				if (k == 0 & Multiple_ROI_Averages[k].count() >= 6)
 				{
