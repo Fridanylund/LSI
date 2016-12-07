@@ -327,6 +327,9 @@ void LSIProjectGUI::update()
 	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
 	{
 		graph_update++;
+		if (graph_update == 5) // after 5*200ms = 1s graphs update
+		{
+		
 		// calculates average for all ROIs and saves them in a vector
 		// gets overwritten until graph_update == 5
 		QVector<double> ROI_Averages = Calc_ROI_Average(Main_Image_CV, List_Of_ROI); // Main_Image_CV not right perfusion image yet
@@ -343,8 +346,7 @@ void LSIProjectGUI::update()
 		}
 
 
-		if (graph_update == 5) // after 5*200ms = 1s graphs update
-		{
+
 			//for (int k = 0; k < ROI_Averages.size(); k++) // loops through ROI vector
 			for (int k = 0; k < List_Of_ROI.size(); k++)
 			{
@@ -360,10 +362,7 @@ void LSIProjectGUI::update()
 				ui.customPlot->addGraph();
 				ui.customPlot->graph(k)->setData(x, Multiple_ROI_Averages[k]);
 				ui.customPlot->graph(k)->setPen(QPen(ROI_Colors.at(color)));
-				ui.customPlot->replot();
-				ui.customPlot->xAxis->setRange(x_min, x_max);
 
-				ui.horizontalScrollBar->setRange(-100, x_max * 100);
 
 				//horzScrollBarChanged(value);
 				range = QCPRange::QCPRange(x_min, x_max);
@@ -378,7 +377,10 @@ void LSIProjectGUI::update()
 					//connect(ui.horizontalScrollBar, SIGNAL(timeout()), SLOT(update()));
 				}
 			}
-			graph_update = 0;
+				ui.customPlot->replot();
+				ui.customPlot->xAxis->setRange(x_min, x_max);
+				ui.horizontalScrollBar->setRange(-100, x_max * 100);
+				graph_update = 0;
 		}
 	}
 	if (List_Of_ROI.empty())
@@ -733,11 +735,11 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 
 void LSIProjectGUI::on_AmbL_Button_clicked()
 {
-	static_ambient_ligth = true; 
-	Raw_im = Help_Average_Images_RT(100);
+	//static_ambient_ligth = true; 
+	//Raw_im = Help_Average_Images_RT(100);
 	ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
-	imwrite("images//ambientBild.png", Raw_im);
-	ui.button_test->setText("Amb klart!");
+	//imwrite("images//ambientBild.png", Raw_im);
+	//ui.button_test->setText("Amb klart!");
 }
 
 void LSIProjectGUI::on_Dark_Button_clicked()

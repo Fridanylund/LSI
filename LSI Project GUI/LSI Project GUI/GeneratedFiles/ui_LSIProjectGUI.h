@@ -233,10 +233,11 @@ public:
 "background-color: rgb(64, 140, 255);"));
         Contrast_checkBox = new QCheckBox(settings);
         Contrast_checkBox->setObjectName(QStringLiteral("Contrast_checkBox"));
+        Contrast_checkBox->setEnabled(true);
         Contrast_checkBox->setGeometry(QRect(50, 130, 231, 31));
         Contrast_checkBox->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 ""));
-        Contrast_checkBox->setChecked(true);
+        Contrast_checkBox->setChecked(false);
         label_2 = new QLabel(settings);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(60, 370, 91, 21));

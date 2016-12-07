@@ -448,6 +448,9 @@ background-color: rgb(64, 140, 255);</string>
       </property>
      </widget>
      <widget class="QCheckBox" name="Contrast_checkBox">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -464,7 +467,7 @@ background-color: rgb(64, 140, 255);</string>
        <string>Enhanced contrast calculations</string>
       </property>
       <property name="checked">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QLabel" name="label_2">
