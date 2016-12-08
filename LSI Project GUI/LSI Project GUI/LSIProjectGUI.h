@@ -104,6 +104,7 @@ private:
 	Mat temp;
 	bool show_perfusion;
 	bool stop_button_pressed;
+	int j;
 	
 	void take_laser_image();
 	void take_ambient_light_image();

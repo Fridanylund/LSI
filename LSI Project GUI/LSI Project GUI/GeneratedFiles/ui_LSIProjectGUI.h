@@ -38,7 +38,6 @@ class Ui_LSIProjectGUIClass
 {
 public:
     QWidget *centralWidget;
-    QLabel *button_test;
     QPushButton *startButton;
     QPushButton *stopButton;
     QPushButton *createROIButton;
@@ -80,6 +79,8 @@ public:
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
+    QLabel *label_3;
+    QLabel *Laser_error;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -91,9 +92,6 @@ public:
         centralWidget = new QWidget(LSIProjectGUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
-        button_test = new QLabel(centralWidget);
-        button_test->setObjectName(QStringLiteral("button_test"));
-        button_test->setGeometry(QRect(740, 20, 91, 31));
         startButton = new QPushButton(centralWidget);
         startButton->setObjectName(QStringLiteral("startButton"));
         startButton->setGeometry(QRect(720, 80, 141, 61));
@@ -123,11 +121,11 @@ public:
 "font: 75 11pt \"Segoe UI Light\";"));
         videoLabel = new QLabel(centralWidget);
         videoLabel->setObjectName(QStringLiteral("videoLabel"));
-        videoLabel->setGeometry(QRect(40, 10, 640, 480));
+        videoLabel->setGeometry(QRect(40, 10, 641, 480));
         videoLabel->setStyleSheet(QStringLiteral("border-color: rgb(118, 111, 120);"));
         settings_patientInfo = new QTabWidget(centralWidget);
         settings_patientInfo->setObjectName(QStringLiteral("settings_patientInfo"));
-        settings_patientInfo->setGeometry(QRect(900, 10, 341, 641));
+        settings_patientInfo->setGeometry(QRect(890, 10, 351, 651));
         QFont font1;
         font1.setFamily(QStringLiteral("Segoe UI Light"));
         font1.setPointSize(14);
@@ -143,12 +141,12 @@ public:
         Calibration->setObjectName(QStringLiteral("Calibration"));
         CalibrateMoving_Button = new QPushButton(Calibration);
         CalibrateMoving_Button->setObjectName(QStringLiteral("CalibrateMoving_Button"));
-        CalibrateMoving_Button->setGeometry(QRect(80, 210, 171, 41));
+        CalibrateMoving_Button->setGeometry(QRect(90, 220, 171, 41));
         CalibrateMoving_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(135, 68, 115);"));
         CalibrateStill_Button = new QPushButton(Calibration);
         CalibrateStill_Button->setObjectName(QStringLiteral("CalibrateStill_Button"));
-        CalibrateStill_Button->setGeometry(QRect(80, 270, 171, 41));
+        CalibrateStill_Button->setGeometry(QRect(90, 280, 171, 41));
         CalibrateStill_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(135, 68, 115);"));
         textBrowser = new QTextBrowser(Calibration);
@@ -163,12 +161,12 @@ public:
 "background-color: rgb(17, 61, 118);"));
         Dark_Button = new QPushButton(Calibration);
         Dark_Button->setObjectName(QStringLiteral("Dark_Button"));
-        Dark_Button->setGeometry(QRect(70, 360, 201, 41));
+        Dark_Button->setGeometry(QRect(70, 370, 211, 41));
         Dark_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(64, 140, 255);"));
         AmbL_Button = new QPushButton(Calibration);
         AmbL_Button->setObjectName(QStringLiteral("AmbL_Button"));
-        AmbL_Button->setGeometry(QRect(70, 420, 201, 41));
+        AmbL_Button->setGeometry(QRect(70, 430, 211, 41));
         AmbL_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(64, 140, 255);"));
         settings_patientInfo->addTab(Calibration, QString());
@@ -189,7 +187,7 @@ public:
         LASCAarea->setValue(5);
         LASCA_label = new QLabel(settings);
         LASCA_label->setObjectName(QStringLiteral("LASCA_label"));
-        LASCA_label->setGeometry(QRect(50, 60, 91, 21));
+        LASCA_label->setGeometry(QRect(60, 60, 91, 21));
         LASCA_label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         exposure_label = new QLabel(settings);
         exposure_label->setObjectName(QStringLiteral("exposure_label"));
@@ -203,7 +201,7 @@ public:
 "border-color: rgb(56, 56, 56);"));
         exposuretime->setDecimals(0);
         exposuretime->setMinimum(1);
-        exposuretime->setValue(5);
+        exposuretime->setValue(6);
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
         error_LASCA_label->setGeometry(QRect(50, 100, 231, 21));
@@ -227,7 +225,7 @@ public:
         Amb_spinBox->setValue(20);
         Save_Im = new QPushButton(settings);
         Save_Im->setObjectName(QStringLiteral("Save_Im"));
-        Save_Im->setGeometry(QRect(70, 530, 201, 41));
+        Save_Im->setGeometry(QRect(70, 510, 211, 41));
         Save_Im->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "\n"
 "background-color: rgb(64, 140, 255);"));
@@ -261,7 +259,7 @@ public:
         genderLabel->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         scrollArea = new QScrollArea(patientinformation);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setGeometry(QRect(70, 320, 231, 221));
+        scrollArea->setGeometry(QRect(60, 310, 231, 221));
         scrollArea->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
@@ -294,19 +292,19 @@ public:
         ageLabel->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         commentsLabel = new QLabel(patientinformation);
         commentsLabel->setObjectName(QStringLiteral("commentsLabel"));
-        commentsLabel->setGeometry(QRect(80, 280, 191, 31));
+        commentsLabel->setGeometry(QRect(80, 270, 191, 31));
         commentsLabel->setStyleSheet(QStringLiteral("font: 75 13pt \"Segoe UI Light\";"));
         settings_patientInfo->addTab(patientinformation, QString());
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(120, 500, 431, 161));
+        customPlot->setGeometry(QRect(140, 500, 431, 161));
         horizontalScrollBar = new QScrollBar(customPlot);
         horizontalScrollBar->setObjectName(QStringLiteral("horizontalScrollBar"));
         horizontalScrollBar->setGeometry(QRect(0, 140, 431, 16));
         horizontalScrollBar->setOrientation(Qt::Horizontal);
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
-        scrollArea_2->setGeometry(QRect(720, 420, 141, 161));
+        scrollArea_2->setGeometry(QRect(720, 470, 141, 161));
         scrollArea_2->setStyleSheet(QStringLiteral("background-color: rgb(71, 71, 71);"));
         scrollArea_2->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
@@ -341,6 +339,15 @@ public:
         listROI->setSelectionRectVisible(true);
         listROI->setSortingEnabled(false);
         scrollArea_2->setWidget(scrollAreaWidgetContents_2);
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(750, 450, 81, 16));
+        label_3->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
+        Laser_error = new QLabel(centralWidget);
+        Laser_error->setObjectName(QStringLiteral("Laser_error"));
+        Laser_error->setGeometry(QRect(690, 50, 201, 20));
+        Laser_error->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+""));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -352,7 +359,7 @@ public:
 
         retranslateUi(LSIProjectGUIClass);
 
-        settings_patientInfo->setCurrentIndex(1);
+        settings_patientInfo->setCurrentIndex(2);
         listROI->setCurrentRow(-1);
 
 
@@ -362,7 +369,6 @@ public:
     void retranslateUi(QMainWindow *LSIProjectGUIClass)
     {
         LSIProjectGUIClass->setWindowTitle(QApplication::translate("LSIProjectGUIClass", "LSIProjectGUI", 0));
-        button_test->setText(QString());
         startButton->setText(QApplication::translate("LSIProjectGUIClass", "Start", 0));
         stopButton->setText(QApplication::translate("LSIProjectGUIClass", "Stop", 0));
         createROIButton->setText(QApplication::translate("LSIProjectGUIClass", "create ROI", 0));
@@ -390,13 +396,15 @@ public:
         label->setText(QApplication::translate("LSIProjectGUIClass", "New Base image:", 0));
         Save_Im->setText(QApplication::translate("LSIProjectGUIClass", "Save Image", 0));
         Contrast_checkBox->setText(QApplication::translate("LSIProjectGUIClass", "Enhanced contrast calculations", 0));
-        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Skalfaktor: ", 0));
+        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Scalingfactor: ", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(settings), QApplication::translate("LSIProjectGUIClass", "Settings", 0));
         genderLabel->setText(QApplication::translate("LSIProjectGUIClass", "Gender:", 0));
         nameLabel->setText(QApplication::translate("LSIProjectGUIClass", "Name:", 0));
         ageLabel->setText(QApplication::translate("LSIProjectGUIClass", "Age:", 0));
         commentsLabel->setText(QApplication::translate("LSIProjectGUIClass", "Write patient comments:", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(patientinformation), QApplication::translate("LSIProjectGUIClass", "Patient info", 0));
+        label_3->setText(QApplication::translate("LSIProjectGUIClass", "List of ROIs", 0));
+        Laser_error->setText(QString());
     } // retranslateUi
 
 };
