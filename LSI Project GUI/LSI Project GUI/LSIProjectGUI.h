@@ -104,6 +104,7 @@ private:
 	Mat temp;
 	bool show_perfusion;
 	int j;
+	QVector<qreal> nollvector;
 	
 	void take_laser_image();
 	void take_ambient_light_image();
