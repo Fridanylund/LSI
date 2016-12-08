@@ -115,7 +115,13 @@ void LSIProjectGUI::take_laser_image()
 	rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 	unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 	Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
-	cv::resize(Main_Image_CV, temp, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
+	if (Main_Image_CV.empty())
+	{
+		//Fixa felmedelande
+		ui.Laser_error->setText("Failed to connect the camera");
+		return;
+	}
+	//cv::resize(Main_Image_CV, temp, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	//imshow("sadsa", Main_Image_CV);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{
@@ -146,6 +152,12 @@ void LSIProjectGUI::take_ambient_light_image()
 	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
 	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
 	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
+	if (Main_Image_CV_for_ambient_light.empty())
+	{
+		//Fixa felmedelande
+		ui.Laser_error->setText("Failed to connect the camera");
+		return;
+	}
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
@@ -166,7 +178,12 @@ void LSIProjectGUI::take_ambient_light_image()
 
 void LSIProjectGUI::do_contrast()
 {
-	
+	if (Main_Image_CV.empty())
+	{
+		//Fixa felmedelande
+		ui.Laser_error->setText("Failed to connect the camera");
+		return;
+	}
 	
 	int scaling_factor = ui.scaling_spinBox->value();
 
@@ -275,6 +292,11 @@ void LSIProjectGUI::update()
 			rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 			unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize() / (double)rgbImage.GetRows(); //Converts the Image to Mat
 			Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
+			if (Main_Image_CV.empty())
+			{
+				//Fixa felmedelande
+				return;
+			}
 			cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 			Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888));
 			ui.videoLabel->setPixmap(Main_Image);
@@ -730,6 +752,13 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 		rawImage_av.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage_av);
 		unsigned int rowBytes = (double)rgbImage_av.GetReceivedDataSize() / (double)rgbImage_av.GetRows(); //Converts the Image to Mat
 		Ave_Image = cv::Mat(rgbImage_av.GetRows(), rgbImage_av.GetCols(), CV_8UC3, rgbImage_av.GetData(), rowBytes) / Num_Images + Ave_Image;
+		if (Ave_Image.empty())
+		{
+			//Fixa felmedelande
+			ui.Laser_error->setText("Failed to connect the camera");
+			return;
+		}
+	
 	}
 	//should_i_run = true;
 	return(Ave_Image);
