@@ -79,6 +79,8 @@ public:
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QListWidget *listROI;
+    QLabel *label_3;
+    QLabel *Laser_error;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -302,7 +304,7 @@ public:
         horizontalScrollBar->setOrientation(Qt::Horizontal);
         scrollArea_2 = new QScrollArea(centralWidget);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
-        scrollArea_2->setGeometry(QRect(720, 420, 141, 161));
+        scrollArea_2->setGeometry(QRect(720, 470, 141, 161));
         scrollArea_2->setStyleSheet(QStringLiteral("background-color: rgb(71, 71, 71);"));
         scrollArea_2->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
@@ -337,6 +339,15 @@ public:
         listROI->setSelectionRectVisible(true);
         listROI->setSortingEnabled(false);
         scrollArea_2->setWidget(scrollAreaWidgetContents_2);
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(750, 450, 81, 16));
+        label_3->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
+        Laser_error = new QLabel(centralWidget);
+        Laser_error->setObjectName(QStringLiteral("Laser_error"));
+        Laser_error->setGeometry(QRect(690, 50, 201, 20));
+        Laser_error->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
+""));
         LSIProjectGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(LSIProjectGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -392,6 +403,8 @@ public:
         ageLabel->setText(QApplication::translate("LSIProjectGUIClass", "Age:", 0));
         commentsLabel->setText(QApplication::translate("LSIProjectGUIClass", "Write patient comments:", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(patientinformation), QApplication::translate("LSIProjectGUIClass", "Patient info", 0));
+        label_3->setText(QApplication::translate("LSIProjectGUIClass", "List of ROIs", 0));
+        Laser_error->setText(QString());
     } // retranslateUi
 
 };

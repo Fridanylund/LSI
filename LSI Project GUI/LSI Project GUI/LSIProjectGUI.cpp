@@ -79,7 +79,7 @@ void LSIProjectGUI::connect_laser()
 		}
 		else if (k == 15)
 		{
-			//ui.->setText("Failed to connect the laser controller to a COM port!");
+			ui.Laser_error->setText("Failed to connect the laser"); // controller to a COM port!");
 			break;
 		}
 			
@@ -409,6 +409,7 @@ void LSIProjectGUI::on_startButton_clicked() {
 	// Läsa av vad patienten heter för att spara videon som en fil med patient + datum som namn
 	//string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
+
 
 	Video_Base.open("images\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640,480), true);
 
