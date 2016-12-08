@@ -329,7 +329,7 @@ void LSIProjectGUI::update()
 		graph_update++;
 		if (graph_update == 5) // after 5*200ms = 1s graphs update
 		{
-		
+			++j;//counting up to be able to have the same size of the vectors
 		// calculates average for all ROIs and saves them in a vector
 		// gets overwritten until graph_update == 5
 		QVector<double> ROI_Averages = Calc_ROI_Average(Main_Image_CV, List_Of_ROI); // Main_Image_CV not right perfusion image yet
@@ -338,7 +338,8 @@ void LSIProjectGUI::update()
 		for (int i = 0; i < ROI_Averages.size(); i++)
 		{
 			// saves ROI Averages before they get overwritten
-			QVector<qreal> firstvector;
+			QVector<qreal> firstvector(j);
+			//firstvector(QVector<qreal>(j)); //makes the vectors the same size 
 			firstvector.append(ROI_Averages.at(0));
 			Multiple_ROI_Averages.append(firstvector);
 			ROI_Averages_qreal.append(ROI_Averages.at(i)); // makes QVector out of vector

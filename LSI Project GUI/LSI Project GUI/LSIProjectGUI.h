@@ -103,6 +103,7 @@ private:
 	Mat Main_Image_CV_divided;
 	Mat temp;
 	bool show_perfusion;
+	int j;
 	
 	void take_laser_image();
 	void take_ambient_light_image();
