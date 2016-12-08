@@ -5,7 +5,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 {
 	
 	ui.setupUi(this);
-
+	stop_button_pressed = false;
 	//Timer which updates the gui and takes images
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -410,10 +410,21 @@ void LSIProjectGUI::on_startButton_clicked() {
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
+	if (!stop_button_pressed)
+	{
+		ui.button_test->setText("STOP!");
+		timer->stop();
+		port->setRequestToSend(false);
+		save_init();
+		stop_button_pressed = true;
+	}
+	else
+	{
+		ui.button_test->setText("Start again!");
+		timer->start(refresh_rate);
+		stop_button_pressed = false;
 
-	timer->stop();
-	port->setRequestToSend(false);
-	save_init();
+	}
 }
 
 void LSIProjectGUI::on_createROIButton_clicked()

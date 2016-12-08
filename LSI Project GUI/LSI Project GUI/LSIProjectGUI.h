@@ -103,6 +103,7 @@ private:
 	Mat Main_Image_CV_divided;
 	Mat temp;
 	bool show_perfusion;
+	bool stop_button_pressed;
 	int j;
 	QVector<qreal> nollvector;
 	
