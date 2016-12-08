@@ -335,17 +335,10 @@ void LSIProjectGUI::update()
 		QVector<qreal> ROI_Averages_qreal;
 
 		for (int i = 0; i < ROI_Averages.size(); i++)
-		{
-			// saves ROI Averages before they get overwritten
-			QVector<qreal> firstvector(j);
-			//firstvector(QVector<qreal>(j)); //makes the vectors the same size 
-			firstvector.append(ROI_Averages.at(0));
-			Multiple_ROI_Averages.append(firstvector);
+		{			
 			ROI_Averages_qreal.append(ROI_Averages.at(i)); // makes QVector out of vector
 			Multiple_ROI_Averages[i].append(ROI_Averages_qreal.at(i));
 		}
-
-
 
 			//for (int k = 0; k < ROI_Averages.size(); k++) // loops through ROI vector
 			for (int k = 0; k < List_Of_ROI.size(); k++)
@@ -652,6 +645,12 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 
 		ROI ROI(ROIlocation, ROIregion, ROIcolor);
 		List_Of_ROI.push_back(ROI);
+
+		// makes vector with zeros so all graphs have the same length
+		QVector<qreal> nollvectortest(j);
+		nollvector = nollvectortest;
+		Multiple_ROI_Averages.append(nollvector);
+
 		// selects first row by default (program crashes if we remove ROI when nothing is selected)
 		ui.listROI->setCurrentRow(0);
 	}

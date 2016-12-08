@@ -107,6 +107,7 @@ private:
 	bool show_perfusion;
 	bool stop_button_pressed;
 	int j;
+	QVector<qreal> nollvector;
 	
 	void take_laser_image();
 	void take_ambient_light_image();
