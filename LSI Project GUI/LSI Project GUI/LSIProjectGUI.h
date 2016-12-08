@@ -22,6 +22,7 @@
 #include <FlyCapture2.h>
 #include <QVector>
 #include <QTime>
+#include <QElapsedTimer>
 #include <time.h>
 
 
@@ -56,6 +57,7 @@ public:
 	int ambient_ligth_refresh_rate_count;
 	time_t time1;
 	time_t time2;
+	QElapsedTimer elapsed_time;
 	double diff;
 	double Calib_Still = 0;
 	double Calib_Moving = 0;

@@ -260,7 +260,7 @@ void LSIProjectGUI::xAxisChanged(QCPRange range)
 
 void LSIProjectGUI::update()
 {
-	time(&time1);
+	elapsed_time.start();
 	if (should_i_run) {
 		if (show_perfusion)
 		{
@@ -285,8 +285,7 @@ void LSIProjectGUI::update()
 			Main_Image_CV = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(), rowBytes);
 			cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 			Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV.data, Main_Image_CV.cols, Main_Image_CV.rows, QImage::Format_RGB888));
-
-
+			ui.videoLabel->setPixmap(Main_Image);
 		}
 
 
@@ -394,11 +393,10 @@ void LSIProjectGUI::update()
 		ui.customPlot->replot();
 	}
 
-	time(&time2);
-	diff = difftime(time1, time2);
-	if (diff < refresh_rate)
+	if (elapsed_time.elapsed() < refresh_rate)
 	{
-		timer->start(refresh_rate - diff);
+
+		timer->start(refresh_rate - elapsed_time.elapsed());
 	}
 
 }
@@ -419,7 +417,6 @@ void LSIProjectGUI::on_startButton_clicked() {
 void LSIProjectGUI::on_stopButton_clicked() {
 	if (!stop_button_pressed)
 	{
-		ui.button_test->setText("STOP!");
 		timer->stop();
 		port->setRequestToSend(false);
 		save_init();
@@ -427,7 +424,6 @@ void LSIProjectGUI::on_stopButton_clicked() {
 	}
 	else
 	{
-		ui.button_test->setText("Start again!");
 		timer->start(refresh_rate);
 		stop_button_pressed = false;
 
