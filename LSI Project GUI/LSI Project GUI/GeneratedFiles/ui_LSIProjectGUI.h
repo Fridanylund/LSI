@@ -121,11 +121,11 @@ public:
 "font: 75 11pt \"Segoe UI Light\";"));
         videoLabel = new QLabel(centralWidget);
         videoLabel->setObjectName(QStringLiteral("videoLabel"));
-        videoLabel->setGeometry(QRect(40, 10, 640, 480));
+        videoLabel->setGeometry(QRect(40, 10, 641, 480));
         videoLabel->setStyleSheet(QStringLiteral("border-color: rgb(118, 111, 120);"));
         settings_patientInfo = new QTabWidget(centralWidget);
         settings_patientInfo->setObjectName(QStringLiteral("settings_patientInfo"));
-        settings_patientInfo->setGeometry(QRect(900, 10, 341, 641));
+        settings_patientInfo->setGeometry(QRect(890, 10, 351, 651));
         QFont font1;
         font1.setFamily(QStringLiteral("Segoe UI Light"));
         font1.setPointSize(14);
@@ -141,12 +141,12 @@ public:
         Calibration->setObjectName(QStringLiteral("Calibration"));
         CalibrateMoving_Button = new QPushButton(Calibration);
         CalibrateMoving_Button->setObjectName(QStringLiteral("CalibrateMoving_Button"));
-        CalibrateMoving_Button->setGeometry(QRect(80, 210, 171, 41));
+        CalibrateMoving_Button->setGeometry(QRect(90, 220, 171, 41));
         CalibrateMoving_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(135, 68, 115);"));
         CalibrateStill_Button = new QPushButton(Calibration);
         CalibrateStill_Button->setObjectName(QStringLiteral("CalibrateStill_Button"));
-        CalibrateStill_Button->setGeometry(QRect(80, 270, 171, 41));
+        CalibrateStill_Button->setGeometry(QRect(90, 280, 171, 41));
         CalibrateStill_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(135, 68, 115);"));
         textBrowser = new QTextBrowser(Calibration);
@@ -161,12 +161,12 @@ public:
 "background-color: rgb(17, 61, 118);"));
         Dark_Button = new QPushButton(Calibration);
         Dark_Button->setObjectName(QStringLiteral("Dark_Button"));
-        Dark_Button->setGeometry(QRect(70, 360, 201, 41));
+        Dark_Button->setGeometry(QRect(70, 370, 211, 41));
         Dark_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(64, 140, 255);"));
         AmbL_Button = new QPushButton(Calibration);
         AmbL_Button->setObjectName(QStringLiteral("AmbL_Button"));
-        AmbL_Button->setGeometry(QRect(70, 420, 201, 41));
+        AmbL_Button->setGeometry(QRect(70, 430, 211, 41));
         AmbL_Button->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "background-color: rgb(64, 140, 255);"));
         settings_patientInfo->addTab(Calibration, QString());
@@ -187,7 +187,7 @@ public:
         LASCAarea->setValue(5);
         LASCA_label = new QLabel(settings);
         LASCA_label->setObjectName(QStringLiteral("LASCA_label"));
-        LASCA_label->setGeometry(QRect(50, 60, 91, 21));
+        LASCA_label->setGeometry(QRect(60, 60, 91, 21));
         LASCA_label->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         exposure_label = new QLabel(settings);
         exposure_label->setObjectName(QStringLiteral("exposure_label"));
@@ -225,7 +225,7 @@ public:
         Amb_spinBox->setValue(20);
         Save_Im = new QPushButton(settings);
         Save_Im->setObjectName(QStringLiteral("Save_Im"));
-        Save_Im->setGeometry(QRect(70, 530, 201, 41));
+        Save_Im->setGeometry(QRect(70, 510, 211, 41));
         Save_Im->setStyleSheet(QLatin1String("font: 75 12pt \"Segoe UI Light\";\n"
 "\n"
 "background-color: rgb(64, 140, 255);"));
@@ -259,7 +259,7 @@ public:
         genderLabel->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         scrollArea = new QScrollArea(patientinformation);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setGeometry(QRect(70, 320, 231, 221));
+        scrollArea->setGeometry(QRect(60, 310, 231, 221));
         scrollArea->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
@@ -292,12 +292,12 @@ public:
         ageLabel->setStyleSheet(QStringLiteral("font: 75 12pt \"Segoe UI Light\";"));
         commentsLabel = new QLabel(patientinformation);
         commentsLabel->setObjectName(QStringLiteral("commentsLabel"));
-        commentsLabel->setGeometry(QRect(80, 280, 191, 31));
+        commentsLabel->setGeometry(QRect(80, 270, 191, 31));
         commentsLabel->setStyleSheet(QStringLiteral("font: 75 13pt \"Segoe UI Light\";"));
         settings_patientInfo->addTab(patientinformation, QString());
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(120, 500, 431, 161));
+        customPlot->setGeometry(QRect(140, 500, 431, 161));
         horizontalScrollBar = new QScrollBar(customPlot);
         horizontalScrollBar->setObjectName(QStringLiteral("horizontalScrollBar"));
         horizontalScrollBar->setGeometry(QRect(0, 140, 431, 16));
