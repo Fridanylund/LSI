@@ -166,8 +166,7 @@ void LSIProjectGUI::take_ambient_light_image()
 
 void LSIProjectGUI::do_contrast()
 {
-	//cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
-	//Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving); //QImage::Format_RGB888 QImage::Format_Grayscale8
+	
 	
 	int scaling_factor = ui.scaling_spinBox->value();
 
@@ -185,15 +184,11 @@ void LSIProjectGUI::do_contrast()
 	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
 	
 
-	Mat Main_Image_CV_divided_log;
 	Mat Main_Image_CV_divided_reg;
 	
-	Main_Image_CV_divided_log = one_divided_by_kontrast_squared(Main_Image_CV_filter,true); //Tar 1/k^2 och log på det
 	Main_Image_CV_divided_reg = one_divided_by_kontrast_squared(Main_Image_CV_filter, false);
 
 
-	Main_Image_CV_divided_log = 2 * Main_Image_CV_divided_log;
-	Main_Image_CV_divided_log.convertTo(Main_Image_CV_divided_log, CV_8UC3);
 
 	Main_Image_CV_divided_reg = Main_Image_CV_divided_reg/scaling_factor; ///////////////2////////////// Gainfaktor! ////////////////////////////
 
@@ -201,13 +196,10 @@ void LSIProjectGUI::do_contrast()
 
 
 	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
-	//applyColorMap(Main_Image_CV_divided_log, Main_Image_CV_divided_log, COLORMAP_JET);
-	//cv::cvtColor(Main_Image_CV_divided_log, Main_Image_CV_divided_log, cv::COLOR_GRAY2BGR);
-	//cv::cvtColor(divided_converted, color, cv::COLOR_GRAY2BGR);
+
 	Video_Base.write(Main_Image_CV_divided_reg);
 	cv::cvtColor(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, CV_BGR2RGB);
-	//imshow("1/Kontrast^2", Main_Image_CV_divided_reg);
-	//imshow("1/kontrast^2 log", Main_Image_CV_divided_log);
+
 
 	Main_Image_CV = Main_Image_CV_divided_reg;
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
