@@ -38,7 +38,6 @@ class Ui_LSIProjectGUIClass
 {
 public:
     QWidget *centralWidget;
-    QLabel *button_test;
     QPushButton *startButton;
     QPushButton *stopButton;
     QPushButton *createROIButton;
@@ -91,9 +90,6 @@ public:
         centralWidget = new QWidget(LSIProjectGUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(17, 132, 255);"));
-        button_test = new QLabel(centralWidget);
-        button_test->setObjectName(QStringLiteral("button_test"));
-        button_test->setGeometry(QRect(740, 20, 91, 31));
         startButton = new QPushButton(centralWidget);
         startButton->setObjectName(QStringLiteral("startButton"));
         startButton->setGeometry(QRect(720, 80, 141, 61));
@@ -203,7 +199,7 @@ public:
 "border-color: rgb(56, 56, 56);"));
         exposuretime->setDecimals(0);
         exposuretime->setMinimum(1);
-        exposuretime->setValue(5);
+        exposuretime->setValue(6);
         error_LASCA_label = new QLabel(settings);
         error_LASCA_label->setObjectName(QStringLiteral("error_LASCA_label"));
         error_LASCA_label->setGeometry(QRect(50, 100, 231, 21));
@@ -352,7 +348,7 @@ public:
 
         retranslateUi(LSIProjectGUIClass);
 
-        settings_patientInfo->setCurrentIndex(1);
+        settings_patientInfo->setCurrentIndex(2);
         listROI->setCurrentRow(-1);
 
 
@@ -362,7 +358,6 @@ public:
     void retranslateUi(QMainWindow *LSIProjectGUIClass)
     {
         LSIProjectGUIClass->setWindowTitle(QApplication::translate("LSIProjectGUIClass", "LSIProjectGUI", 0));
-        button_test->setText(QString());
         startButton->setText(QApplication::translate("LSIProjectGUIClass", "Start", 0));
         stopButton->setText(QApplication::translate("LSIProjectGUIClass", "Stop", 0));
         createROIButton->setText(QApplication::translate("LSIProjectGUIClass", "create ROI", 0));
@@ -390,7 +385,7 @@ public:
         label->setText(QApplication::translate("LSIProjectGUIClass", "New Base image:", 0));
         Save_Im->setText(QApplication::translate("LSIProjectGUIClass", "Save Image", 0));
         Contrast_checkBox->setText(QApplication::translate("LSIProjectGUIClass", "Enhanced contrast calculations", 0));
-        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Skalfaktor: ", 0));
+        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Scalingfactor: ", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(settings), QApplication::translate("LSIProjectGUIClass", "Settings", 0));
         genderLabel->setText(QApplication::translate("LSIProjectGUIClass", "Gender:", 0));
         nameLabel->setText(QApplication::translate("LSIProjectGUIClass", "Name:", 0));

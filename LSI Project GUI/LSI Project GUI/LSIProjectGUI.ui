@@ -17,19 +17,6 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(17, 132, 255);</string>
    </property>
-   <widget class="QLabel" name="button_test">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>20</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
@@ -148,7 +135,7 @@ border-color: rgb(34, 34, 34);</string>
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <property name="iconSize">
      <size>
@@ -366,7 +353,7 @@ border-color: rgb(56, 56, 56);</string>
        <double>1.000000000000000</double>
       </property>
       <property name="value">
-       <double>5.000000000000000</double>
+       <double>6.000000000000000</double>
       </property>
      </widget>
      <widget class="QLabel" name="error_LASCA_label">
@@ -484,7 +471,7 @@ background-color: rgb(64, 140, 255);</string>
 </string>
       </property>
       <property name="text">
-       <string>Skalfaktor: </string>
+       <string>Scalingfactor: </string>
       </property>
      </widget>
      <widget class="QSpinBox" name="scaling_spinBox">

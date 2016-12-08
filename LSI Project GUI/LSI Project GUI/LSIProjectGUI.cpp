@@ -74,12 +74,12 @@ void LSIProjectGUI::connect_laser()
 		if (temp)
 		{
 			port->setRequestToSend(false);
-			ui.button_test->setText(port_name);
+			
 			break;
 		}
 		else if (k == 15)
 		{
-			ui.button_test->setText("Failed to connect the laser controller to a COM port!");
+			//ui.->setText("Failed to connect the laser controller to a COM port!");
 			break;
 		}
 			
@@ -415,7 +415,7 @@ void LSIProjectGUI::on_startButton_clicked() {
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
-	ui.button_test->setText("STOP!");
+
 	timer->stop();
 	port->setRequestToSend(false);
 	save_init();
@@ -431,7 +431,7 @@ void LSIProjectGUI::on_removeROIButton_clicked()
 	if (!List_Of_ROI.empty()) // prevents program from crashing if vector is empty
 	{		
 		int selectedROI = ui.listROI->currentRow();
-		ui.button_test->setText(QString::number(selectedROI));
+		
 
 		List_Of_ROI.erase(List_Of_ROI.begin() + selectedROI); 
 		delete ui.listROI->takeItem(selectedROI);
@@ -469,15 +469,15 @@ void LSIProjectGUI::mousePressEvent(QMouseEvent *event)
 
 			QString x_videoLabel_string = QString::number(x_videoLabel_Coordinate);
 			QString y_videoLabel_string = QString::number(y_videoLabel_Coordinate);
-			ui.button_test->setText(x_videoLabel_string + "<x  y>" + y_videoLabel_string); // just to see videoLabel coordinates
+			// just to see videoLabel coordinates
 
 			QString x_Start_Click_Coordinates_string = QString::number(x_Start_Click_Coordinate);
 			QString y_Start_Click_Coordinates_string = QString::number(y_Start_Click_Coordinate);
-			ui.button_test->setText(x_Start_Click_Coordinates_string + "<x  y>" + y_Start_Click_Coordinates_string); // just to see GUI window coordinates
+			// just to see GUI window coordinates
 
 			QString x_Start_ROI_Coordinate_string = QString::number(x_Start_ROI_Coordinate);
 			QString y_Start_ROI_Coordinate_string = QString::number(y_Start_ROI_Coordinate);
-			ui.button_test->setText(x_Start_ROI_Coordinate_string + "<x  y>" + y_Start_ROI_Coordinate_string); // just to see ROI coordinates
+			 // just to see ROI coordinates
 	}
 		else
 		{
@@ -596,7 +596,7 @@ void LSIProjectGUI::mouseReleaseEvent(QMouseEvent *event)
 
 		QString Width_string = QString::number(ROI_Width);
 		QString Height_string = QString::number(ROI_Height);
-		ui.button_test->setText(Width_string + "<Width   Hight>" + Height_string); // just to check width and height of ROI
+		 // just to check width and height of ROI
 
 		// Lägger in Nya ROI i listan i GUIt
 		i++;
@@ -739,14 +739,14 @@ void LSIProjectGUI::on_AmbL_Button_clicked()
 	//Raw_im = Help_Average_Images_RT(100);
 	ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
 	//imwrite("images//ambientBild.png", Raw_im);
-	//ui.button_test->setText("Amb klart!");
+	
 }
 
 void LSIProjectGUI::on_Dark_Button_clicked()
 {
 	Black_im = Help_Average_Images_RT(100);
 	imwrite("images//morkerBild.png", Black_im);
-	ui.button_test->setText("Klar mork!");
+	
 }
 
 void LSIProjectGUI::on_laserButton_clicked()
@@ -772,7 +772,7 @@ void LSIProjectGUI::laser_ON()
 
 void LSIProjectGUI::on_Save_Im_clicked()
 {
-	ui.button_test->setText("save!");
+	
 	//string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
 	string fname;
@@ -797,7 +797,7 @@ void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 	Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
 	Calib_Still = mean(Calib_Image_Still).val[0];
 	save_init();
-	ui.button_test->setText("still done!");
+	
 }
 
 void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
@@ -816,7 +816,7 @@ void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
 	Calib_Moving = mean(Calib_Image_Moving).val[0];
 	save_init();
-	ui.button_test->setText("moving done!");
+	
 }
 
 void LSIProjectGUI::on_reset_Button_clicked()
