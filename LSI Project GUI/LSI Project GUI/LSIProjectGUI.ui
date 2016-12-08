@@ -99,7 +99,7 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
      <rect>
       <x>40</x>
       <y>10</y>
-      <width>640</width>
+      <width>641</width>
       <height>480</height>
      </rect>
     </property>
@@ -113,10 +113,10 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
    <widget class="QTabWidget" name="settings_patientInfo">
     <property name="geometry">
      <rect>
-      <x>900</x>
+      <x>890</x>
       <y>10</y>
-      <width>341</width>
-      <height>641</height>
+      <width>351</width>
+      <height>651</height>
      </rect>
     </property>
     <property name="font">
@@ -153,8 +153,8 @@ border-color: rgb(34, 34, 34);</string>
      <widget class="QPushButton" name="CalibrateMoving_Button">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>210</y>
+        <x>90</x>
+        <y>220</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -170,8 +170,8 @@ background-color: rgb(135, 68, 115);</string>
      <widget class="QPushButton" name="CalibrateStill_Button">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>270</y>
+        <x>90</x>
+        <y>280</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -230,8 +230,8 @@ background-color: rgb(17, 61, 118);</string>
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>360</y>
-        <width>201</width>
+        <y>370</y>
+        <width>211</width>
         <height>41</height>
        </rect>
       </property>
@@ -247,8 +247,8 @@ background-color: rgb(64, 140, 255);</string>
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>420</y>
-        <width>201</width>
+        <y>430</y>
+        <width>211</width>
         <height>41</height>
        </rect>
       </property>
@@ -296,7 +296,7 @@ border-color: rgb(56, 56, 56);</string>
      <widget class="QLabel" name="LASCA_label">
       <property name="geometry">
        <rect>
-        <x>50</x>
+        <x>60</x>
         <y>60</y>
         <width>91</width>
         <height>21</height>
@@ -420,8 +420,8 @@ border-color: rgb(56, 56, 56);</string>
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>530</y>
-        <width>201</width>
+        <y>510</y>
+        <width>211</width>
         <height>41</height>
        </rect>
       </property>
@@ -522,8 +522,8 @@ border-color: rgb(56, 56, 56);</string>
      <widget class="QScrollArea" name="scrollArea">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>320</y>
+        <x>60</x>
+        <y>310</y>
         <width>231</width>
         <height>221</height>
        </rect>
@@ -633,7 +633,7 @@ border-color: rgb(56, 56, 56);</string>
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>280</y>
+        <y>270</y>
         <width>191</width>
         <height>31</height>
        </rect>
@@ -650,7 +650,7 @@ border-color: rgb(56, 56, 56);</string>
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>140</x>
       <y>500</y>
       <width>431</width>
       <height>161</height>
@@ -674,7 +674,7 @@ border-color: rgb(56, 56, 56);</string>
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>420</y>
+      <y>470</y>
       <width>141</width>
       <height>161</height>
      </rect>
@@ -841,6 +841,39 @@ border-color: rgb(56, 56, 56);</string>
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>450</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 12pt &quot;Segoe UI Light&quot;;</string>
+    </property>
+    <property name="text">
+     <string>List of ROIs</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Laser_error">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>50</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 12pt &quot;Segoe UI Light&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
