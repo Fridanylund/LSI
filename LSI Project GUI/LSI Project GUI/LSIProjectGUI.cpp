@@ -402,8 +402,10 @@ void LSIProjectGUI::on_startButton_clicked() {
 	//string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
 
-
-	Video_Base.open("images\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640,480), true);
+	if (filename != "" && show_perfusion)
+	{
+		Video_Base.open("videos\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
+	}
 
 }
 
