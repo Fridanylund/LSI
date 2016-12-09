@@ -74,7 +74,7 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
 font: 75 11pt &quot;Segoe UI Light&quot;;</string>
     </property>
     <property name="text">
-     <string>create ROI</string>
+     <string>Create ROI</string>
     </property>
    </widget>
    <widget class="QPushButton" name="removeROIButton">
@@ -91,7 +91,7 @@ font: 75 11pt &quot;Segoe UI Light&quot;;</string>
 font: 75 11pt &quot;Segoe UI Light&quot;;</string>
     </property>
     <property name="text">
-     <string>remove ROI</string>
+     <string>Remove ROI</string>
     </property>
    </widget>
    <widget class="QLabel" name="videoLabel">
@@ -135,7 +135,7 @@ border-color: rgb(34, 34, 34);</string>
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -164,7 +164,7 @@ border-color: rgb(34, 34, 34);</string>
 background-color: rgb(135, 68, 115);</string>
       </property>
       <property name="text">
-       <string>Take moving image</string>
+       <string>Take Moving Image</string>
       </property>
      </widget>
      <widget class="QPushButton" name="CalibrateStill_Button">
@@ -257,7 +257,7 @@ background-color: rgb(64, 140, 255);</string>
 background-color: rgb(64, 140, 255);</string>
       </property>
       <property name="text">
-       <string>Take Ambient light Image</string>
+       <string>Take Ambient Light Image</string>
       </property>
      </widget>
     </widget>
@@ -306,7 +306,7 @@ border-color: rgb(56, 56, 56);</string>
        <string notr="true">font: 75 12pt &quot;Segoe UI Light&quot;;</string>
       </property>
       <property name="text">
-       <string>LASCA area:</string>
+       <string>LASCA Area:</string>
       </property>
      </widget>
      <widget class="QLabel" name="exposure_label">
@@ -322,7 +322,7 @@ border-color: rgb(56, 56, 56);</string>
        <string notr="true">font: 75 12pt &quot;Segoe UI Light&quot;;</string>
       </property>
       <property name="text">
-       <string>Exposure time:</string>
+       <string>Exposure Time:</string>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="exposuretime">
@@ -385,7 +385,7 @@ border-color: rgb(56, 56, 56);</string>
        <string notr="true">font: 75 12pt &quot;Segoe UI Light&quot;;</string>
       </property>
       <property name="text">
-       <string>New Base image:</string>
+       <string>New Base Image:</string>
       </property>
      </widget>
      <widget class="QSpinBox" name="Amb_spinBox">
@@ -471,7 +471,7 @@ background-color: rgb(64, 140, 255);</string>
 </string>
       </property>
       <property name="text">
-       <string>Scalingfactor: </string>
+       <string>Scaling Factor: </string>
       </property>
      </widget>
      <widget class="QSpinBox" name="scaling_spinBox">
@@ -855,7 +855,7 @@ border-color: rgb(56, 56, 56);</string>
      <string notr="true">font: 75 12pt &quot;Segoe UI Light&quot;;</string>
     </property>
     <property name="text">
-     <string>List of ROIs</string>
+     <string>List Of ROIs</string>
     </property>
    </widget>
    <widget class="QLabel" name="Laser_error">

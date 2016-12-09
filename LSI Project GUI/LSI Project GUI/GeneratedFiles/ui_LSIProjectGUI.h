@@ -359,7 +359,7 @@ public:
 
         retranslateUi(LSIProjectGUIClass);
 
-        settings_patientInfo->setCurrentIndex(2);
+        settings_patientInfo->setCurrentIndex(0);
         listROI->setCurrentRow(-1);
 
 
@@ -371,10 +371,10 @@ public:
         LSIProjectGUIClass->setWindowTitle(QApplication::translate("LSIProjectGUIClass", "LSIProjectGUI", 0));
         startButton->setText(QApplication::translate("LSIProjectGUIClass", "Start", 0));
         stopButton->setText(QApplication::translate("LSIProjectGUIClass", "Pause", 0));
-        createROIButton->setText(QApplication::translate("LSIProjectGUIClass", "create ROI", 0));
-        removeROIButton->setText(QApplication::translate("LSIProjectGUIClass", "remove ROI", 0));
+        createROIButton->setText(QApplication::translate("LSIProjectGUIClass", "Create ROI", 0));
+        removeROIButton->setText(QApplication::translate("LSIProjectGUIClass", "Remove ROI", 0));
         videoLabel->setText(QApplication::translate("LSIProjectGUIClass", "The video will soon be displayed...", 0));
-        CalibrateMoving_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take moving image", 0));
+        CalibrateMoving_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Moving Image", 0));
         CalibrateStill_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Still Image", 0));
         textBrowser->setHtml(QApplication::translate("LSIProjectGUIClass", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -388,22 +388,22 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">The dark blue button will reset the calibration to the standard values!</p></body></html>", 0));
         reset_Button->setText(QApplication::translate("LSIProjectGUIClass", "Reset ", 0));
         Dark_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Dark Images", 0));
-        AmbL_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Ambient light Image", 0));
+        AmbL_Button->setText(QApplication::translate("LSIProjectGUIClass", "Take Ambient Light Image", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(Calibration), QApplication::translate("LSIProjectGUIClass", "Calibration", 0));
-        LASCA_label->setText(QApplication::translate("LSIProjectGUIClass", "LASCA area:", 0));
-        exposure_label->setText(QApplication::translate("LSIProjectGUIClass", "Exposure time:", 0));
+        LASCA_label->setText(QApplication::translate("LSIProjectGUIClass", "LASCA Area:", 0));
+        exposure_label->setText(QApplication::translate("LSIProjectGUIClass", "Exposure Time:", 0));
         error_LASCA_label->setText(QString());
-        label->setText(QApplication::translate("LSIProjectGUIClass", "New Base image:", 0));
+        label->setText(QApplication::translate("LSIProjectGUIClass", "New Base Image:", 0));
         Save_Im->setText(QApplication::translate("LSIProjectGUIClass", "Save Image", 0));
         Contrast_checkBox->setText(QApplication::translate("LSIProjectGUIClass", "Enhanced contrast calculations", 0));
-        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Scalingfactor: ", 0));
+        label_2->setText(QApplication::translate("LSIProjectGUIClass", "Scaling Factor: ", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(settings), QApplication::translate("LSIProjectGUIClass", "Settings", 0));
         genderLabel->setText(QApplication::translate("LSIProjectGUIClass", "Gender:", 0));
         nameLabel->setText(QApplication::translate("LSIProjectGUIClass", "Name:", 0));
         ageLabel->setText(QApplication::translate("LSIProjectGUIClass", "Age:", 0));
         commentsLabel->setText(QApplication::translate("LSIProjectGUIClass", "Write patient comments:", 0));
         settings_patientInfo->setTabText(settings_patientInfo->indexOf(patientinformation), QApplication::translate("LSIProjectGUIClass", "Patient info", 0));
-        label_3->setText(QApplication::translate("LSIProjectGUIClass", "List of ROIs", 0));
+        label_3->setText(QApplication::translate("LSIProjectGUIClass", "List Of ROIs", 0));
         Laser_error->setText(QString());
     } // retranslateUi
 
