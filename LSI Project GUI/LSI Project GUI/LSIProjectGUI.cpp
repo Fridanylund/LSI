@@ -36,6 +36,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ambient_ligth_refresh_rate = 100;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
+	measurement_number = 1;
 
 	
 	// give the axes some labels:
@@ -118,7 +119,7 @@ void LSIProjectGUI::take_laser_image()
 	if (Main_Image_CV.empty())
 	{
 		//Fixa felmedelande
-		ui.Laser_error->setText("Failed to connect the camera");
+		ui.Laser_error->setText("Failed to st the camera");
 		return;
 	}
 	//cv::resize(Main_Image_CV, temp, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
@@ -214,14 +215,17 @@ void LSIProjectGUI::do_contrast()
 
 	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
 
-	Video_Base.write(Main_Image_CV_divided_reg);
 	cv::cvtColor(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, CV_BGR2RGB);
 
 
 	Main_Image_CV = Main_Image_CV_divided_reg;
 	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
 	ui.videoLabel->setPixmap(Main_Image);
-	
+	for (int k = 0; k < 1000 / refresh_rate;k++) //Sparar fler bilder på samma gång, så att videofilen inte blir X gånger snabbare/kortare
+	{
+		Video_Base.write(Main_Image_CV_divided_reg);
+	}
+	cout << 1;
 }
 
 void LSIProjectGUI::load_init()
@@ -238,7 +242,7 @@ void LSIProjectGUI::load_init()
 		//Set standard values instead and write and error.
 		refresh_rate = 5;
 	}
-	refresh_rate = 100;
+	refresh_rate = 200;
 	Black_im = imread("images//morkerBild.png");
 
 }
@@ -418,7 +422,8 @@ void LSIProjectGUI::on_startButton_clicked() {
 
 	if (filename != "" && show_perfusion)
 	{
-		Video_Base.open("videos\\" + filename + "_base.avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
+		Video_Base.open("videos\\" + filename + "_base" + to_string(measurement_number) + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
+		measurement_number++; 
 	}
 
 }
@@ -756,7 +761,7 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 		{
 			//Fixa felmedelande
 			ui.Laser_error->setText("Failed to connect the camera");
-			return;
+			break;
 		}
 	
 	}
