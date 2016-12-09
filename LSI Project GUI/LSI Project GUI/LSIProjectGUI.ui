@@ -53,11 +53,11 @@ background-color: rgb(150, 223, 111);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 137, 58);
+     <string notr="true">background-color: rgb(255, 206, 80);
 font: 75 11pt &quot;Segoe UI Light&quot;;</string>
     </property>
     <property name="text">
-     <string>Stop</string>
+     <string>Pause</string>
     </property>
    </widget>
    <widget class="QPushButton" name="createROIButton">

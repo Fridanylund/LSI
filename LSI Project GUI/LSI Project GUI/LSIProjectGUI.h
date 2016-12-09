@@ -108,7 +108,9 @@ private:
 	bool stop_button_pressed;
 	int j;
 	QVector<qreal> nollvector;
-	
+	int clicked=0;
+	int clicked_paus = 0;
+
 	void take_laser_image();
 	void take_ambient_light_image();
 	void remove_ambient_ligth_and_black_image();

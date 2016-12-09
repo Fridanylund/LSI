@@ -107,7 +107,7 @@ public:
         stopButton = new QPushButton(centralWidget);
         stopButton->setObjectName(QStringLiteral("stopButton"));
         stopButton->setGeometry(QRect(720, 160, 141, 61));
-        stopButton->setStyleSheet(QLatin1String("background-color: rgb(255, 137, 58);\n"
+        stopButton->setStyleSheet(QLatin1String("background-color: rgb(255, 206, 80);\n"
 "font: 75 11pt \"Segoe UI Light\";"));
         createROIButton = new QPushButton(centralWidget);
         createROIButton->setObjectName(QStringLiteral("createROIButton"));
@@ -370,7 +370,7 @@ public:
     {
         LSIProjectGUIClass->setWindowTitle(QApplication::translate("LSIProjectGUIClass", "LSIProjectGUI", 0));
         startButton->setText(QApplication::translate("LSIProjectGUIClass", "Start", 0));
-        stopButton->setText(QApplication::translate("LSIProjectGUIClass", "Stop", 0));
+        stopButton->setText(QApplication::translate("LSIProjectGUIClass", "Pause", 0));
         createROIButton->setText(QApplication::translate("LSIProjectGUIClass", "create ROI", 0));
         removeROIButton->setText(QApplication::translate("LSIProjectGUIClass", "remove ROI", 0));
         videoLabel->setText(QApplication::translate("LSIProjectGUIClass", "The video will soon be displayed...", 0));
