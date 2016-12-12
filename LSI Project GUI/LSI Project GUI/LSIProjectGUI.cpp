@@ -441,6 +441,18 @@ void LSIProjectGUI::update()
 void LSIProjectGUI::on_startButton_clicked() {
 	//timer->start(refresh_rate);
 	show_perfusion = !show_perfusion;
+
+	if(clicked == 0){
+		ui.startButton->setText("Stop");
+		ui.startButton->setStyleSheet("background-color: rgb(249, 156, 4);font: 75 11pt Segoe UI Light;");
+		clicked = 1;
+	}
+	else if (clicked == 1) {
+		ui.startButton->setText("Start");
+		ui.startButton->setStyleSheet("background-color: rgb(150, 223, 111);font: 75 11pt Segoe UI Light; ");
+		clicked = 0;
+	}
+	
 	// Läsa av vad patienten heter för att spara videon som en fil med patient + datum som namn
 	//string time = QTime::currentTime().toString().toStdString();
 	String filename = ui.patientName->text().toStdString();
@@ -468,6 +480,17 @@ void LSIProjectGUI::on_stopButton_clicked() {
 		timer->start(refresh_rate);
 		stop_button_pressed = false;
 
+	}
+
+	if (clicked_paus == 0) {
+		ui.stopButton->setText("Play");
+		ui.stopButton->setStyleSheet("background-color: rgb(120, 255, 129);font: 75 11pt Segoe UI Light;");
+		clicked_paus = 1;
+	}
+	else if (clicked_paus == 1) {
+		ui.stopButton->setText("Paus");
+		ui.stopButton->setStyleSheet("background-color: rgb(255, 206, 80); font: 75 11pt Segoe UI Light;");
+		clicked_paus = 0;
 	}
 }
 
