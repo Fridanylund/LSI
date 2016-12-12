@@ -61,7 +61,7 @@ public:
 	double diff;
 	double Calib_Still = 0;
 	double Calib_Moving = 0;
-	int measurement_number;
+
 	
 private:
 	Ui::LSIProjectGUIClass ui;

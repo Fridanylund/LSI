@@ -36,7 +36,6 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	ambient_ligth_refresh_rate = 100;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
-	measurement_number = 1;
 
 	
 	// give the axes some labels:
@@ -269,7 +268,7 @@ void LSIProjectGUI::save_patient_data()
 	String exposure_time = ui.exposuretime->text().toStdString();
 	String LASCAarea = ui.LASCAarea->text().toStdString();
 	write.open("patient data//" + filename +".txt", std::ofstream::app);
-	write << "-------------- " << date << " " <<time << " --------------" << endl << filename << " " << gender <<  age << " years old" << endl<<" Exposure time " << exposure_time <<" mS"<< " LASCA area size " << LASCAarea <<"x"<< LASCAarea  << endl << "------------------------------------------------------" << endl << info << endl;
+	write << "-------------- " << date << " " <<time << " --------------" << endl << filename << " " <<  " " <<  age << " år gammal" << endl<<" Exposure time " << exposure_time <<" mS"<< " LASCA area size " << LASCAarea <<"x"<< LASCAarea  << endl << "------------------------------------------------------" << endl << info << endl;
 
 }
 
@@ -459,10 +458,9 @@ void LSIProjectGUI::on_startButton_clicked() {
 
 	if (filename != "" && show_perfusion)
 	{
-		String time = QTime::currentTime().toString().toStdString();
-		String date = QDate::currentDate().toString().toStdString();
-		Video_Base.open("videos\\" + filename + "_base" + to_string(measurement_number) + date + time + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
-		measurement_number++; 
+		String time = QTime::currentTime().toString("hhmmss").toStdString();
+		String date = QDate::currentDate().toString("'M'M'd'd'y'yy").toStdString();
+		Video_Base.open("videos\\" + filename + "_base" " date " + date + "  time "+ time +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
 	}
 
 }
