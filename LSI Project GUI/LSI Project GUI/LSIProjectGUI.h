@@ -117,6 +117,7 @@ private:
 	void do_contrast();
 	void load_init();
 	void save_init();
+	void closeEvent(QCloseEvent *bar);
 	
 	//
 
@@ -146,6 +147,7 @@ private:
 	void on_exposuretime_valueChanged();
 	void on_Amb_spinBox_valueChanged();
 	void connect_laser();
+	void save_patient_data();
 
 	void laser_ON();
 	void laser_OF();

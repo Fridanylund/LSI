@@ -240,9 +240,9 @@ void LSIProjectGUI::load_init()
 	else
 	{
 		//Set standard values instead and write and error.
-		refresh_rate = 5;
+		refresh_rate = 200;
 	}
-	refresh_rate = 200;
+
 	Black_im = imread("images//morkerBild.png");
 
 }
@@ -253,7 +253,32 @@ void LSIProjectGUI::save_init()
 	write.open("settings//settings.txt", std::ofstream::trunc);
 	write << refresh_rate<< endl << Calib_Still << endl << Calib_Moving << endl; //Add any other variables to be saved.
 }
+void LSIProjectGUI::save_patient_data()
+{
+	ofstream write;
+	String filename = ui.patientName->text().toStdString();
+	if (filename == "")
+	{
+		filename = "unamed";
+	}
+	String age = ui.patientAge->text().toStdString();
+	String gender = ui.PatientGender->text().toStdString();
+	String info = ui.patientComments->toPlainText().toStdString();
+	String time = QTime::currentTime().toString().toStdString();
+	String date = QDate::currentDate().toString().toStdString();
+	String exposure_time = ui.exposuretime->text().toStdString();
+	String LASCAarea = ui.LASCAarea->text().toStdString();
+	write.open("patient data//" + filename +".txt", std::ofstream::app);
+	write << "-------------- " << date << " " <<time << " --------------" << endl << filename << " " << gender <<  age << " years old" << endl<<" Exposure time " << exposure_time <<" mS"<< " LASCA area size " << LASCAarea <<"x"<< LASCAarea  << endl << "------------------------------------------------------" << endl << info << endl;
 
+}
+
+void LSIProjectGUI::closeEvent(QCloseEvent *bar)
+{
+
+	save_patient_data();
+
+}
 
 void LSIProjectGUI::horzScrollBarChanged(int value)
 {
@@ -422,7 +447,9 @@ void LSIProjectGUI::on_startButton_clicked() {
 
 	if (filename != "" && show_perfusion)
 	{
-		Video_Base.open("videos\\" + filename + "_base" + to_string(measurement_number) + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
+		String time = QTime::currentTime().toString().toStdString();
+		String date = QDate::currentDate().toString().toStdString();
+		Video_Base.open("videos\\" + filename + "_base" + to_string(measurement_number) + date + time + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
 		measurement_number++; 
 	}
 

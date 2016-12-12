@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_LSIProjectGUI_t {
-    QByteArrayData data[32];
-    char stringdata0[562];
+    QByteArrayData data[33];
+    char stringdata0[580];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -58,10 +58,11 @@ QT_MOC_LITERAL(24, 423, 25), // "on_LASCAarea_valueChanged"
 QT_MOC_LITERAL(25, 449, 28), // "on_exposuretime_valueChanged"
 QT_MOC_LITERAL(26, 478, 27), // "on_Amb_spinBox_valueChanged"
 QT_MOC_LITERAL(27, 506, 13), // "connect_laser"
-QT_MOC_LITERAL(28, 520, 8), // "laser_ON"
-QT_MOC_LITERAL(29, 529, 8), // "laser_OF"
-QT_MOC_LITERAL(30, 538, 8), // "makePlot"
-QT_MOC_LITERAL(31, 547, 14) // "QVector<qreal>"
+QT_MOC_LITERAL(28, 520, 17), // "save_patient_data"
+QT_MOC_LITERAL(29, 538, 8), // "laser_ON"
+QT_MOC_LITERAL(30, 547, 8), // "laser_OF"
+QT_MOC_LITERAL(31, 556, 8), // "makePlot"
+QT_MOC_LITERAL(32, 565, 14) // "QVector<qreal>"
 
     },
     "LSIProjectGUI\0on_startButton_clicked\0"
@@ -80,7 +81,8 @@ QT_MOC_LITERAL(31, 547, 14) // "QVector<qreal>"
     "on_LASCAarea_valueChanged\0"
     "on_exposuretime_valueChanged\0"
     "on_Amb_spinBox_valueChanged\0connect_laser\0"
-    "laser_ON\0laser_OF\0makePlot\0QVector<qreal>"
+    "save_patient_data\0laser_ON\0laser_OF\0"
+    "makePlot\0QVector<qreal>"
 };
 #undef QT_MOC_LITERAL
 
@@ -90,7 +92,7 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      24,   14, // methods
+      25,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -98,30 +100,31 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  134,    2, 0x0a /* Public */,
-       3,    0,  135,    2, 0x0a /* Public */,
-       4,    0,  136,    2, 0x0a /* Public */,
-       5,    0,  137,    2, 0x0a /* Public */,
-       6,    0,  138,    2, 0x0a /* Public */,
-       7,    0,  139,    2, 0x0a /* Public */,
-       8,    0,  140,    2, 0x0a /* Public */,
-       9,    0,  141,    2, 0x0a /* Public */,
-      10,    0,  142,    2, 0x0a /* Public */,
-      11,    0,  143,    2, 0x0a /* Public */,
-      12,    0,  144,    2, 0x0a /* Public */,
-      13,    1,  145,    2, 0x0a /* Public */,
-      15,    1,  148,    2, 0x0a /* Public */,
-      18,    1,  151,    2, 0x0a /* Public */,
-      21,    1,  154,    2, 0x0a /* Public */,
-      22,    1,  157,    2, 0x0a /* Public */,
-      23,    0,  160,    2, 0x0a /* Public */,
-      24,    0,  161,    2, 0x0a /* Public */,
-      25,    0,  162,    2, 0x0a /* Public */,
-      26,    0,  163,    2, 0x0a /* Public */,
-      27,    0,  164,    2, 0x0a /* Public */,
-      28,    0,  165,    2, 0x0a /* Public */,
-      29,    0,  166,    2, 0x0a /* Public */,
-      30,    1,  167,    2, 0x08 /* Private */,
+       1,    0,  139,    2, 0x0a /* Public */,
+       3,    0,  140,    2, 0x0a /* Public */,
+       4,    0,  141,    2, 0x0a /* Public */,
+       5,    0,  142,    2, 0x0a /* Public */,
+       6,    0,  143,    2, 0x0a /* Public */,
+       7,    0,  144,    2, 0x0a /* Public */,
+       8,    0,  145,    2, 0x0a /* Public */,
+       9,    0,  146,    2, 0x0a /* Public */,
+      10,    0,  147,    2, 0x0a /* Public */,
+      11,    0,  148,    2, 0x0a /* Public */,
+      12,    0,  149,    2, 0x0a /* Public */,
+      13,    1,  150,    2, 0x0a /* Public */,
+      15,    1,  153,    2, 0x0a /* Public */,
+      18,    1,  156,    2, 0x0a /* Public */,
+      21,    1,  159,    2, 0x0a /* Public */,
+      22,    1,  162,    2, 0x0a /* Public */,
+      23,    0,  165,    2, 0x0a /* Public */,
+      24,    0,  166,    2, 0x0a /* Public */,
+      25,    0,  167,    2, 0x0a /* Public */,
+      26,    0,  168,    2, 0x0a /* Public */,
+      27,    0,  169,    2, 0x0a /* Public */,
+      28,    0,  170,    2, 0x0a /* Public */,
+      29,    0,  171,    2, 0x0a /* Public */,
+      30,    0,  172,    2, 0x0a /* Public */,
+      31,    1,  173,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -147,7 +150,8 @@ static const uint qt_meta_data_LSIProjectGUI[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 31,    2,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 32,    2,
 
        0        // eod
 };
@@ -179,15 +183,16 @@ void LSIProjectGUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 18: _t->on_exposuretime_valueChanged(); break;
         case 19: _t->on_Amb_spinBox_valueChanged(); break;
         case 20: _t->connect_laser(); break;
-        case 21: _t->laser_ON(); break;
-        case 22: _t->laser_OF(); break;
-        case 23: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
+        case 21: _t->save_patient_data(); break;
+        case 22: _t->laser_ON(); break;
+        case 23: _t->laser_OF(); break;
+        case 24: _t->makePlot((*reinterpret_cast< QVector<qreal>(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 23:
+        case 24:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -223,13 +228,13 @@ int LSIProjectGUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 24)
+        if (_id < 25)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 24;
+        _id -= 25;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 24)
+        if (_id < 25)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 24;
+        _id -= 25;
     }
     return _id;
 }
