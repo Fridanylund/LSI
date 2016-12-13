@@ -33,7 +33,7 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	graph_update=0;
 	x_min = -1;
 	x_max = 5;
-	ambient_ligth_refresh_rate = 100;
+	ambient_ligth_refresh_rate = 20;
 	ambient_ligth_refresh_rate_count = 0;
 	//port = new QSerialPort(this);
 
@@ -48,17 +48,17 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(ui.customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(xAxisChanged(QCPRange)));
 
 
-	Property prop;
-	//Define the property to adjust.
-	prop.type = GAIN;
-	//Ensure auto-adjust mode is off.
-	prop.autoManualMode = false;
-	//Ensure the property is set up to use absolute value control.
-	prop.absControl = true;
-	//Set the absolute value of gain to 10.5 dB.
-	prop.absValue = 10.5;
-	//Set the property.
-	camera.SetProperty(&prop);
+	//Property prop;
+	////Define the property to adjust.
+	//prop.type = GAIN;
+	////Ensure auto-adjust mode is off.
+	//prop.autoManualMode = false;
+	////Ensure the property is set up to use absolute value control.
+	//prop.absControl = true;
+	////Set the absolute value of gain to 10.5 dB.
+	//prop.absValue = 10.5;
+	////Set the property.
+	//camera.SetProperty(&prop);
 	load_init();
 	timer->start(refresh_rate);
 }
@@ -138,6 +138,9 @@ void LSIProjectGUI::take_laser_image()
 	/*webcam >> Main_Image_CV;
 	webcam >> Main_Image_CV;*/
 	//remove_ambient_ligth_and_black_image();
+	//Mat temp2;
+	//cv::resize(Main_Image_CV, temp2, cv::Size(640, 480));
+	//imshow("laser", temp2);
 }
 
 void LSIProjectGUI::take_ambient_light_image()
@@ -148,7 +151,7 @@ void LSIProjectGUI::take_ambient_light_image()
 	camera.StartCapture();
 	camera.RetrieveBuffer(&rawImage2);
 	port->setRequestToSend(true);
-	Sleep(650);
+	Sleep(900);
 	rawImage2.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage2);
 	unsigned int rowBytes = (double)rgbImage2.GetReceivedDataSize() / (double)rgbImage2.GetRows(); //Converts the Image to Mat
 	Main_Image_CV_for_ambient_light = cv::Mat(rgbImage2.GetRows(), rgbImage2.GetCols(), CV_8UC3, rgbImage2.GetData(), rowBytes);
@@ -170,8 +173,10 @@ void LSIProjectGUI::take_ambient_light_image()
 	{
 		Raw_im = Main_Image_CV_for_ambient_light;
 
-	}
-
+	} 
+	//Mat temp;
+	//cv::resize(Raw_im, temp,cv::Size(640,480));
+	//imshow("raw", temp);
 }
 
 
@@ -213,18 +218,17 @@ void LSIProjectGUI::do_contrast()
 
 
 	applyColorMap(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, COLORMAP_JET);
-
-	cv::cvtColor(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, CV_BGR2RGB);
-
-
-	Main_Image_CV = Main_Image_CV_divided_reg;
-	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
-	ui.videoLabel->setPixmap(Main_Image);
 	for (int k = 0; k < 1000 / refresh_rate;k++) //Sparar fler bilder på samma gång, så att videofilen inte blir X gånger snabbare/kortare
 	{
 		Video_Base.write(Main_Image_CV_divided_reg);
 	}
-	cout << 1;
+
+
+	cv::cvtColor(Main_Image_CV_divided_reg, Main_Image_CV_divided_reg, CV_BGR2RGB);
+
+	Main_Image_CV = Main_Image_CV_divided_reg;
+	Main_Image = QPixmap::fromImage(QImage((unsigned char*)Main_Image_CV_divided_reg.data, Main_Image_CV_divided_reg.cols, Main_Image_CV_divided_reg.rows, QImage::Format_RGB888)); //Converts Mat to QPixmap
+	ui.videoLabel->setPixmap(Main_Image);
 }
 
 void LSIProjectGUI::load_init()
@@ -445,13 +449,15 @@ void LSIProjectGUI::on_startButton_clicked() {
 		ui.startButton->setText("Stop");
 		ui.startButton->setStyleSheet("background-color: rgb(249, 156, 4);font: 75 11pt Segoe UI Light;");
 		clicked = 1;
-		ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+		ambient_ligth_refresh_rate_count = 0;
+		//ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
 	}
 	else if (clicked == 1) {
 		ui.startButton->setText("Start");
 		ui.startButton->setStyleSheet("background-color: rgb(150, 223, 111);font: 75 11pt Segoe UI Light; ");
 		clicked = 0;
 		port->setRequestToSend(false);
+		
 
 	}
 	
@@ -465,7 +471,7 @@ void LSIProjectGUI::on_startButton_clicked() {
 		String date = QDate::currentDate().toString("'M'M'd'd'y'yy").toStdString();
 		Video_Base.open("videos\\" + filename + "_base" " date " + date + "  time "+ time +".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, cv::Size(640, 480), true);
 	}
-
+	timer->start(refresh_rate);
 }
 
 void LSIProjectGUI::on_stopButton_clicked() {
@@ -473,11 +479,13 @@ void LSIProjectGUI::on_stopButton_clicked() {
 	{
 		timer->stop();
 		port->setRequestToSend(false);
+		
 		save_init();
 		stop_button_pressed = true;
 	}
 	else
 	{
+		ambient_ligth_refresh_rate_count = 0;
 		timer->start(refresh_rate);
 		stop_button_pressed = false;
 
@@ -797,6 +805,7 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 {
 	//should_i_run = false;
 	timer->stop();
+	take_ambient_light_image();
 	camera.Connect();
 	Mat Ave_Image;
 	Image rawImage_av;
@@ -817,6 +826,7 @@ Mat LSIProjectGUI::Help_Average_Images_RT(int Num_Images)
 	
 	}
 	//should_i_run = true;
+	timer->start(refresh_rate);
 	return(Ave_Image);
 }
 
@@ -824,7 +834,7 @@ void LSIProjectGUI::on_AmbL_Button_clicked()
 {
 	//static_ambient_ligth = true; 
 	//Raw_im = Help_Average_Images_RT(100);
-	ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+	ambient_ligth_refresh_rate_count = 0;
 	//imwrite("images//ambientBild.png", Raw_im);
 	
 }
@@ -871,6 +881,7 @@ void LSIProjectGUI::on_Save_Im_clicked()
 
 void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 {
+
 	
 	Mat Calib_Image_Still = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
@@ -889,7 +900,7 @@ void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 
 void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 {
-
+	
 	Mat Calib_Image_Moving = Help_Average_Images_RT(100);
 	if (!Black_im.empty()) // Removes the black image when taken.
 	{

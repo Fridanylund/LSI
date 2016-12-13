@@ -61,6 +61,7 @@ public:
 	double diff;
 	double Calib_Still = 0;
 	double Calib_Moving = 0;
+	Mat true_color;
 
 	
 private:
