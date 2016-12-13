@@ -47,18 +47,18 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	connect(ui.horizontalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(horzScrollBarChanged(int)));
 	connect(ui.customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(xAxisChanged(QCPRange)));
 
-	//Declare a Property struct.
-	//Property prop;
-	////Define the property to adjust.
-	//prop.type = GAIN;
-	////Ensure auto-adjust mode is off.
-	//prop.autoManualMode = false;
-	////Ensure the property is set up to use absolute value control.
-	//prop.absControl = true;
-	////Set the absolute value of gain to 10.5 dB.
-	//prop.absValue = 10.5;
-	////Set the property.
-	//camera.SetProperty(&prop);
+
+	Property prop;
+	//Define the property to adjust.
+	prop.type = GAIN;
+	//Ensure auto-adjust mode is off.
+	prop.autoManualMode = false;
+	//Ensure the property is set up to use absolute value control.
+	prop.absControl = true;
+	//Set the absolute value of gain to 10.5 dB.
+	prop.absValue = 10.5;
+	//Set the property.
+	camera.SetProperty(&prop);
 	load_init();
 	timer->start(refresh_rate);
 }
@@ -445,11 +445,14 @@ void LSIProjectGUI::on_startButton_clicked() {
 		ui.startButton->setText("Stop");
 		ui.startButton->setStyleSheet("background-color: rgb(249, 156, 4);font: 75 11pt Segoe UI Light;");
 		clicked = 1;
+		ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
 	}
 	else if (clicked == 1) {
 		ui.startButton->setText("Start");
 		ui.startButton->setStyleSheet("background-color: rgb(150, 223, 111);font: 75 11pt Segoe UI Light; ");
 		clicked = 0;
+		port->setRequestToSend(false);
+
 	}
 	
 	// Läsa av vad patienten heter för att spara videon som en fil med patient + datum som namn
