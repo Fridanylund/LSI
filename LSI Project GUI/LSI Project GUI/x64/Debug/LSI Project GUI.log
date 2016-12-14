@@ -1,5 +1,4 @@
-﻿  Uic'ing LSIProjectGUI.ui...
-  moc_LSIProjectGUI.cpp
+﻿  moc_LSIProjectGUI.cpp
   LSIProjectGUI.cpp
   Test-Function.cpp
   main.cpp

@@ -876,6 +876,7 @@ void LSIProjectGUI::on_Save_Im_clicked()
 
 	fname = "images//" + filename + ".png"; 
 	imwrite(fname, Main_Image_CV); //Main_Image_CV_divided
+	ui.label_SaveIm->setText("Image saved in the Image folder!");
 }
 
 
@@ -895,6 +896,7 @@ void LSIProjectGUI::on_CalibrateStill_Button_clicked()
 	Calib_Image_Still = CalculateContrast2(Calib_Image_Still, lasca_area, 0, 0);
 	Calib_Still = mean(Calib_Image_Still).val[0];
 	save_init();
+	ui.label_callibration->setText("The still image is taken!");
 	
 }
 
@@ -914,7 +916,7 @@ void LSIProjectGUI::on_CalibrateMoving_Button_clicked()
 	Calib_Image_Moving = CalculateContrast2(Calib_Image_Moving, lasca_area, 0, 0);
 	Calib_Moving = mean(Calib_Image_Moving).val[0];
 	save_init();
-	
+	ui.label_callibration->setText("The moving image is taken!");
 }
 
 void LSIProjectGUI::on_reset_Button_clicked()
@@ -927,6 +929,7 @@ void LSIProjectGUI::on_reset_Button_clicked()
 	imwrite("images//morkerBild.png", Black_im);
 
 	save_init();
+	ui.label_callibration->setText("Everything is reset!");
 }
 
 void LSIProjectGUI::on_Amb_spinBox_valueChanged()

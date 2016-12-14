@@ -53,11 +53,12 @@ background-color: rgb(150, 223, 111);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 137, 58);
-font: 75 11pt &quot;Segoe UI Light&quot;;</string>
+     <string notr="true">
+font: 75 11pt &quot;Segoe UI Light&quot;;
+background-color: rgb(255, 206, 80); </string>
     </property>
     <property name="text">
-     <string>Stop</string>
+     <string>Paus</string>
     </property>
    </widget>
    <widget class="QPushButton" name="createROIButton">
@@ -135,7 +136,7 @@ border-color: rgb(34, 34, 34);</string>
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <property name="iconSize">
      <size>
@@ -258,6 +259,22 @@ background-color: rgb(64, 140, 255);</string>
       </property>
       <property name="text">
        <string>Take Ambient light Image</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_callibration">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>330</y>
+        <width>201</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 11pt &quot;Segoe UI Light&quot;;</string>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -415,15 +432,18 @@ border-color: rgb(56, 56, 56);</string>
       <property name="maximum">
        <number>300</number>
       </property>
+      <property name="singleStep">
+       <number>5</number>
+      </property>
       <property name="value">
-       <number>20</number>
+       <number>50</number>
       </property>
      </widget>
      <widget class="QPushButton" name="Save_Im">
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>510</y>
+        <y>470</y>
         <width>211</width>
         <height>41</height>
        </rect>
@@ -498,7 +518,23 @@ border-color: rgb(56, 56, 56);</string>
        <number>10</number>
       </property>
       <property name="value">
-       <number>2</number>
+       <number>4</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_SaveIm">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>525</y>
+        <width>211</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 11pt &quot;Segoe UI Light&quot;;</string>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -850,7 +886,7 @@ border-color: rgb(56, 56, 56);</string>
      <rect>
       <x>750</x>
       <y>450</y>
-      <width>81</width>
+      <width>91</width>
       <height>16</height>
      </rect>
     </property>

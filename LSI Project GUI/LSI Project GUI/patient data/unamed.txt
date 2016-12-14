@@ -208,3 +208,13 @@ unamed   år gammal
  Exposure time 6 mS LASCA area size 5x5
 ------------------------------------------------------
 
+-------------- ons dec 14 2016 08:27:40 --------------
+unamed   år gammal
+ Exposure time 6 mS LASCA area size 5x5
+------------------------------------------------------
+
+-------------- ons dec 14 2016 08:41:18 --------------
+unamed   år gammal
+ Exposure time 6 mS LASCA area size 5x5
+------------------------------------------------------
+
