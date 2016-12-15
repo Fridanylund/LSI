@@ -18,6 +18,10 @@ LSIProjectGUI::LSIProjectGUI(QWidget *parent)
 	camera.StartCapture();
 	camera.SetVideoModeAndFrameRate(VIDEOMODE_1280x960Y8, FRAMERATE_60); //Changes the resolution of the camera
 
+	Mat Col_MAP = imread("images//colorscale_jet.jpg");
+	QPixmap Col_MAP1 = QPixmap::fromImage(QImage((unsigned char*)Col_MAP.data, Col_MAP.cols, Col_MAP.rows, QImage::Format_RGB888));
+	ui.col_Map_Im_Label->setPixmap(Col_MAP1);
+
 	refresh_rate = 200;
 	exposure_time = 5;
 	set_exposure(exposure_time);
@@ -200,7 +204,8 @@ void LSIProjectGUI::do_contrast()
 		Main_Image_CV = CalculateContrast2(Main_Image_CV, lasca_area, Calib_Still, Calib_Moving);
 	}
 
-
+	
+	qDebug() << Raw_im.rows << Raw_im.cols << Main_Image_CV.rows << Main_Image_CV.cols;
 	cv::resize(Main_Image_CV, Main_Image_CV, cv::Size(640, 480), 0, 0, cv::INTER_CUBIC);
 	Add_Contrast_Image(Main_Image_CV);
 	Mat Main_Image_CV_filter = TemporalFiltering(Contrast_Images);
@@ -309,6 +314,7 @@ void LSIProjectGUI::update()
 			{
 				take_ambient_light_image();
 				ambient_ligth_refresh_rate_count = ambient_ligth_refresh_rate;
+				
 			}
 			else {
 				take_laser_image();
@@ -877,6 +883,9 @@ void LSIProjectGUI::on_Save_Im_clicked()
 	fname = "images//" + filename + ".png"; 
 	imwrite(fname, Main_Image_CV); //Main_Image_CV_divided
 	ui.label_SaveIm->setText("Image saved in the Image folder!");
+	Mat true_color;
+	cv::cvtColor(true_color, Main_Image_CV, CV_BGR2RGB);
+	imwrite(fname, true_color); //Main_Image_CV_divided
 }
 
 
